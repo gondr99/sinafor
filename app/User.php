@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','phone', 'info'
     ];
 
     /**
@@ -36,4 +36,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function checkAdmin(){
+        return $this->roles()->where('name', '=', 'admin')->first() !== null;
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\UserCategory','user_roles', 'user_id');
+    }
+
+    public function manages()
+    {
+        return $this->belongsToMany('App\SkillCategory','user_manages', 'user_id');
+    }
 }

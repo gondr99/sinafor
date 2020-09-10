@@ -14,3 +14,108 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'StaticController@index');
+
+Route::get('/user/register', 'UserController@registerPage');
+Route::post('/user/register', 'UserController@registerProcess');
+Route::get('/user/login', 'UserController@loginPage');
+Route::get('/user/logout', 'UserController@logout');
+
+Route::post('/user/login', 'UserController@loginProcess');
+
+
+Route::middleware(['checkAdmin'])->group(function () {
+    Route::get('/admin', 'AdminController@index');
+
+    Route::get('/admin/category', 'AdminController@getCategory');
+    Route::post('/admin/category', 'AdminController@addCategory');
+    Route::delete('/admin/category', 'AdminController@delCategory');
+
+    Route::post('/admin/skill', 'SkillController@addSkill');
+    Route::get('/admin/skill', 'SkillController@skillList');
+
+//    Route::get('/admin/skill/manage/{id}', 'SkillController@getManger');
+//    Route::post('/admin/skill/mange/{id}', 'SkillController@addManager');
+
+    //get user who has permission to mange
+
+    Route::get('/admin/skill/manager', 'SkillController@getManagerList');
+    Route::get('/admin/skill/manager/{id}', 'SkillController@getSkillManager')->where('id', '[0-9]+');
+    Route::put('/admin/skill/manager/{id}', 'SkillController@addManager')->where('id', '[0-9]+');
+    Route::delete('/admin/skill/manager/{id}', 'SkillController@deleteManager')->where('id', '[0-9]+');
+
+    Route::get('/admin/user/list/{page?}', 'AdminController@getUserList')->where('page', '[0-9]+');
+    Route::put('/admin/user/role', 'AdminController@addRole');
+    Route::delete('/admin/user/role', 'AdminController@deleteRole');
+
+    Route::get('/admin/user/{id}', 'AdminController@getUserData')->where('id', '[0-9]+');
+});
+
+//image router
+Route::get('/images/icons/{filename}', 'StaticController@getIconImage');
+
+
+Route::get('/js/lang.js', function () {
+//    $strings = Cache::rememberForever('lang.js', function () {
+//        $lang = config('app.locale');
+//
+//        $files   = glob(resource_path('lang/' . $lang . '/*.php'));
+//        $strings = [];
+//
+//        foreach ($files as $file) {
+//            $name           = basename($file, '.php');
+//            $strings[$name] = require $file;
+//        }
+//
+//        return $strings;
+//    });  //개발이 끝나면 이부분을 주석해제할 것. 속도향상을 위한 캐시 처리
+
+    $lang = config('app.locale');
+
+    $files = glob(resource_path('lang/' . $lang . '/*.php'));
+    $strings = [];
+
+    foreach ($files as $file) {
+        $name = basename($file, '.php');
+        $strings[$name] = require $file;
+    }
+
+    header('Content-Type: text/javascript');
+    echo('window.i18n = ' . json_encode($strings, JSON_UNESCAPED_UNICODE) . ';');
+    exit();
+})->name('assets.lang');
+
+Route::get('/debug', function () {
+
+    //트랜젝션 시작
+    \DB::beginTransaction();
+    try {
+        $admin = App\User::create(['email' => 'admin@admin', 'password' => bcrypt('admin1234'), 'name' => '관리자', 'info' => 'admin', 'phone' => '010-6304-2759']);
+        $verified = App\UserCategory::create(['name' => 'Verified']);
+        App\UserCategory::create(['name' => 'Expert']);
+        App\UserCategory::create(['name' => 'Skill Manager']);
+        $adminCategory = App\UserCategory::create(['name' => 'Admin']);
+
+        //관리자에 권한부여
+        App\UserRole::create(['user_id' => $admin->id, 'user_category_id' => $adminCategory->id]);
+        App\UserRole::create(['user_id' => $admin->id, 'user_category_id' => $verified->id]);
+
+        $user = App\User::create(['email' => 'user@user', 'password' => bcrypt('admin1234'), 'name' => '일반유저', 'info' => 'normal user', 'phone' => '010-1111-1111']);
+        $expert = App\User::create(['email' => 'expert@expert', 'password' => bcrypt('admin1234'), 'name' => '전문가', 'info' => 'expert user', 'phone' => '010-2222-2222']);
+
+        App\SkillCategory::create(['name' => 'Web Techonology', 'filename' => '1599651457_web.jpg',
+            'description' => 'make web tech Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur consequuntur delectus dolores eius eligendi enim, fuga in incidunt iusto nemo officiis rem repellendus? Alias deleniti dignissimos dolor eaque facere!']);
+        App\SkillCategory::create(['name' => 'Android Techonology', 'filename' => '1599651534_android.jpg',
+            'description' => 'make and tech Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur consequuntur delectus dolores eius eligendi enim, fuga in incidunt iusto nemo officiis rem repellendus? Alias deleniti dignissimos dolor eaque facere!']);
+        App\SkillCategory::create(['name' => 'Pipeline Techonology', 'filename' => '1599651558_pipe.jpg',
+            'description' => 'make pipe tech Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur consequuntur delectus dolores eius eligendi enim, fuga in incidunt iusto nemo officiis rem repellendus? Alias deleniti dignissimos dolor eaque facere!']);
+
+        //성공시 커밋
+        \DB::commit();
+        echo "success";
+    } catch (\Exception $e)
+    {
+        //실패시 롤백
+        \DB::rollBack();
+    }
+
+});

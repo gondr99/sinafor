@@ -17,15 +17,12 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email', 191)->unique();
-            $table->string('phone', 191)->unique();
+            $table->string('phone',100);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('info');
-            $table->unsignedBigInteger('category');
             $table->rememberToken();
             $table->timestamps();
-
-            $table->foreign('category')->references('id')->on('user_categories')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
