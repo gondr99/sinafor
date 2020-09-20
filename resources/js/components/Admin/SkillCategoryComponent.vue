@@ -3,6 +3,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputLevel1">{{trans('title.skill_level_one_list')}}</label>
+                            <select id="inputLevel1" class="form-control" v-model="level1">
+                                <option v-for="level in levelList" :value="level.id" >{{level.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputLevel2">{{trans('title.skill_level_two_list')}}</label>
+                            <select id="inputLevel2" class="form-control" v-model="level2">
+                                <option v-for="level in level2List" :value="level.id" >{{level.name}}</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" :placeholder="trans('placeholder.add_skill_category')"
                                v-model="skillName">
@@ -30,7 +44,7 @@
 
         </div>
         <div class="col-12 card-box">
-            <skill-component v-for="item in skillList" :item="item" :key="item.id"></skill-component>
+            <skill-component v-for="item in skillList" :admin="true" :item="item" :key="item.id"></skill-component>
         </div>
 
         <transition name="fade">
@@ -55,12 +69,13 @@
         },
         methods:{
             addSkill(){
-                if(this.skillName.trim() === "" || this.file === "" || this.description.trim() === ""){
+                if(this.skillName.trim() === "" || this.file === "" || this.description.trim() === "" || this.level2 === undefined){
                     Swal.fire(this.trans('messages.require_empty'));
                     return;
                 }
 
                 let formData = new FormData();
+                formData.append('level2', this.level2);
                 formData.append('name', this.skillName);
                 formData.append('image', this.file);
                 formData.append('description', this.description);
@@ -72,7 +87,7 @@
                     }
                 }).then(res => {
                     const data = res.data;
-                    console.log(data);
+                    //console.log(data);
                     this.$store.commit('addSkill', data);
                 }).catch( err => {
                     Swal.fire(err.response.data);
@@ -103,10 +118,26 @@
                 file:'',
                 description:'',
                 openPopup:false,
-                currentPopupItem:{}
+                currentPopupItem:{},
+                level1:undefined,
+                level2:undefined,
             }
         },
+        watch:{
+              level1(newValue){
+                  this.level2 = undefined;
+              }
+        },
         computed: mapState({
+            levelList: state => state.levelList,
+            level2List (state){
+                const item = state.levelList.find(x => x.id == this.level1);
+                if(item !== undefined){
+                    return item.two;
+                }else {
+                    return [];
+                }
+            },
             skillList: state => state.skillList,
             imgText (state){
                 if(this.file === ''){

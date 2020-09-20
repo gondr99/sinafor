@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSkillCategoriesTable extends Migration
+class CreateLevelOnesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateSkillCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('skill_categories', function (Blueprint $table) {
+        Schema::create('level_ones', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('filename');
-            $table->string('description');
-            $table->unsignedBigInteger('belongs');
-
-            $table->foreign('belongs')->references('id')->on('level_twos')->onUpdate('cascade')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -31,6 +27,6 @@ class CreateSkillCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('skill_categories');
+        Schema::dropIfExists('level_ones');
     }
 }

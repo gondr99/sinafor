@@ -11,10 +11,13 @@
             <h5 class="card-title">{{item.name}}</h5>
             <p class="card-text">{{item.description}}</p>
 
-            <div class="item-menu">
+            <div class="item-menu" v-if="admin">
                 <button class="btn btn-sm btn-outline-success" @click="openManagerWindow">{{ trans('menu.manager') }}
                 </button>
                 <button class="btn btn-sm btn-outline-danger" @click="delSkill">{{ trans('menu.delete') }}(미구현)</button>
+            </div>
+            <div class="item-menu" v-if="!admin">
+                <button class="btn btn-sm btn-outline-success" @click="registerSkill">{{ trans('menu.skill_registration') }}</button>
             </div>
         </div>
     </div>
@@ -23,13 +26,36 @@
 <script>
     export default {
         name: "SkillComponent",
-        props: ['item'],
+        props: ['item', 'admin'],
         methods: {
-            delSkill() {
+            async registerSkill() {
+                const result = await this.checkSure();
+                if (result.isConfirmed){
+                    console.log("asd");
+                    axios.put(`/skill/register/${this.item.id}`).then(res => {
+                        Swal.fire(res.data.msg);
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }
 
+
+            },
+            delSkill() {
+                //아마 안쓰일듯.
             },
             openManagerWindow() {
                 this.$parent.openManagerWindow(this.item.id);
+            },
+            checkSure(){
+                return Swal.fire({
+                    title: this.trans('messages.skill_register'),
+                    text: this.trans('messages.sure'),
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: this.trans('messages.yes'),
+                    cancelButtonText: this.trans('messages.cancel')
+                });
             }
         }
     }

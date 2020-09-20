@@ -12,42 +12,37 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
-    <header class="d-flex justify-content-between align-items-center px-4">
-        <div id="logo">
-            <h2>SINAFOR</h2>
-        </div>
-        <nav id="menu">
-            <ul class="nav">
-                @if(auth()->check())
+<header class="d-flex justify-content-between align-items-center px-4">
+    <div id="logo">
+        <a href="/main"><img src="/image/logo-sinafor.png" alt="logo image"></a>
+    </div>
+    <nav id="menu">
+        <ul class="nav nav-fill">
+            @if(auth()->check())
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/logout">{{  __('menu.logout') }}</a>
+                </li>
+                @if(auth()->user()->checkAdmin())
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('user/register') ? 'active' : '' }}" href="/user/register">{{  __('menu.register') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/logout">{{  __('menu.logout') }}</a>
-                    </li>
-                    @if(auth()->user()->checkAdmin())
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin">{{  __('menu.admin') }}</a>
-                        </li>
-                     @endif
-                @else
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/user/register">{{  __('menu.register') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user/login">{{  __('menu.login') }}</a>
+                        <a class="nav-link" href="/admin">{{  __('menu.admin') }}</a>
                     </li>
                 @endif
-            </ul>
-        </nav>
-    </header>
-    <div class="container-fluid">
-        @yield('content')
-    </div>
-    @if(session()->has('flash_message'))
-        <script>
-            Swal.fire({title:'Message from server', text: "{{ session()->pull('flash_message') }}"});
-        </script>
-    @endif
+                @if(auth()->user()->checkManager())
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manager">{{  __('menu.manager_menu') }}</a>
+                    </li>
+                @endif
+            @endif
+        </ul>
+    </nav>
+</header>
+<div class="container-fluid">
+    @yield('content')
+</div>
+@if(session()->has('flash_message'))
+    <script>
+        Swal.fire({title: 'Message from server', text: "{{ session()->pull('flash_message') }}"});
+    </script>
+@endif
 </body>
 </html>

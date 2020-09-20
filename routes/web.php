@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', 'StaticController@index');
 
 Route::get('/user/register', 'UserController@registerPage');
@@ -22,6 +23,19 @@ Route::get('/user/logout', 'UserController@logout');
 
 Route::post('/user/login', 'UserController@loginProcess');
 
+Route::middleware(['checkLogin'])->group(function(){
+    Route::get('/main', 'StaticController@mainPage');
+    Route::get('/skill/register', 'SkillSelectController@index');
+
+    Route::get('/skill/skillLevel', 'SkillController@getLevel');
+    Route::get('/skill/skillList', 'SkillController@skillList');
+
+    Route::put('/skill/register/{id}', 'SkillSelectController@registerSkill')->where('id', '[0-9]+');
+
+    //myPage router
+    Route::get('/skill/mypage', 'MyPageController@index');
+    Route::get('/skill/register/list', 'SkillSelectController@registerList');
+});
 
 Route::middleware(['checkAdmin'])->group(function () {
     Route::get('/admin', 'AdminController@index');
@@ -48,11 +62,34 @@ Route::middleware(['checkAdmin'])->group(function () {
     Route::delete('/admin/user/role', 'AdminController@deleteRole');
 
     Route::get('/admin/user/{id}', 'AdminController@getUserData')->where('id', '[0-9]+');
+
+    Route::get('/admin/skillLevel', 'SkillController@getLevel');
+    Route::post('/admin/levelOne', 'SkillController@addLevelOne');
+    Route::delete('/admin/levelOne/{oneId}', 'SkillController@delLevelOne')->where('oneId', '[0-9]+');
+    Route::post('/admin/levelTwo/{oneId}', 'SkillController@addLevelTwo')->where('oneId', '[0-9]+');
+    Route::delete('/admin/levelTwo/{twoId}', 'SkillController@delLevelTwo')->where('twoId', '[0-9]+');
 });
 
 //image router
 Route::get('/images/icons/{filename}', 'StaticController@getIconImage');
 
+//send email
+Route::get('/send', function(){
+    $user = [
+        'email' => 'gondr99@gmail.com',
+        'name' => 'ㅊㅊㅊ'
+    ];
+
+    $data = [
+        'detail' => 'This is your detail',
+        'name'=>'ccc'
+    ];
+
+    Mail::send('email.registermail', $data, function($message) use($user){
+        $message->from('gondr99@gmail.com', 'master of sinafor');
+        $message->to($user['email'], $user['name'])->subject('Welcome!');
+    });
+});
 
 Route::get('/js/lang.js', function () {
 //    $strings = Cache::rememberForever('lang.js', function () {
@@ -99,14 +136,20 @@ Route::get('/debug', function () {
         App\UserRole::create(['user_id' => $admin->id, 'user_category_id' => $adminCategory->id]);
         App\UserRole::create(['user_id' => $admin->id, 'user_category_id' => $verified->id]);
 
-        $user = App\User::create(['email' => 'user@user', 'password' => bcrypt('admin1234'), 'name' => '일반유저', 'info' => 'normal user', 'phone' => '010-1111-1111']);
-        $expert = App\User::create(['email' => 'expert@expert', 'password' => bcrypt('admin1234'), 'name' => '전문가', 'info' => 'expert user', 'phone' => '010-2222-2222']);
+        $user = App\User::create(['email' => 'user@user', 'password' => bcrypt('user1234'), 'name' => '일반유저', 'info' => 'normal user', 'phone' => '010-1111-1111']);
+        $expert = App\User::create(['email' => 'expert@expert', 'password' => bcrypt('expert1234'), 'name' => '전문가', 'info' => 'expert user', 'phone' => '010-2222-2222']);
 
-        App\SkillCategory::create(['name' => 'Web Techonology', 'filename' => '1599651457_web.jpg',
+        $info = App\LevelOne::create(['name' => 'Information Tech']);
+        $mecha = App\LevelOne::create(['name' => 'Mechatronics']);
+        $computer = App\LevelTwo::create(['name'=>'Computer Science', 'belongs'=> $info->id]);
+        $metal = App\LevelTwo::create(['name'=>'metal', 'belongs'=> $mecha->id]);
+
+
+        App\SkillCategory::create(['name' => 'Web Techonology', 'filename' => '1599651457_web.jpg', 'belongs' => $computer->id,
             'description' => 'make web tech Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur consequuntur delectus dolores eius eligendi enim, fuga in incidunt iusto nemo officiis rem repellendus? Alias deleniti dignissimos dolor eaque facere!']);
-        App\SkillCategory::create(['name' => 'Android Techonology', 'filename' => '1599651534_android.jpg',
+        App\SkillCategory::create(['name' => 'Android Techonology', 'filename' => '1599651534_android.jpg', 'belongs' => $computer->id,
             'description' => 'make and tech Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur consequuntur delectus dolores eius eligendi enim, fuga in incidunt iusto nemo officiis rem repellendus? Alias deleniti dignissimos dolor eaque facere!']);
-        App\SkillCategory::create(['name' => 'Pipeline Techonology', 'filename' => '1599651558_pipe.jpg',
+        App\SkillCategory::create(['name' => 'Pipeline Techonology', 'filename' => '1599651558_pipe.jpg', 'belongs' => $metal->id,
             'description' => 'make pipe tech Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur consequuntur delectus dolores eius eligendi enim, fuga in incidunt iusto nemo officiis rem repellendus? Alias deleniti dignissimos dolor eaque facere!']);
 
         //성공시 커밋
@@ -117,5 +160,4 @@ Route::get('/debug', function () {
         //실패시 롤백
         \DB::rollBack();
     }
-
 });

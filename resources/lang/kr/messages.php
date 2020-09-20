@@ -19,6 +19,11 @@ return [
     'success' => '성공',
     'sure'=>'확실한가요?',
     'delete' => '삭제합니다.',
-    'no_manager' => 'manage권한 유저가 없습니다.',
-    'not_allow_remove_role' => '관리하고 있는 과정이 있으면 제거할 수 없습니다.'
+    'cancel' => '취소',
+    'yes' => '예',
+    'no_manager' => 'manage 권한 유저가 없습니다.',
+    'not_allow_remove_role' => '관리하고 있는 과정이 있으면 제거할 수 없습니다.',
+    'enter_name' => '이름을 입력하세요',
+    'skill_register' => '숙련기술 수강신청',
+    'already_registered' => '이미 수강중입니다.'
 ];

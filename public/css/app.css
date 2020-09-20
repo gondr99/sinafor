@@ -1,4 +1,32 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);header {
+    width:100%;
+    height:80px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#logo {
+    width:150px;
+    height:80px;
+}
+
+#logo img {
+    width:100%;
+    height: auto;
+}
+
+.logo-image {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+}
+
+#menuGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:20px;
+}
+@charset "UTF-8";
 
 /*!
  * Bootstrap v4.5.2 (https://getbootstrap.com/)

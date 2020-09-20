@@ -9,7 +9,15 @@ class StaticController extends Controller
 {
     public function index(Request $req)
     {
+
+        if(auth()->check()){
+            return redirect('/main');
+        }
         return view("index");
+    }
+
+    public function mainPage(){
+        return view('main');
     }
 
     public function getIconImage(Request $req, $filename)

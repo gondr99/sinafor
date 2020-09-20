@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -41,6 +41,10 @@ class User extends Authenticatable
         return $this->roles()->where('name', '=', 'admin')->first() !== null;
     }
 
+    public function checkManager(){
+        return $this->roles()->where('name', '=', 'Skill Manager')->first() !== null;
+    }
+
     public function roles()
     {
         return $this->belongsToMany('App\UserCategory','user_roles', 'user_id');
@@ -49,5 +53,10 @@ class User extends Authenticatable
     public function manages()
     {
         return $this->belongsToMany('App\SkillCategory','user_manages', 'user_id');
+    }
+
+    public function registered()
+    {
+        return $this->belongsToMany('App\SkillCategory', 'user_skills', 'user_id');
     }
 }

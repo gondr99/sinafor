@@ -14,5 +14,9 @@ return [
     'add_manager' => '매니저 추가',
     'set_manager' => '매니저 지정',
     'manager_list' => '매니저 리스트',
-    'drop_manager' => '매니저 제거'
+    'drop_manager' => '매니저 제거',
+    'skill_level' => '훈련 분류',
+    'add_level_1' => '레벨 1추가',
+    'add_level_2' => '레벨 2추가',
 ];
+
