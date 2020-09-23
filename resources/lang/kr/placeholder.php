@@ -9,5 +9,6 @@ return [
     'choose_image_file' => '이미지 파일 선택',
     'description' => '기술에 대한 설명을 입력하세요',
     'search_text' => '검색할 단어를 입력하세요',
-    'skill_name' => '숙련기술 이름'
+    'skill_name' => '숙련기술 이름',
+    'choose_expert' => '매칭할 전문가를 선택하세요',
 ];

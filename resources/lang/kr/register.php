@@ -24,5 +24,11 @@ return [
     'phone_required' => '핸드폰 번호는 필수 입니다.',
     'phone_regex' => '핸드폰은 숫자와 -기호만을 표기할 수 있습니다',
     'info_required' => '회원소개는 필수입니다.',
-    'success' => '회원가입 성공'
+    'success' => '회원가입 성공',
+    'profile_img' => '프로필 이미지',
+    'photo_required' => '프로필 이미지는 필수 입니다.',
+    'photo_must_image' => '프로필 이미지는 jpg, png 타입만이 가능합니다',
+    'photo_must_2mb' => '프로필 이미지는 2MB를 초과할 수 없습니다.',
+    'expired_email_verify_link' => '만료되었거나 존재하지 않는 이메일 인증 링크입니다',
+    'email_verify_complete' => '이메일 검증이 모두 완료되었습니다. 로그인해주세요.'
 ];

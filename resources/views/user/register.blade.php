@@ -9,7 +9,7 @@
     <div id="registerApp">
         <div class="row">
             <div class="col-8 offset-2">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="email">{{  __('register.email') }}</label>
@@ -56,6 +56,15 @@
                         <textarea class="form-control @error('info') is-invalid @enderror" id="info" rows="3" name="info">{{  old('info') }}</textarea>
                         @error('info')
                         <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="info">{{ __('register.profile_img') }}</label>
+                        <input type="file" accept="image/*" name="profile" class="form-control @error('profiles') is-invalid @enderror">
+                        @error('profiles')
+                            <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror

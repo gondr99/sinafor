@@ -162,17 +162,27 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     'user-info-component': _UserInfoComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  props: ['item'],
+  props: ['item', 'mode'],
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('/admin/skill/manager').then(function (res) {
-      _this.managerPermissionList = res.data.filter(function (x) {
-        return _this.item.managerList.find(function (manager) {
-          return manager.id === x.id;
-        }) === undefined;
+    if (this.mode === 0) {
+      axios.get('/admin/skill/manager').then(function (res) {
+        _this.permissionList = res.data.filter(function (x) {
+          return _this.item.managerList.find(function (manager) {
+            return manager.id === x.id;
+          }) === undefined;
+        });
       });
-    });
+    } else if (this.mode === 1) {
+      axios.get('/admin/skill/expert').then(function (res) {
+        _this.permissionList = res.data.filter(function (x) {
+          return _this.item.expertList.find(function (exp) {
+            return exp.id === x.id;
+          }) === undefined;
+        });
+      });
+    }
   },
   methods: {
     close: function close() {
@@ -183,7 +193,7 @@ __webpack_require__.r(__webpack_exports__);
 
       Swal.fire({
         title: this.trans('messages.sure'),
-        text: this.trans('adminmenu.drop_manager'),
+        text: this.trans("adminmenu.".concat(this.modeName[this.mode][1])),
         icon: 'info',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -191,21 +201,32 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes'
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios["delete"]("/admin/skill/manager/".concat(_this2.item.id, "?uid=").concat(user_id)).then(function (res) {
-            _this2.$emit("closePopup");
-          });
+          if (_this2.mode == 0) {
+            axios["delete"]("/admin/skill/manager/".concat(_this2.item.id, "?uid=").concat(user_id)).then(function (res) {
+              _this2.$emit("closePopup");
+            });
+          } else if (_this2.mode == 1) {
+            axios["delete"]("/admin/skill/expert/".concat(_this2.item.id, "?uid=").concat(user_id)).then(function (res) {
+              _this2.$emit("closePopup");
+            });
+          }
         }
       });
     }
   },
   data: function data() {
     return {
-      managerPermissionList: []
+      permissionList: [],
+      modeName: [['manager_list', 'drop_manager', 'no_manager', 'add_manager', 'no_manager'], ['expert_list', 'drop_expert', 'no_expert', 'add_expert', 'no_expert']]
     };
   },
   computed: {
-    managerList: function managerList() {
-      return this.item.managerList;
+    userList: function userList() {
+      if (this.mode === 0) {
+        return this.item.managerList;
+      } else if (this.mode === 1) {
+        return this.item.expertList;
+      }
     }
   }
 });
@@ -321,10 +342,11 @@ __webpack_require__.r(__webpack_exports__);
     changeFile: function changeFile(e) {
       this.file = e.target.files[0];
     },
-    openManagerWindow: function openManagerWindow(id) {
+    openPopupWindow: function openPopupWindow(id, mode) {
       this.currentPopupItem = this.skillList.find(function (x) {
         return x.id == id;
       });
+      this.popupMode = mode;
       this.openPopup = true;
     },
     closePopup: function closePopup() {
@@ -349,7 +371,8 @@ __webpack_require__.r(__webpack_exports__);
       openPopup: false,
       currentPopupItem: {},
       level1: undefined,
-      level2: undefined
+      level2: undefined,
+      popupMode: undefined
     };
   },
   watch: {
@@ -431,9 +454,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SkillComponent",
   props: ['item', 'admin'],
+  data: function data() {
+    return {
+      name: name
+    };
+  },
   methods: {
     registerSkill: function registerSkill() {
       var _this = this;
@@ -451,7 +482,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 result = _context.sent;
 
                 if (result.isConfirmed) {
-                  console.log("asd");
                   axios.put("/skill/register/".concat(_this.item.id)).then(function (res) {
                     Swal.fire(res.data.msg);
                   })["catch"](function (err) {
@@ -469,8 +499,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     delSkill: function delSkill() {//아마 안쓰일듯.
     },
-    openManagerWindow: function openManagerWindow() {
-      this.$parent.openManagerWindow(this.item.id);
+    openPopupWindow: function openPopupWindow(mode) {
+      this.$parent.openPopupWindow(this.item.id, mode);
     },
     checkSure: function checkSure() {
       return Swal.fire({
@@ -902,15 +932,24 @@ __webpack_require__.r(__webpack_exports__);
     'skillId': {
       type: Number,
       "default": 0
+    },
+    'mode': {
+      "default": 0,
+      type: Number
     }
   },
+  data: function data() {
+    return {
+      message: ['set_manager', 'set_expert']
+    };
+  },
   methods: {
-    setManager: function setManager() {
+    setApprove: function setApprove() {
       var _this = this;
 
       Swal.fire({
         title: this.trans('messages.sure'),
-        text: this.trans('adminmenu.set_manager'),
+        text: this.trans("adminmenu.".concat(this.message[this.mode])),
         icon: 'info',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -918,11 +957,19 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes'
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios.put("/admin/skill/manager/".concat(_this.skillId), {
-            user_id: _this.user.id
-          }).then(function (res) {
-            _this.$emit('closePopup');
-          });
+          if (_this.mode === 0) {
+            axios.put("/admin/skill/manager/".concat(_this.skillId), {
+              user_id: _this.user.id
+            }).then(function (res) {
+              _this.$emit('closePopup');
+            });
+          } else if (_this.mode === 1) {
+            axios.put("/admin/skill/expert/".concat(_this.skillId), {
+              user_id: _this.user.id
+            }).then(function (res) {
+              _this.$emit('closePopup');
+            });
+          }
         }
       });
     },
@@ -931,7 +978,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.put('/admin/user/role', {
         user_id: this.user.id,
-        category_name: 'Expert'
+        category_name: window.expertName
       }).then(function (res) {
         var data = res.data;
 
@@ -943,7 +990,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.put('/admin/user/role', {
         user_id: this.user.id,
-        category_name: 'Skill Manager'
+        category_name: window.managerName
       }).then(function (res) {
         var data = res.data;
 
@@ -976,13 +1023,13 @@ __webpack_require__.r(__webpack_exports__);
     hasExpert: function hasExpert() {
       if (this.user.roles === undefined) return false;
       return this.user.roles.find(function (x) {
-        return x.name === 'Expert';
+        return x.name === window.expertName;
       }) !== undefined;
     },
     hasManager: function hasManager() {
       if (this.user.roles === undefined) return false;
       return this.user.roles.find(function (x) {
-        return x.name === 'Skill Manager';
+        return x.name === window.managerName;
       }) !== undefined;
     }
   }
@@ -2856,7 +2903,7 @@ var render = function() {
                 _vm._v(
                   _vm._s(_vm.item.name) +
                     " " +
-                    _vm._s(_vm.trans("adminmenu.manager_list"))
+                    _vm._s(_vm.trans("adminmenu." + _vm.modeName[_vm.mode][0]))
                 )
               ])
             ]),
@@ -2865,7 +2912,7 @@ var render = function() {
               _c(
                 "div",
                 { staticClass: "user-list p-2" },
-                _vm._l(_vm.managerList, function(m) {
+                _vm._l(_vm.userList, function(m) {
                   return _c("div", { staticClass: "user" }, [
                     _c("span", { staticClass: "name" }, [
                       _vm._v(_vm._s(m.name))
@@ -2881,16 +2928,27 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v(_vm._s(_vm.trans("adminmenu.drop_manager")))]
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm.trans("adminmenu." + _vm.modeName[_vm.mode][1])
+                          )
+                        )
+                      ]
                     )
                   ])
                 }),
                 0
               ),
               _vm._v(" "),
-              _vm.managerList.length === 0
+              _vm.userList.length === 0
                 ? _c("div", { staticClass: "card-text" }, [
-                    _vm._v(" " + _vm._s(_vm.trans("messages.no_manager")))
+                    _vm._v(
+                      " " +
+                        _vm._s(
+                          _vm.trans("adminmenu." + _vm.modeName[_vm.mode][2])
+                        )
+                    )
                   ])
                 : _vm._e()
             ])
@@ -2906,25 +2964,34 @@ var render = function() {
                 _vm._v(
                   _vm._s(_vm.item.name) +
                     " " +
-                    _vm._s(_vm.trans("adminmenu.add_manager"))
+                    _vm._s(_vm.trans("adminmenu." + _vm.modeName[_vm.mode][3]))
                 )
               ])
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
-              _vm.managerPermissionList.length === 0
+              _vm.permissionList.length === 0
                 ? _c("div", { staticClass: "card-text" }, [
-                    _vm._v(" " + _vm._s(_vm.trans("messages.no_manager")))
+                    _vm._v(
+                      " " +
+                        _vm._s(
+                          _vm.trans("adminmenu." + _vm.modeName[_vm.mode][4])
+                        )
+                    )
                   ])
                 : _vm._e(),
               _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "user-list p-2" },
-                _vm._l(_vm.managerPermissionList, function(user) {
+                _vm._l(_vm.permissionList, function(user) {
                   return _c("user-info-component", {
                     key: user.id,
-                    attrs: { user: user, "skill-id": _vm.item.id },
+                    attrs: {
+                      user: user,
+                      "skill-id": _vm.item.id,
+                      mode: _vm.mode
+                    },
                     on: { closePopup: _vm.close }
                   })
                 }),
@@ -3199,7 +3266,7 @@ var render = function() {
         [
           _vm.openPopup
             ? _c("popup-component", {
-                attrs: { item: _vm.currentPopupItem },
+                attrs: { item: _vm.currentPopupItem, mode: _vm.popupMode },
                 on: { closePopup: _vm.closePopup }
               })
             : _vm._e()
@@ -3274,9 +3341,26 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-sm btn-outline-success",
-                on: { click: _vm.openManagerWindow }
+                on: {
+                  click: function($event) {
+                    return _vm.openPopupWindow(0)
+                  }
+                }
               },
               [_vm._v(_vm._s(_vm.trans("menu.manager")) + "\n            ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-sm btn-outline-info",
+                on: {
+                  click: function($event) {
+                    return _vm.openPopupWindow(1)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm.trans("menu.set_expert")) + "\n            ")]
             ),
             _vm._v(" "),
             _c(
@@ -3292,14 +3376,22 @@ var render = function() {
       _vm._v(" "),
       !_vm.admin
         ? _c("div", { staticClass: "item-menu" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-sm btn-outline-success",
-                on: { click: _vm.registerSkill }
-              },
-              [_vm._v(_vm._s(_vm.trans("menu.skill_registration")))]
-            )
+            _vm.item.status === 0
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-outline-success",
+                    on: { click: _vm.registerSkill }
+                  },
+                  [_vm._v(_vm._s(_vm.trans("menu.skill_registration")))]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.item.status !== 0
+              ? _c("button", { staticClass: "btn btn-sm btn-danger" }, [
+                  _vm._v(_vm._s(_vm.trans("menu.skill_regist_already")))
+                ])
+              : _vm._e()
           ])
         : _vm._e()
     ])
@@ -3605,7 +3697,7 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _vm.skillId == 0
+      _vm.skillId === 0
         ? _c("div", { staticClass: "menu" }, [
             !_vm.hasExpert
               ? _c(
@@ -3631,15 +3723,15 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _vm.skillId != 0
+      _vm.skillId !== 0
         ? _c("div", { staticClass: "menu" }, [
             _c(
               "button",
               {
                 staticClass: "btn btn-sm btn-outline-primary",
-                on: { click: _vm.setManager }
+                on: { click: _vm.setApprove }
               },
-              [_vm._v(_vm._s(_vm.trans("adminmenu.set_manager")))]
+              [_vm._v(_vm._s(_vm.trans("adminmenu.set_approve")))]
             )
           ])
         : _vm._e()

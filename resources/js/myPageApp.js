@@ -7,11 +7,15 @@ Vue.use(Vuex); //using vuex for state management
 const store = new Vuex.Store({
     state:{
         registeredList:[],
+        user:{},
     },
     mutations:{
         refreshRegisteredList(state, list){
             state.registeredList = list;
         },
+        setUser(state, user){
+            state.user = user;
+        }
     }
 });
 

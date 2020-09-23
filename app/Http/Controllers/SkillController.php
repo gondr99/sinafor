@@ -6,6 +6,7 @@ use App\LevelOne;
 use App\LevelTwo;
 use App\SkillCategory;
 use App\User;
+use App\UserExpert;
 use App\UserCategory;
 use App\UserManage;
 use http\Env\Response;
@@ -66,12 +67,27 @@ class SkillController extends Controller
         }
     }
 
+    //Get all skill with expert and manager from database;
     public function skillList(Request $req)
     {
-        $list = SkillCategory::get()->map(function($skill){
+        $user = auth()->user();
+        $registeredSkillList = $user->registered()->select('status', 'skill_categories.id')->get();
+
+        $list = SkillCategory::get()->map(function($skill) use($registeredSkillList){
             $skill->managerList = $skill->manages()->get();
+            $skill->expertList = $skill->expertedBy()->get();
+            $skill->status = 0;
+            for($i = 0; $i < count($registeredSkillList); $i++){
+                if($registeredSkillList[$i]->id === $skill->id){
+                    $skill->status = $registeredSkillList[$i]->status;
+                    break;
+                }
+            }
             return $skill;
         });
+
+
+
 
         return response()->json($list);
     }
@@ -116,7 +132,7 @@ class SkillController extends Controller
             return response()->json(__('messages.not_found'), 404);
         }
 
-        if($user->roles()->where('name', '=', 'Skill Manager')->count() < 1){
+        if($user->roles()->where( 'name', '=', env('MANAGER_NAME') )->count() < 1){
             return response()->json(__('messages.not_auth'), 404);
         }
 
@@ -127,7 +143,13 @@ class SkillController extends Controller
 
     public function getManagerList(Request $req)
     {
-        $list = UserCategory::where('name', '=', 'Skill Manager')->first()->users()->get();
+        $list = UserCategory::where('name', '=', env('MANAGER_NAME'))->first()->users()->get();
+        return response()->json($list);
+    }
+
+    public function getExpertList(Request $req)
+    {
+        $list = UserCategory::where('name', '=', env('EXPERT_NAME'))->first()->users()->get();
         return response()->json($list);
     }
 
@@ -153,4 +175,33 @@ class SkillController extends Controller
         return response()->json(__('messages.not_found'), 404);
     }
 
+    public function deleteExpert(Request $req, $id){
+        //drop manager from skill($id)
+        $uid = $req->input('uid');
+        $manage = UserExpert::where([['user_id', '=', $uid],['skill_category_id', '=', $id]])->first();
+
+        if($manage){
+            $manage->delete();
+            return response()->json(__('messages.success'));
+        }
+        return response()->json(__('messages.not_found'), 404);
+    }
+
+    public function addExpert(Request $req, $id)
+    {
+        $userId = $req->input('user_id');
+        $user = User::find($userId);
+        $skill = SkillCategory::find($id);
+        if($user === null || $skill === null){
+            return response()->json(__('messages.not_found'), 404);
+        }
+
+        if($user->roles()->where('name', '=', 'Expert')->count() < 1){
+            return response()->json(__('messages.not_auth'), 404);
+        }
+
+        $expert = UserExpert::create(['user_id'=>$user->id, 'skill_category_id'=>$id]);
+
+        return response()->json(__('messages.success'));
+    }
 }

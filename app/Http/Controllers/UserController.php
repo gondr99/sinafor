@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\EmailCheck;
 use App\Http\Requests\UserRegister;
+use App\Notifications\SendRegisterEmail;
 use App\User;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class UserController extends Controller
 {
@@ -19,18 +22,47 @@ class UserController extends Controller
         //all validating login is in UserRegister Request file
 
         $input = $req->input();
+
+        $uploadImage = $req->file('profile');
+        $prefix = time();
+        $filename = $prefix . "_" . $uploadImage->getClientOriginalName();
+        $uploadImage->storeAs('profiles', $filename);  //save file to profiles folder
+        $input['profile'] = $filename;
+
         unset($input['_token']); //remove token
         unset($input['password_confirmation']);  //remove confirm
         //not yet! still development...
         $input['password'] = bcrypt($input['password']);
+        \DB::beginTransaction();
         try {
             $user = User::create($input);
+            $key = hash('sha256', $prefix . $user->email);
+            EmailCheck::create(['user_id' => $user->id, 'hash' => $key]);
+            $user->notify(new SendRegisterEmail((Object)['username'=>$user->name, 'hash'=> $key]));
+
+            \DB::commit();
             return redirect('/')->with('flash_message', __('register.success'));
         }catch (\Exception $e){
+            \DB::rollback();
+            dd($e);
             return back()->withInput()->with('flash_message', __('register.error'));
         }
+    }
 
+    public function checkEmail(Request $req)
+    {
+        $hash = $req->input('hash');
+        $checker = EmailCheck::where('hash', '=', $hash)->first();
+        if(!$checker){
+            return redirect('/')->with('flash_message', __('register.expired_email_verify_link'));
+        }
 
+        $user = User::find($checker->user_id);
+        $user->email_verified_at = time();
+        $user->save();
+        $checker->delete();
+
+        return redirect('/')->with('flash_message', __('register.email_verify_complete'));
     }
 
     public function loginPage(Request $req)
@@ -41,7 +73,6 @@ class UserController extends Controller
     public function loginProcess(Request $req)
     {
         $credentials = $req->input();
-
         $req->validate([
             'email' => 'bail|required',  //if first validating is failed, second is ignore
             'password' => 'required'
@@ -68,5 +99,11 @@ class UserController extends Controller
     {
         auth()->logout();
         return redirect('/')->with('flash_message', __('messages.success_logout'));
+    }
+
+    public function getUserData(Request $req)
+    {   $user = auth()->user();
+        $user->skillList = $user->registered()->select('status', 'skill_categories.*')->get();
+        return response()->json($user);
     }
 }

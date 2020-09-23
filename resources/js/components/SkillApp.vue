@@ -79,10 +79,9 @@
                 }catch (err) {
                     console.log(err);
                 }
-                this.skillList = this.$store.state.skillList;
+                //this.skillList = this.$store.state.skillList;
             },
             searchSkill(){
-
                 this.skillList = this.$store.state.skillList.filter(x => x.name.includes(this.word));
             }
         },

@@ -18,5 +18,10 @@ return [
     'skill_level' => '훈련 분류',
     'add_level_1' => '레벨 1추가',
     'add_level_2' => '레벨 2추가',
+    'expert_list' => '전문가 리스트',
+    'drop_expert' => '전문가 제거',
+    'no_expert' => '전문가 없음',
+    'add_expert' => '전문가 추가',
+    'set_expert' => '전문가 지정',
+    'set_approve' => '지정하기',
 ];
-

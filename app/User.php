@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone', 'info'
+        'name', 'email', 'password','phone', 'info', 'profile'
     ];
 
     /**
@@ -38,11 +38,15 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     public function checkAdmin(){
-        return $this->roles()->where('name', '=', 'admin')->first() !== null;
+        return $this->roles()->where('name', '=', env('ADMIN_NAME'))->first() !== null;
     }
 
     public function checkManager(){
-        return $this->roles()->where('name', '=', 'Skill Manager')->first() !== null;
+        return $this->roles()->where('name', '=', env('MANAGER_NAME'))->first() !== null;
+    }
+
+    public function checkExpert(){
+        return $this->roles()->where('name', '=', env('EXPERT_NAME'))->first() !== null;
     }
 
     public function roles()
@@ -59,4 +63,16 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany('App\SkillCategory', 'user_skills', 'user_id');
     }
+
+    public function experts(){
+        return $this->belongsToMany('App\SkillCategory', 'user_experts', 'user_id');
+    }
+
+    public function userSkill(){
+        return $this->hasMany('App\UserSkill', 'expert_id');
+    }
+
+//    public function subjects(){
+//        return $this->hasMany('App\Subject', 'user_id');
+//    }
 }

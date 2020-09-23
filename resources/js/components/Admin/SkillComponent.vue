@@ -12,12 +12,15 @@
             <p class="card-text">{{item.description}}</p>
 
             <div class="item-menu" v-if="admin">
-                <button class="btn btn-sm btn-outline-success" @click="openManagerWindow">{{ trans('menu.manager') }}
+                <button class="btn btn-sm btn-outline-success" @click="openPopupWindow(0)">{{ trans('menu.manager') }}
+                </button>
+                <button class="btn btn-sm btn-outline-info" @click="openPopupWindow(1)">{{ trans('menu.set_expert') }}
                 </button>
                 <button class="btn btn-sm btn-outline-danger" @click="delSkill">{{ trans('menu.delete') }}(미구현)</button>
             </div>
             <div class="item-menu" v-if="!admin">
-                <button class="btn btn-sm btn-outline-success" @click="registerSkill">{{ trans('menu.skill_registration') }}</button>
+                <button v-if="item.status === 0" class="btn btn-sm btn-outline-success" @click="registerSkill">{{ trans('menu.skill_registration') }}</button>
+                <button v-if="item.status !== 0" class="btn btn-sm btn-danger">{{ trans('menu.skill_regist_already') }}</button>
             </div>
         </div>
     </div>
@@ -27,25 +30,27 @@
     export default {
         name: "SkillComponent",
         props: ['item', 'admin'],
+        data(){
+            return {
+                name
+            }
+        },
         methods: {
             async registerSkill() {
                 const result = await this.checkSure();
                 if (result.isConfirmed){
-                    console.log("asd");
                     axios.put(`/skill/register/${this.item.id}`).then(res => {
                         Swal.fire(res.data.msg);
                     }).catch(err => {
                         console.log(err);
                     })
                 }
-
-
             },
             delSkill() {
                 //아마 안쓰일듯.
             },
-            openManagerWindow() {
-                this.$parent.openManagerWindow(this.item.id);
+            openPopupWindow(mode) {
+                this.$parent.openPopupWindow(this.item.id, mode);
             },
             checkSure(){
                 return Swal.fire({

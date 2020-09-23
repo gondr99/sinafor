@@ -8,13 +8,13 @@
                 <button @click="removeRole(role.id)" class="btn btn-sm btn-outline-primary mr-2" v-for="role in user.roles" :key="role.id">{{role.name}}
                 </button>
             </div>
-            <div class="menu" v-if="skillId == 0">
+            <div class="menu" v-if="skillId === 0">
                 <button class="btn btn-sm btn-outline-primary" v-if="!hasExpert" @click="approveExpert">{{ trans('adminmenu.approve_expert')}}</button>
                 <button class="btn btn-sm btn-outline-success" v-if="!hasManager" @click="approveManage">{{ trans('adminmenu.approve_manager')}}</button>
             </div>
 
-            <div class="menu" v-if="skillId != 0">
-                <button class="btn btn-sm btn-outline-primary" @click="setManager">{{ trans('adminmenu.set_manager')}}</button>
+            <div class="menu" v-if="skillId !== 0">
+                <button class="btn btn-sm btn-outline-primary" @click="setApprove">{{ trans('adminmenu.set_approve')}}</button>
             </div>
         </div>
     </div>
@@ -28,13 +28,25 @@
             'skillId':{
                 type:Number,
                 default:0
+            },
+            'mode':{
+                default:0,
+                type:Number
+            }
+        },
+        data(){
+            return {
+                message:[
+                    'set_manager',
+                    'set_expert'
+                ]
             }
         },
         methods: {
-            setManager(){
+            setApprove(){
                 Swal.fire({
                     title: this.trans('messages.sure'),
-                    text: this.trans('adminmenu.set_manager'),
+                    text: this.trans(`adminmenu.${this.message[this.mode]}`),
                     icon: 'info',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -42,21 +54,27 @@
                     confirmButtonText: 'Yes'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        axios.put(`/admin/skill/manager/${this.skillId}`,{ user_id:this.user.id }).then(res => {
-                            this.$emit('closePopup');
-                        });
+                        if(this.mode === 0){
+                            axios.put(`/admin/skill/manager/${this.skillId}`,{ user_id:this.user.id }).then(res => {
+                                this.$emit('closePopup');
+                            });
+                        }else if(this.mode === 1){
+                            axios.put(`/admin/skill/expert/${this.skillId}`,{ user_id:this.user.id }).then(res => {
+                                this.$emit('closePopup');
+                            });
+                        }
                     }
                 });
 
             },
             approveExpert() {
-                axios.put('/admin/user/role', {user_id: this.user.id, category_name: 'Expert'}).then(res => {
+                axios.put('/admin/user/role', {user_id: this.user.id, category_name: window.expertName}).then(res => {
                     const data = res.data;
                     this.$emit('refreshUser', this.user.id);
                 });
             },
             approveManage() {
-                axios.put('/admin/user/role', {user_id: this.user.id, category_name: 'Skill Manager'}).then(res => {
+                axios.put('/admin/user/role', {user_id: this.user.id, category_name: window.managerName}).then(res => {
                     const data = res.data;
                     this.$emit('refreshUser', this.user.id);
                 });
@@ -84,11 +102,11 @@
         computed: {
             hasExpert() {
                 if (this.user.roles === undefined) return false;
-                return this.user.roles.find(x => x.name === 'Expert') !== undefined;
+                return this.user.roles.find(x => x.name === window.expertName) !== undefined;
             },
             hasManager() {
                 if (this.user.roles === undefined) return false;
-                return this.user.roles.find(x => x.name === 'Skill Manager') !== undefined;
+                return this.user.roles.find(x => x.name === window.managerName) !== undefined;
             }
         }
     }

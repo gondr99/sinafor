@@ -21,4 +21,13 @@ class SkillCategory extends Model
     public function registeredBy(){
         return $this->belongsToMany('App\User','user_skills', 'skill_category_id');
     }
+
+    public function expertedBy(){
+        return $this->belongsToMany('App\User','user_experts', 'skill_category_id');
+    }
+
+    public function examList(){
+        return $this->hasMany('App\Exam', 'belongs');
+    }
+
 }

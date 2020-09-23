@@ -48,7 +48,7 @@
         </div>
 
         <transition name="fade">
-            <popup-component :item="currentPopupItem" v-if="openPopup" @closePopup="closePopup"></popup-component>
+            <popup-component :item="currentPopupItem" v-if="openPopup" @closePopup="closePopup" :mode="popupMode"></popup-component>
         </transition>
     </div>
 </template>
@@ -96,8 +96,9 @@
             changeFile(e){
                 this.file = e.target.files[0];
             },
-            openManagerWindow(id){
+            openPopupWindow(id, mode){
                 this.currentPopupItem = this.skillList.find( x => x.id == id);
+                this.popupMode = mode;
                 this.openPopup = true;
             },
             closePopup(){
@@ -121,6 +122,7 @@
                 currentPopupItem:{},
                 level1:undefined,
                 level2:undefined,
+                popupMode:undefined,
             }
         },
         watch:{

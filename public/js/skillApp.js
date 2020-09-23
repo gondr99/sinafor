@@ -140,9 +140,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SkillComponent",
   props: ['item', 'admin'],
+  data: function data() {
+    return {
+      name: name
+    };
+  },
   methods: {
     registerSkill: function registerSkill() {
       var _this = this;
@@ -160,7 +168,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 result = _context.sent;
 
                 if (result.isConfirmed) {
-                  console.log("asd");
                   axios.put("/skill/register/".concat(_this.item.id)).then(function (res) {
                     Swal.fire(res.data.msg);
                   })["catch"](function (err) {
@@ -178,8 +185,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     delSkill: function delSkill() {//아마 안쓰일듯.
     },
-    openManagerWindow: function openManagerWindow() {
-      this.$parent.openManagerWindow(this.item.id);
+    openPopupWindow: function openPopupWindow(mode) {
+      this.$parent.openPopupWindow(this.item.id, mode);
     },
     checkSure: function checkSure() {
       return Swal.fire({
@@ -319,9 +326,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 console.log(_context.t0);
 
               case 14:
-                _this.skillList = _this.$store.state.skillList;
-
-              case 15:
               case "end":
                 return _context.stop();
             }
@@ -1885,9 +1889,26 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-sm btn-outline-success",
-                on: { click: _vm.openManagerWindow }
+                on: {
+                  click: function($event) {
+                    return _vm.openPopupWindow(0)
+                  }
+                }
               },
               [_vm._v(_vm._s(_vm.trans("menu.manager")) + "\n            ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-sm btn-outline-info",
+                on: {
+                  click: function($event) {
+                    return _vm.openPopupWindow(1)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm.trans("menu.set_expert")) + "\n            ")]
             ),
             _vm._v(" "),
             _c(
@@ -1903,14 +1924,22 @@ var render = function() {
       _vm._v(" "),
       !_vm.admin
         ? _c("div", { staticClass: "item-menu" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-sm btn-outline-success",
-                on: { click: _vm.registerSkill }
-              },
-              [_vm._v(_vm._s(_vm.trans("menu.skill_registration")))]
-            )
+            _vm.item.status === 0
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-outline-success",
+                    on: { click: _vm.registerSkill }
+                  },
+                  [_vm._v(_vm._s(_vm.trans("menu.skill_registration")))]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.item.status !== 0
+              ? _c("button", { staticClass: "btn btn-sm btn-danger" }, [
+                  _vm._v(_vm._s(_vm.trans("menu.skill_regist_already")))
+                ])
+              : _vm._e()
           ])
         : _vm._e()
     ])

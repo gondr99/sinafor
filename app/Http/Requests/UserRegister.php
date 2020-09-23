@@ -28,7 +28,8 @@ class UserRegister extends FormRequest
             'password' => 'required|confirmed|min:8',
             'name' => 'required',
             'phone' =>'required|regex:/[0-9\-]+/i',
-            'info' => 'required'
+            'info' => 'required',
+            'profile' => 'required|image|max:2048'
         ];
 
     }
@@ -43,7 +44,10 @@ class UserRegister extends FormRequest
             'name.required' => __('register.name_required'),
             'phone.required' => __('register.phone_required'),
             'phone.regex' => __('register.phone_regex'),
-            'info.required' => __('register.info_required')
+            'info.required' => __('register.info_required'),
+            'profile.required' => __('register.photo_required'),
+            'profile.image' => __('register.photo_must_image'),
+            'profile.max' => __('register.photo_must_2mb'),
         ];
     }
 }

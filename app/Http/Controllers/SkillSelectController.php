@@ -35,4 +35,32 @@ class SkillSelectController extends Controller
         $list = $user->registered()->select('status', 'created_at', 'skill_categories.*')->get();
         return response()->json($list);
     }
+
+    public function learningPage(Request $req, $skillId)
+    {
+        $user = auth()->user();
+        $skill = $user->registered()->where('skill_categories.id', '=', $skillId)->first();
+        if(!$skill){  // user who not registed this skill
+            return redirect('/')->with('flash_message', __('messages.not_auth'));
+        }
+
+        $examList = $skill->examList()->get()->map(function($exam) use ($user) {
+
+            $exam->subjectList = $exam->subjects()->where('user_id', '=', $user->id)->get();
+            $exam->pass = false;
+            foreach($exam->subjectList as $subject){
+                if($subject->pass === 1){
+                    $exam->pass = true;
+                    break;
+                }
+            }
+            return $exam;
+        });
+
+        return view('/user/learn', ['skill' => $skill, 'examList' => $examList]);
+    }
+
+    public function getLearningData(Request $req, $skillId){
+
+    }
 }

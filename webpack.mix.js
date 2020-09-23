@@ -16,4 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/adminApp.js', 'public/js')
     .js('resources/js/skillApp.js', 'public/js')
     .js('resources/js/myPageApp.js', 'public/js')
+    .js('resources/js/managerApp.js', 'public/js')
+    .js('resources/js/expertApp.js', 'public/js')
+    .js('resources/js/learningApp.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');

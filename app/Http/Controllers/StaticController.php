@@ -20,12 +20,12 @@ class StaticController extends Controller
         return view('main');
     }
 
-    public function getIconImage(Request $req, $filename)
+    public function getImage(Request $req, $path, $filename)
     {
         //if file not exist 404 image downloaded
-        if( !Storage::exists('/icons/' . $filename)){
+        if( !Storage::exists("/{$path}/" . $filename)){
             return Storage::download('404.jpg');
         }
-        return Storage::download('/icons/' . $filename);
+        return Storage::download("/{$path}/" . $filename);
     }
 }

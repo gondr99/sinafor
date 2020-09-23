@@ -1,7 +1,36 @@
 <?php
 /*
- * resource/lang/en/messagep.php
+ * resource/lang/kr/messagep.php
  */
 return [
-    'welcome' => 'Welcome to SINAFOR',
+    'welcome' => 'Welcome to sinafor',
+    'success_login' => 'Login successfully',
+    'not_auth' => 'You dont have permission',
+    'success_logout' => 'Logout successfully',
+    'login_failed' => 'Login failed, check your ID and password',
+    'empty' => 'Require value is empty',
+    'success_add' => 'Adding successfully',
+    'success_del' => 'Delete successfully',
+    'del_deny' => 'Delete deny, because there is user in group',
+    'error' => 'Error!',
+    'type_error' => 'Type not correct',
+    'require_empty' => 'Require value is empty',
+    'not_found' => 'Not found resouce',
+    'success' => 'Success',
+    'sure'=>'Are you sure?',
+    'delete' => 'Delete!',
+    'cancel' => 'Cancel',
+    'yes' => 'Yes',
+    'no_manager' => 'There are no mange role user',
+    'not_allow_remove_role' => 'If mange role exist then can not remove',
+    'enter_name' => 'Enter your name',
+    'skill_register' => 'Skill register',
+    'already_registered' => 'This skill is already registed',
+    'choose_expert' => 'You must choose expert',
+    'expert_connected' => 'Expert connected complete',
+    'list_is_empty' => 'List is empty',
+    'registered_count' => 'Register user count',
+    'verify_email' => 'For using our service, you should email verification',
+    'expert_confirm_text' => 'Are you confirm? If you confirm, send mail to student',
+    'expert_certificate_text' => 'Are you certificate? If you certificate, send mail to student',
 ];

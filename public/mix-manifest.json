@@ -2,6 +2,9 @@
     "/js/adminApp.js": "/js/adminApp.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/expertApp.js": "/js/expertApp.js",
+    "/js/learningApp.js": "/js/learningApp.js",
+    "/js/managerApp.js": "/js/managerApp.js",
     "/js/myPageApp.js": "/js/myPageApp.js",
     "/js/registerApp.js": "/js/registerApp.js",
     "/js/skillApp.js": "/js/skillApp.js"
