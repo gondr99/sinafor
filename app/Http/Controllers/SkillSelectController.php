@@ -20,9 +20,13 @@ class SkillSelectController extends Controller
         if($cnt >= 1){
             return response()->json(['msg'=>__('messages.already_registered'), 'success'=>false]);
         }
+
+        $state = $req->input('state');
+        $date = $req->input('date');   // useless until now...(2020.-10.-07)
+
         $skill = SkillCategory::find($id);
         if($skill){
-            UserSkill::create(['user_id'=>$user->id, 'skill_category_id' => $skill->id]);
+            UserSkill::create(['user_id'=>$user->id, 'skill_category_id' => $skill->id, 'state_id'=>$state]);
             return response()->json(['msg'=>__('messages.success'), 'success'=>true]);
         }
         return response()->json(['msg'=>__('messages.not_found'), 'success'=>false]);

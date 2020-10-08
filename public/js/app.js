@@ -27214,7 +27214,7 @@ return jQuery;
      * @returns {Function} Returns the new restricted function.
      * @example
      *
-     * var saves = ['profiles', 'settings'];
+     * var saves = ['profile', 'settings'];
      *
      * var done = _.after(saves.length, function() {
      *   console.log('done saving!');
@@ -52713,34 +52713,22 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
 window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"); //this code is support multilanguage
 
 Vue.prototype.trans = function (string) {
   return window._.get(window.i18n, string);
+}; //save user role name from server
+
+
+axios.get('/');
+
+Number.prototype.zeroFormat = function (count) {
+  var dummy = "0".repeat(count) + this;
+  return dummy.substr(dummy.length - count);
 };
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 /***/ }),
 

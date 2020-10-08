@@ -33,4 +33,8 @@ return [
     'verify_email' => 'For using our service, you should email verification',
     'expert_confirm_text' => 'Are you confirm? If you confirm, send mail to student',
     'expert_certificate_text' => 'Are you certificate? If you certificate, send mail to student',
+    'enter_category_name' => 'Enter new category name and image file',
+    'must_select_skill' => 'Select skill first',
+    'wait_for_match' => 'Your skill certification request is applying now, Please wait for match expert by manager',
+    'save_success' => 'Save Success!'
 ];

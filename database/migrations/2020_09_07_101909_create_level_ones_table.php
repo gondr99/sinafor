@@ -16,6 +16,8 @@ class CreateLevelOnesTable extends Migration
         Schema::create('level_ones', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('image');
+            $table->string('desc');
             $table->timestamps();
         });
     }

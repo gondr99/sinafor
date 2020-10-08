@@ -68,13 +68,13 @@
 
             },
             approveExpert() {
-                axios.put('/admin/user/role', {user_id: this.user.id, category_name: window.expertName}).then(res => {
+                axios.put('/admin/user/role', {user_id: this.user.id, category_name: roleList.expert}).then(res => {
                     const data = res.data;
                     this.$emit('refreshUser', this.user.id);
                 });
             },
             approveManage() {
-                axios.put('/admin/user/role', {user_id: this.user.id, category_name: window.managerName}).then(res => {
+                axios.put('/admin/user/role', {user_id: this.user.id, category_name: roleList.manager}).then(res => {
                     const data = res.data;
                     this.$emit('refreshUser', this.user.id);
                 });
@@ -102,11 +102,11 @@
         computed: {
             hasExpert() {
                 if (this.user.roles === undefined) return false;
-                return this.user.roles.find(x => x.name === window.expertName) !== undefined;
+                return this.user.roles.find(x => x.name === roleList.expert) !== undefined;
             },
             hasManager() {
                 if (this.user.roles === undefined) return false;
-                return this.user.roles.find(x => x.name === window.managerName) !== undefined;
+                return this.user.roles.find(x => x.name === roleList.manager) !== undefined;
             }
         }
     }

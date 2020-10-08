@@ -11,4 +11,5 @@ return [
     'search_text' => '검색할 단어를 입력하세요',
     'skill_name' => '숙련기술 이름',
     'choose_expert' => '매칭할 전문가를 선택하세요',
+    'search' => '검색...',
 ];

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LevelTwo extends Model
 {
-    protected $fillable = ['name', 'belongs'];
+    protected $fillable = ['name', 'image', 'desc', 'belongs'];
 
     public function level1(){
         return $this->belongsTo('App\LevelOne', 'belongs');

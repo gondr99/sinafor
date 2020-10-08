@@ -11,4 +11,5 @@ return [
     'search_text' => 'Search text',
     'skill_name' => 'Skill name',
     'choose_expert' => 'Choose expert',
+    'search' => 'Search ...',
 ];

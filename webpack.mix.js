@@ -19,4 +19,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/managerApp.js', 'public/js')
     .js('resources/js/expertApp.js', 'public/js')
     .js('resources/js/learningApp.js', 'public/js')
+    .js('resources/js/mainApp.js', 'public/js')
+    .js('resources/js/certificationApp.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
+

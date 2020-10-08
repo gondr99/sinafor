@@ -16,6 +16,8 @@ class CreateLevelTwosTable extends Migration
         Schema::create('level_twos', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('image');
+            $table->string('desc');
             $table->unsignedBigInteger('belongs');
 
             $table->timestamps();

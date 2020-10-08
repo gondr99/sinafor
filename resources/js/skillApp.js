@@ -7,7 +7,8 @@ Vue.use(Vuex); //using vuex for state management
 const store = new Vuex.Store({
     state:{
         levelList:[],
-        skillList:[]
+        skillList:[],
+        stateList:[],
     },
     mutations:{
         refreshLevels(state, list){
@@ -17,6 +18,10 @@ const store = new Vuex.Store({
         refreshSkillList(state, list){
             state.skillList = list;
         },
+
+        refreshStateList(state, list){
+            state.stateList = list;
+        }
         // addSkill(state, item){
         //     state.skillList = [...state.skillList, item];
         // },

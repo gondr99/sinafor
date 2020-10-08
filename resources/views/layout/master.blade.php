@@ -9,12 +9,13 @@
     <script src="/js/app.js"></script>
     <title>SINA FOR</title>
     <script src="/js/lang.js"></script>
+    <script src="/js/roleName.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>
-        window.adminName = `{{env('ADMIN_NAME')}}`;
-        window.expertName = `{{env('EXPERT_NAME')}}`;
-        window.managerName = `{{env('MANAGER_NAME')}}`;
-        window.verified = `{{env('VERIFIED_NAME')}}`
+        {{--window.adminName = `{{env('ADMIN_NAME')}}`;--}}
+        {{--window.expertName = `{{env('EXPERT_NAME')}}`;--}}
+        {{--window.managerName = `{{env('MANAGER_NAME')}}`;--}}
+        {{--window.verified = `{{env('VERIFIED_NAME')}}`--}}
     </script>
 </head>
 <body>
@@ -28,22 +29,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/user/logout">{{  __('menu.logout') }}</a>
                 </li>
-                @if(auth()->user()->checkAdmin())
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">{{  __('menu.admin') }}</a>
-                    </li>
-                @endif
-                @if(auth()->user()->checkManager())
-                    <li class="nav-item">
-                        <a class="nav-link" href="/manager">{{  __('menu.manager_menu') }}</a>
-                    </li>
-                @endif
-
-                @if(auth()->user()->checkExpert())
-                    <li class="nav-item">
-                        <a class="nav-link" href="/expert">{{  __('menu.expert_menu') }}</a>
-                    </li>
-                @endif
             @endif
         </ul>
     </nav>

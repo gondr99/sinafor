@@ -29,7 +29,21 @@ class SkillController extends Controller
     public function addLevelOne(Request $req)
     {
         $name = $req->input('name');
-        $one = LevelOne::create(['name' => $name]);
+        $image = $req->file('image');
+        $desc = $req->input('desc');
+
+        if(trim($name) === "" || $image === null || trim($desc) === ""){
+            return response()->json(__('messages.require_empty'), 406); //now allowed
+        }
+
+        if (substr($image->getMimeType(), 0, 5) != 'image') {
+            return response()->json(__('messages.type_error'), 406); //now allowed
+        }
+
+        $prefix = time();
+        $filename = $prefix . "_" . $image->getClientOriginalName();
+        $image->storeAs('skills', $filename);
+        $one = LevelOne::create(['name' => $name, 'image'=>$filename, 'desc' => $desc]);
         $one->two = [];
 
         return $this->getLevel($req);  //data refreshed when success input
@@ -38,9 +52,25 @@ class SkillController extends Controller
     public function addLevelTwo(Request $req, $oneId)
     {
         $name = $req->input('name');
+        $image = $req->file('image');
+        $desc = $req->input('desc');
+
+        if(trim($name) === "" || $image === null || trim($desc) === ""){
+            return response()->json(__('messages.require_empty'), 406); //now allowed
+        }
+
+        if (substr($image->getMimeType(), 0, 5) != 'image') {
+            return response()->json(__('messages.type_error'), 406); //now allowed
+        }
+
         $one = LevelOne::find($oneId);
         if($one){
-            $one->level2()->create(['name'=>$name]);
+
+            $prefix = time();
+            $filename = $prefix . "_" . $image->getClientOriginalName();
+            $image->storeAs('skills', $filename);
+
+            $one->level2()->create(['name'=>$name, 'image'=> $filename, 'desc'=>$desc]);
             return $this->getLevel($req);  //data refreshed when success input
         }else{
             return response()->json(__('messages.not_found'), 404); //not found
@@ -85,9 +115,6 @@ class SkillController extends Controller
             }
             return $skill;
         });
-
-
-
 
         return response()->json($list);
     }

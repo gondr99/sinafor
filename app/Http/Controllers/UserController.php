@@ -103,6 +103,7 @@ class UserController extends Controller
 
     public function getUserData(Request $req)
     {   $user = auth()->user();
+        $user->roleList = $user->roles()->get();
         $user->skillList = $user->registered()->select('status', 'skill_categories.*')->get();
         return response()->json($user);
     }

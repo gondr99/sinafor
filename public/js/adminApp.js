@@ -578,6 +578,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SkillLevelComponent",
@@ -599,11 +615,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     changeLevel2: function changeLevel2(idx) {
       this.levelIdx = idx;
     },
+    //add level1 data to server
     addLevel1: function addLevel1() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var data, name;
+        var data, formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -615,14 +632,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 data = _context.sent;
 
                 if (!data.isDismissed) {
-                  name = data.value;
-                  axios.post('/admin/levelOne', {
-                    name: name
-                  }).then(function (res) {
-                    _this2.$store.commit('refreshLevels', res.data);
-                  })["catch"](function (err) {
-                    console.log(err);
-                  });
+                  formData = new FormData();
+                  formData.append("name", data.value[0]);
+                  formData.append("image", data.value[1]);
+                  formData.append('desc', data.value[2]);
+
+                  _this2.uploadData('/admin/levelOne', formData);
                 }
 
               case 4:
@@ -637,7 +652,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var data, name;
+        var data, formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -649,14 +664,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 data = _context2.sent;
 
                 if (!data.isDismissed) {
-                  name = data.value;
-                  axios.post("/admin/levelTwo/".concat(_this3.levelIdx), {
-                    name: name
-                  }).then(function (res) {
-                    _this3.$store.commit('refreshLevels', res.data);
-                  })["catch"](function (err) {
-                    console.log(err);
-                  });
+                  formData = new FormData();
+                  formData.append("name", data.value[0]);
+                  formData.append("image", data.value[1]);
+                  formData.append('desc', data.value[2]);
+
+                  _this3.uploadData("/admin/levelTwo/".concat(_this3.levelIdx), formData);
                 }
 
               case 4:
@@ -667,8 +680,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    delLevel1: function delLevel1(id) {
+    uploadData: function uploadData(url, formData) {
       var _this4 = this;
+
+      axios.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+      }).then(function (res) {
+        console.log(res.data);
+
+        _this4.$store.commit('refreshLevels', res.data);
+      })["catch"](function (err) {
+        Swal.fire(err.response.data);
+      });
+    },
+    delLevel1: function delLevel1(id) {
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var result;
@@ -677,16 +706,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return _this4.checkSure();
+                return _this5.checkSure();
 
               case 2:
                 result = _context3.sent;
 
                 if (result.isConfirmed) {
                   axios["delete"]("/admin/levelOne/".concat(id)).then(function (res) {
-                    _this4.$store.commit('refreshLevels', res.data);
+                    _this5.$store.commit('refreshLevels', res.data);
                   })["catch"](function (err) {
-                    console.log(err);
+                    Swal.fire(err.response.data);
                   });
                 }
 
@@ -699,7 +728,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     delLevel2: function delLevel2(id) {
-      var _this5 = this;
+      var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var result;
@@ -708,16 +737,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return _this5.checkSure();
+                return _this6.checkSure();
 
               case 2:
                 result = _context4.sent;
 
                 if (result.isConfirmed) {
-                  axios["delete"]("/admin/levelTwo/".concat(_this5.levelIdx, "/").concat(id)).then(function (res) {
-                    _this5.$store.commit('refreshLevels', res.data);
+                  axios["delete"]("/admin/levelTwo/".concat(_this6.levelIdx, "/").concat(id)).then(function (res) {
+                    _this6.$store.commit('refreshLevels', res.data);
                   })["catch"](function (err) {
-                    console.log(err);
+                    Swal.fire(err.response.data);
                   });
                 }
 
@@ -730,7 +759,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getName: function getName() {
-      var _this6 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
         var value;
@@ -740,13 +769,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context5.next = 2;
                 return Swal.fire({
-                  title: _this6.trans('messages.enter_name'),
-                  input: 'text',
+                  title: _this7.trans('messages.enter_category_name'),
+                  html: "\n<div class=\"form-row\">\n    <div class=\"from-group col-12\">\n        <label for=\"categoryName\">".concat(_this7.trans('menu.category_name'), "</label>\n        <input id=\"categoryName\" type=\"text\" class=\"form-control\">\n    </div>\n    <div class=\"from-group col-12\">\n        <label for=\"categoryPic\">").concat(_this7.trans('menu.category_image'), "</label>\n        <input id=\"categoryPic\" class=\"form-control\" type=\"file\" accept=\"image/*\">\n    </div>\n    <div class=\"from-group col-12\">\n        <label for=\"categoryDesc\">").concat(_this7.trans('menu.category_desc'), "</label>\n        <textarea id=\"categoryDesc\" class=\"form-control\" placeholder=\"\"></textarea>\n    </div>\n</div>"),
                   showCancelButton: true,
-                  inputValidator: function inputValidator(value) {
-                    if (!value) {
-                      return _this6.trans('messages.empty');
-                    }
+                  preConfirm: function preConfirm() {
+                    return [document.querySelector("#categoryName").value, document.querySelector("#categoryPic").files[0], document.querySelector("#categoryDesc").value];
                   }
                 });
 
@@ -778,10 +805,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return state.levelList;
     },
     level2: function level2(state) {
-      var _this7 = this;
+      var _this8 = this;
 
       var item = state.levelList.find(function (x) {
-        return x.id == _this7.levelIdx;
+        return x.id == _this8.levelIdx;
       });
 
       if (item !== undefined) {
@@ -791,10 +818,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     selectedLevel: function selectedLevel(state) {
-      var _this8 = this;
+      var _this9 = this;
 
       return state.levelList.find(function (x) {
-        return x.id == _this8.levelIdx;
+        return x.id == _this9.levelIdx;
       });
     }
   })
@@ -978,7 +1005,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.put('/admin/user/role', {
         user_id: this.user.id,
-        category_name: window.expertName
+        category_name: roleList.expert
       }).then(function (res) {
         var data = res.data;
 
@@ -990,7 +1017,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.put('/admin/user/role', {
         user_id: this.user.id,
-        category_name: window.managerName
+        category_name: roleList.manager
       }).then(function (res) {
         var data = res.data;
 
@@ -1023,13 +1050,13 @@ __webpack_require__.r(__webpack_exports__);
     hasExpert: function hasExpert() {
       if (this.user.roles === undefined) return false;
       return this.user.roles.find(function (x) {
-        return x.name === window.expertName;
+        return x.name === roleList.expert;
       }) !== undefined;
     },
     hasManager: function hasManager() {
       if (this.user.roles === undefined) return false;
       return this.user.roles.find(function (x) {
-        return x.name === window.managerName;
+        return x.name === roleList.manager;
       }) !== undefined;
     }
   }
@@ -1249,7 +1276,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.closed[data-v-32010262] {\n    position: relative;\n    padding-right:20px;\n}\n.closed > span[data-v-32010262] {\n    position: absolute;\n    top:0.375rem;\n    right:5px;\n    border:1px solid #ddd;\n    background-color: #fff;\n}\n.closed:hover > span[data-v-32010262] {\n    color: #1d643b;\n}\n", ""]);
+exports.push([module.i, "\n.closed[data-v-32010262] {\n    position: relative;\n    padding-right:20px;\n}\n.closed > span[data-v-32010262] {\n    position: absolute;\n    top:0.375rem;\n    right:5px;\n    border:1px solid #ddd;\n    background-color: #fff;\n}\n.closed:hover > span[data-v-32010262] {\n    color: #1d643b;\n}\n.skill-list[data-v-32010262]{\n    display: grid;\n    grid-template-columns: repeat(4, 1fr);\n    grid-gap:15px;\n}\n.skill-list .card img[data-v-32010262] {\n    height:200px;\n}\n.card.active[data-v-32010262] {\n    border:1px solid #3276ff;\n}\n", ""]);
 
 // exports
 
@@ -3443,41 +3470,55 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "card-body" },
-          _vm._l(_vm.levelList, function(item) {
-            return _c(
-              "div",
-              {
-                staticClass: "btn btn-outline-success closed",
-                class: { active: _vm.levelIdx == item.id },
-                on: {
-                  click: function($event) {
-                    return _vm.changeLevel2(item.id)
-                  }
-                }
-              },
-              [
-                _vm._v(_vm._s(item.name)),
-                _c(
-                  "span",
-                  {
-                    staticClass: "dismiss",
-                    on: {
-                      click: function($event) {
-                        $event.stopPropagation()
-                        return _vm.delLevel1(item.id)
-                      }
+        _c("div", { staticClass: "card-body" }, [
+          _c(
+            "div",
+            { staticClass: "skill-list" },
+            _vm._l(_vm.levelList, function(item) {
+              return _c(
+                "div",
+                {
+                  staticClass: "card",
+                  class: { active: _vm.levelIdx == item.id },
+                  on: {
+                    click: function($event) {
+                      return _vm.changeLevel2(item.id)
                     }
-                  },
-                  [_vm._v("X")]
-                )
-              ]
-            )
-          }),
-          0
-        )
+                  }
+                },
+                [
+                  _c("img", {
+                    attrs: {
+                      src: "/images/skills/" + item.image,
+                      alt: "skill image"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h5", { staticClass: "card-title" }, [
+                      _vm._v(_vm._s(item.name))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-outline-danger",
+                        on: {
+                          click: function($event) {
+                            $event.stopPropagation()
+                            return _vm.delLevel1(item.id)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(_vm.trans("menu.delete")))]
+                    )
+                  ])
+                ]
+              )
+            }),
+            0
+          )
+        ])
       ])
     ]),
     _vm._v(" "),
@@ -3511,33 +3552,43 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "card-body" },
-          _vm._l(_vm.level2, function(item) {
-            return _c(
-              "div",
-              { staticClass: "btn btn-outline-success closed" },
-              [
-                _vm._v(_vm._s(item.name)),
-                _c(
-                  "span",
-                  {
-                    staticClass: "dismiss",
-                    on: {
-                      click: function($event) {
-                        $event.stopPropagation()
-                        return _vm.delLevel2(item.id)
+        _c("div", { staticClass: "card-body" }, [
+          _c(
+            "div",
+            { staticClass: "skill-list" },
+            _vm._l(_vm.level2, function(item) {
+              return _c("div", { staticClass: "card" }, [
+                _c("img", {
+                  attrs: {
+                    src: "/images/skills/" + item.image,
+                    alt: "skill image"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("h5", { staticClass: "card-title" }, [
+                    _vm._v(_vm._s(item.name))
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-danger",
+                      on: {
+                        click: function($event) {
+                          $event.stopPropagation()
+                          return _vm.delLevel2(item.id)
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("X")]
-                )
-              ]
-            )
-          }),
-          0
-        )
+                    },
+                    [_vm._v(_vm._s(_vm.trans("menu.delete")))]
+                  )
+                ])
+              ])
+            }),
+            0
+          )
+        ])
       ])
     ])
   ])

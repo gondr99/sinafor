@@ -13,7 +13,15 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="btn btn-outline-success closed" :class="{active:levelIdx == item.id}" v-for="item in levelList" @click="changeLevel2(item.id)">{{item.name}}<span @click.stop="delLevel1(item.id)" class="dismiss">X</span></div>
+                    <div class="skill-list">
+                        <div class="card" :class="{active:levelIdx == item.id}" v-for="item in levelList" @click="changeLevel2(item.id)">
+                            <img :src="`/images/skills/${item.image}`" alt="skill image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{item.name}}</h5>
+                                <button @click.stop="delLevel1(item.id)" class="btn btn-outline-danger">{{trans('menu.delete')}}</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 <!--            end of card-->
@@ -32,7 +40,15 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="btn btn-outline-success closed" v-for="item in level2">{{item.name}}<span class="dismiss" @click.stop="delLevel2(item.id)">X</span></div>
+                    <div class="skill-list">
+                        <div class="card" v-for="item in level2">
+                            <img :src="`/images/skills/${item.image}`" alt="skill image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{item.name}}</h5>
+                                <button @click.stop="delLevel2(item.id)" class="btn btn-outline-danger">{{trans('menu.delete')}}</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--            end of card-->
@@ -63,27 +79,39 @@
             changeLevel2(idx){
                 this.levelIdx = idx;
             },
+            //add level1 data to server
             async addLevel1(){
                 let data = await this.getName();
                 if(!data.isDismissed){
-                    const name = data.value;
-                    axios.post('/admin/levelOne', {name}).then(res => {
-                        this.$store.commit('refreshLevels', res.data);
-                    }).catch(err => {
-                        console.log(err);
-                    });
+                    const formData = new FormData();
+                    formData.append("name", data.value[0]);
+                    formData.append("image", data.value[1]);
+                    formData.append('desc', data.value[2]);
+                    this.uploadData('/admin/levelOne', formData);
                 }
             },
             async addLevel2(){
                 let data = await this.getName();
                 if(!data.isDismissed){
-                    const name = data.value;
-                    axios.post(`/admin/levelTwo/${this.levelIdx}`, {name}).then(res => {
-                        this.$store.commit('refreshLevels', res.data);
-                    }).catch(err => {
-                        console.log(err);
-                    });
+                    const formData = new FormData();
+                    formData.append("name", data.value[0]);
+                    formData.append("image", data.value[1]);
+                    formData.append('desc', data.value[2]);
+                    this.uploadData(`/admin/levelTwo/${this.levelIdx}`, formData);
                 }
+            },
+            uploadData(url, formData){
+                axios.post(url, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                }).then(res => {
+                    console.log(res.data);
+                    this.$store.commit('refreshLevels', res.data);
+                }).catch(err => {
+                    Swal.fire(err.response.data);
+                });
             },
             async delLevel1(id){
                 const result = await this.checkSure();
@@ -91,7 +119,7 @@
                     axios.delete(`/admin/levelOne/${id}`).then(res => {
                         this.$store.commit('refreshLevels', res.data);
                     }).catch(err => {
-                        console.log(err);
+                        Swal.fire(err.response.data);
                     })
                 }
             },
@@ -101,19 +129,35 @@
                     axios.delete(`/admin/levelTwo/${this.levelIdx}/${id}`).then(res => {
                         this.$store.commit('refreshLevels', res.data);
                     }).catch(err => {
-                        console.log(err);
+                        Swal.fire(err.response.data);
                     })
                 }
             },
             async getName(){
                 const value = await Swal.fire({
-                    title: this.trans('messages.enter_name'),
-                    input: 'text',
+                    title: this.trans('messages.enter_category_name'),
+                    html:`
+<div class="form-row">
+    <div class="from-group col-12">
+        <label for="categoryName">${this.trans('menu.category_name')}</label>
+        <input id="categoryName" type="text" class="form-control">
+    </div>
+    <div class="from-group col-12">
+        <label for="categoryPic">${this.trans('menu.category_image')}</label>
+        <input id="categoryPic" class="form-control" type="file" accept="image/*">
+    </div>
+    <div class="from-group col-12">
+        <label for="categoryDesc">${this.trans('menu.category_desc')}</label>
+        <textarea id="categoryDesc" class="form-control" placeholder=""></textarea>
+    </div>
+</div>`,
                     showCancelButton: true,
-                    inputValidator: (value) => {
-                        if (!value) {
-                            return this.trans('messages.empty');
-                        }
+                    preConfirm: () =>{
+                        return [
+                            document.querySelector("#categoryName").value,
+                            document.querySelector("#categoryPic").files[0],
+                            document.querySelector("#categoryDesc").value
+                        ];
                     }
                 });
                 return value;
@@ -162,5 +206,19 @@
 
     .closed:hover > span {
         color: #1d643b;
+    }
+
+    .skill-list{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap:15px;
+    }
+
+    .skill-list .card img {
+        height:200px;
+    }
+
+    .card.active {
+        border:1px solid #3276ff;
     }
 </style>

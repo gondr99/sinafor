@@ -203,6 +203,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/HeaderComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/HeaderComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "HeaderComponent",
+  props: {
+    'title': String
+  },
+  data: function data() {
+    return {
+      nav: false
+    };
+  },
+  methods: {
+    toggle: function toggle() {
+      this.$emit("toggle");
+    },
+    toggleNav: function toggleNav() {
+      this.nav = !this.nav;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SkillApp.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SkillApp.vue?vue&type=script&lang=js& ***!
@@ -216,6 +269,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _Admin_SkillComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Admin/SkillComponent */ "./resources/js/components/Admin/SkillComponent.vue");
+/* harmony import */ var _HeaderComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./HeaderComponent */ "./resources/js/components/HeaderComponent.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -271,26 +325,172 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SkillApp",
   components: {
-    'skill-component': _Admin_SkillComponent__WEBPACK_IMPORTED_MODULE_2__["default"]
+    'skill-component': _Admin_SkillComponent__WEBPACK_IMPORTED_MODULE_2__["default"],
+    'header-component': _HeaderComponent__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
       level1: undefined,
       level2: undefined,
       word: '',
-      skillList: []
+      searched: false,
+      skillList: [],
+      selectedSkillIdx: -1,
+      //set to -1
+      searchToggle: false,
+      page: 0,
+      //set to 0,
+      coords: {
+        latitude: 0,
+        longitude: 0
+      },
+      anotherLocation: 1
     };
   },
   mounted: function mounted() {
     this.loadData();
+    this.getCoords();
   },
   methods: {
-    //dev comment : 이미 수료를 완료한 과정에 대해서는 나타나지 않도록 정정해야 한다. -> 차후 개발(2020-09-20)
+    certifySkill: function certifySkill() {
+      if (this.selectedSkillIdx < 0) {
+        Swal.fire(this.trans('messages.must_select_skill'));
+        return;
+      }
+
+      this.page = 1;
+    },
+    loadLevel2: function loadLevel2(level1Id) {
+      this.level1 = level1Id;
+    },
+    loadSkill: function loadSkill(level2Id) {
+      this.level2 = level2Id;
+    },
     loadData: function loadData() {
       var _this = this;
 
@@ -317,36 +517,139 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this.$store.commit('refreshSkillList', res.data);
 
-                _context.next = 14;
-                break;
+                _context.next = 11;
+                return axios.get('/state');
 
               case 11:
-                _context.prev = 11;
+                res = _context.sent;
+
+                _this.$store.commit('refreshStateList', res.data);
+
+                _context.next = 18;
+                break;
+
+              case 15:
+                _context.prev = 15;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
 
-              case 14:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 11]]);
+        }, _callee, null, [[0, 15]]);
       }))();
     },
     searchSkill: function searchSkill() {
       var _this2 = this;
 
-      this.skillList = this.$store.state.skillList.filter(function (x) {
-        return x.name.includes(_this2.word);
+      if (this.word !== "") {
+        this.searched = true;
+        this.skillList = this.$store.state.skillList.filter(function (x) {
+          return x.name.includes(_this2.word);
+        });
+      } else {
+        this.searched = false;
+        this.skillList = [];
+      }
+    },
+    back: function back() {
+      if (this.level2 === undefined) {
+        this.level1 = undefined;
+      } else {
+        this.selectedSkillIdx = -1;
+        this.level2 = undefined;
+      }
+    },
+    backToList: function backToList() {
+      this.level1 = undefined;
+      this.level2 = undefined;
+      this.selectedSkillIdx = -1;
+      this.page = 0;
+    },
+    getCoords: function getCoords() {
+      var _this3 = this;
+
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function (p) {
+          _this3.coords.latitude = p.coords.latitude;
+          _this3.coords.longitude = p.coords.longitude;
+        });
+      }
+    },
+    startCertify: function startCertify() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var result;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _this4.checkSure();
+
+              case 2:
+                result = _context3.sent;
+
+                if (result.isConfirmed) {
+                  axios.put("/skill/register/".concat(_this4.selectedSkillIdx), {
+                    state: _this4.anotherLocation,
+                    date: _this4.today
+                  }).then( /*#__PURE__*/function () {
+                    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(res) {
+                      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+                        while (1) {
+                          switch (_context2.prev = _context2.next) {
+                            case 0:
+                              _context2.next = 2;
+                              return Swal.fire(res.data.msg);
+
+                            case 2:
+                              _this4.backToList();
+
+                            case 3:
+                            case "end":
+                              return _context2.stop();
+                          }
+                        }
+                      }, _callee2);
+                    }));
+
+                    return function (_x) {
+                      return _ref.apply(this, arguments);
+                    };
+                  }())["catch"](function (err) {
+                    console.log(err);
+                  });
+                }
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    checkSure: function checkSure() {
+      return Swal.fire({
+        title: this.trans('messages.skill_register'),
+        text: this.trans('messages.sure'),
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: this.trans('messages.yes'),
+        cancelButtonText: this.trans('messages.cancel')
       });
     }
   },
   watch: {
     level2: function level2() {
-      var _this3 = this;
+      var _this5 = this;
 
       this.skillList = this.$store.state.skillList.filter(function (x) {
-        return x.belongs == _this3.level2;
+        return x.belongs == _this5.level2;
       });
     }
   },
@@ -355,10 +658,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return state.levelList;
     },
     level2List: function level2List(state) {
-      var _this4 = this;
+      var _this6 = this;
 
       var item = state.levelList.find(function (x) {
-        return x.id == _this4.level1;
+        return x.id === _this6.level1;
       });
 
       if (item !== undefined) {
@@ -367,12 +670,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return [];
       }
     },
-    selectedLevel: function selectedLevel(state) {
-      var _this5 = this;
+    stateList: function stateList(state) {
+      return state.stateList;
+    },
+    selectedLevel2: function selectedLevel2(state) {
+      var _this7 = this;
 
-      return state.levelList.find(function (x) {
-        return x.id == _this5.level1;
+      return this.level2List.find(function (x) {
+        return x.id === _this7.level2;
       });
+    },
+    selectedSkillInfo: function selectedSkillInfo(state) {
+      var _this8 = this;
+
+      var skill = state.skillList.find(function (x) {
+        return x.id === _this8.selectedSkillIdx;
+      });
+
+      if (skill !== undefined) {
+        skill.level1 = state.levelList.find(function (lv1) {
+          return lv1.two.find(function (lv2) {
+            return lv2.id === skill.belongs;
+          }) !== undefined;
+        });
+        skill.level2 = skill.level1.two.find(function (lv2) {
+          return lv2.id === skill.belongs;
+        });
+        return skill;
+      } else {
+        return undefined;
+      }
+    },
+    today: function today(state) {
+      var d = new Date();
+      return "".concat(d.getFullYear(), "-").concat((d.getMonth() + 1).zeroFormat(2), "-").concat(d.getDate().zeroFormat(2));
     }
   })
 });
@@ -398,6 +729,25 @@ exports.push([module.i, "\n.card > .img-box {\n    position: relative;\n}\n.card
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.header[data-v-153bfd55] {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    height: 50px;\n    color:#fff;\n}\n.logo-title[data-v-153bfd55] {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    height:100%;\n}\n.logo-title > i[data-v-153bfd55] {\n    font-size:20px;\n    margin-right: 5px;\n}\n.logo-title > span[data-v-153bfd55] {\n    font-size:25px;\n}\n.dot-menu[data-v-153bfd55] {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    height:100%;\n    font-size:20px;\n}\n.dot-menu > i[data-v-153bfd55] {\n    cursor: pointer;\n}\n.dot-nav-menu[data-v-153bfd55] {\n    position: absolute;\n    top:50px;\n    right:0;\n    background-color: #fff;\n    border-radius: 0.5rem;\n    z-index: 10;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SkillApp.vue?vue&type=style&index=0&id=df13510a&scoped=true&lang=css&":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SkillApp.vue?vue&type=style&index=0&id=df13510a&scoped=true&lang=css& ***!
@@ -410,7 +760,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#skillList[data-v-df13510a] {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap:10px;\n}\n", ""]);
+exports.push([module.i, "\n.video-container[data-v-df13510a] {\n    width:100%;\n    margin:20px 0;\n}\n.skill-list[data-v-df13510a] {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-auto-rows: 150px;\n    gap:20px;\n}\n.skill-level-list[data-v-df13510a] {\n    border-radius: 0.5rem;\n    background-size: cover;\n    cursor: pointer;\n    position: relative;\n    box-shadow: 2px 2px 2px rgba(0,0,0, 0.3);\n}\n.title-box[data-v-df13510a] {\n    position: absolute;\n    bottom:15px;\n    right: 15px;\n    color:#fff;\n    background-color: rgba(0,0,0, 0.5);\n}\n.skill-page[data-v-df13510a] {\n    display: flex;\n    flex-direction: column;\n}\n.skill-page > .image-container[data-v-df13510a] {\n    width: 100%;\n    height:250px;\n    position: relative;\n    background-size: cover;\n}\n.desc-container[data-v-df13510a] {\n    padding:0.25rem 0.7rem;\n}\n.contained-skill-list[data-v-df13510a]{\n    display: grid;\n    grid-gap:20px;\n    padding:0.25rem 0.7rem;\n    grid-template-columns: 1fr 1fr;\n    grid-auto-rows: 50px;\n}\n.skill-item[data-v-df13510a] {\n    padding:8px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    border-radius: 0.5rem;\n    color:#fff;\n}\n.certify-page[data-v-df13510a] {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-gap:15px;\n}\n.logo-container > i[data-v-df13510a] {\n    font-size:30px;\n    color: #3352ff;\n}\n", ""]);
 
 // exports
 
@@ -1293,6 +1643,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SkillApp.vue?vue&type=style&index=0&id=df13510a&scoped=true&lang=css&":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SkillApp.vue?vue&type=style&index=0&id=df13510a&scoped=true&lang=css& ***!
@@ -1952,6 +2332,71 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/HeaderComponent.vue?vue&type=template&id=153bfd55&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/HeaderComponent.vue?vue&type=template&id=153bfd55&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "bg-info header px-2" },
+    [
+      _c("div", { staticClass: "logo-title" }, [
+        _c("i", { staticClass: "far fa-lightbulb" }),
+        _vm._v(" "),
+        _c("span", [_vm._v(_vm._s(_vm.title))])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "dot-menu" }, [
+        _c("i", {
+          staticClass: "fas fa-search mr-4",
+          on: { click: _vm.toggle }
+        }),
+        _vm._v(" "),
+        _c("i", {
+          staticClass: "fas fa-ellipsis-v",
+          on: { click: _vm.toggleNav }
+        })
+      ]),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "fade" } }, [
+        _vm.nav
+          ? _c("div", { staticClass: "dot-nav-menu" }, [
+              _c("nav", { staticClass: "nav flex-column" }, [
+                _c("a", { staticClass: "nav-link", attrs: { href: "/main" } }, [
+                  _vm._v(_vm._s(_vm.trans("menu.goto_main")))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  { staticClass: "nav-link", attrs: { href: "/user/mypage" } },
+                  [_vm._v(_vm._s(_vm.trans("menu.my_page")))]
+                )
+              ])
+            ])
+          : _vm._e()
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SkillApp.vue?vue&type=template&id=df13510a&scoped=true&":
 /*!***********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SkillApp.vue?vue&type=template&id=df13510a&scoped=true& ***!
@@ -1967,167 +2412,640 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "form-row" }, [
-              _c("div", { staticClass: "form-group col-md-6" }, [
-                _c("label", { attrs: { for: "inputLevel1" } }, [
-                  _vm._v(_vm._s(_vm.trans("title.skill_level_one_list")))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.level1,
-                        expression: "level1"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { id: "inputLevel1" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.level1 = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.levelList, function(level) {
-                    return _c("option", { domProps: { value: level.id } }, [
-                      _vm._v(_vm._s(level.name))
-                    ])
-                  }),
-                  0
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group col-md-6" }, [
-                _c("label", { attrs: { for: "inputLevel2" } }, [
-                  _vm._v(_vm._s(_vm.trans("title.skill_level_two_list")))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.level2,
-                        expression: "level2"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { id: "inputLevel2" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.level2 = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.level2List, function(level) {
-                    return _c("option", { domProps: { value: level.id } }, [
-                      _vm._v(_vm._s(level.name))
-                    ])
-                  }),
-                  0
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-row" }, [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "searchInput" } }, [
-                  _vm._v(_vm._s(_vm.trans("title.skill_search")))
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group mb-3" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.word,
-                    expression: "word"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  placeholder: _vm.trans("placeholder.skill_name"),
-                  id: "searchInput"
-                },
-                domProps: { value: _vm.word },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.word = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "input-group-append" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-outline-secondary",
-                    attrs: { type: "button" },
-                    on: { click: _vm.searchSkill }
-                  },
-                  [_vm._v(_vm._s(_vm.trans("menu.search")))]
-                )
-              ])
-            ])
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
+  return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "row" }, [
       _c(
         "div",
-        { staticClass: "col-12", attrs: { id: "skillList" } },
-        _vm._l(_vm.skillList, function(skill) {
-          return _c("skill-component", {
-            key: skill.id,
-            attrs: { admin: false, item: skill }
+        { staticClass: "col-12 p-0" },
+        [
+          _c("header-component", {
+            attrs: { title: _vm.trans("title.skill_register_title") },
+            on: {
+              toggle: function($event) {
+                _vm.searchToggle = !_vm.searchToggle
+              }
+            }
           })
-        }),
+        ],
         1
       )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12 p-0" }, [
+        _c("div", { staticClass: "card" }, [
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
+              _c("transition", { attrs: { name: "fade" } }, [
+                _vm.searchToggle
+                  ? _c("div", { staticClass: "input-group mb-3" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.word,
+                            expression: "word"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          placeholder: _vm.trans("title.skill_search"),
+                          id: "searchInput"
+                        },
+                        domProps: { value: _vm.word },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.word = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "input-group-append" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-outline-secondary",
+                            attrs: { type: "button" },
+                            on: { click: _vm.searchSkill }
+                          },
+                          [_vm._v(_vm._s(_vm.trans("menu.search")))]
+                        )
+                      ])
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm.page === 0
+                ? _c("div", { staticClass: "search-page" }, [
+                    _vm.level1 === undefined && !_vm.searched
+                      ? _c("div", { staticClass: "video-container" }, [
+                          _vm._m(0)
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "skill-select-container" },
+                      [
+                        _c(
+                          "transition",
+                          { attrs: { name: "fade", mode: "out-in" } },
+                          [
+                            _vm.level1 === undefined && !_vm.searched
+                              ? _c(
+                                  "div",
+                                  { staticClass: "skill-list" },
+                                  _vm._l(_vm.levelList, function(level) {
+                                    return _c(
+                                      "div",
+                                      {
+                                        staticClass: "skill-level-list",
+                                        style:
+                                          "background-image:url('/images/skills/" +
+                                          level.image +
+                                          "')",
+                                        on: {
+                                          click: function($event) {
+                                            $event.stopPropagation()
+                                            return _vm.loadLevel2(level.id)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "title-box" },
+                                          [
+                                            _c("h4", { staticClass: "title" }, [
+                                              _vm._v(_vm._s(level.name))
+                                            ])
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  }),
+                                  0
+                                )
+                              : _vm.level1 !== undefined && !_vm.searched
+                              ? _c("div", { staticClass: "second-grid" }, [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "menu-bar d-flex justify-content-end mb-3"
+                                    },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "btn btn-sm btn-outline-success mr-2",
+                                          on: { click: _vm.backToList }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(_vm.trans("menu.go_first"))
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "btn btn-sm btn-outline-primary",
+                                          on: { click: _vm.back }
+                                        },
+                                        [_vm._v(_vm._s(_vm.trans("menu.back")))]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm.level2 === undefined && !_vm.searched
+                                    ? _c(
+                                        "div",
+                                        { staticClass: "skill-list" },
+                                        _vm._l(_vm.level2List, function(level) {
+                                          return _c(
+                                            "div",
+                                            {
+                                              staticClass: "skill-level-list",
+                                              style:
+                                                "background-image:url('/images/skills/" +
+                                                level.image +
+                                                "')",
+                                              on: {
+                                                click: function($event) {
+                                                  $event.stopPropagation()
+                                                  return _vm.loadSkill(level.id)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                { staticClass: "title-box" },
+                                                [
+                                                  _c(
+                                                    "h4",
+                                                    { staticClass: "title" },
+                                                    [_vm._v(_vm._s(level.name))]
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        }),
+                                        0
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.level2 !== undefined && !_vm.searched
+                                    ? _c("div", { staticClass: "skill-page" }, [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass: "image-container",
+                                            style:
+                                              "background-image:url(/images/skills/" +
+                                              _vm.selectedLevel2.image +
+                                              ")"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "title-box" },
+                                              [
+                                                _c(
+                                                  "h4",
+                                                  { staticClass: "title" },
+                                                  [
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        _vm.selectedLevel2.name
+                                                      )
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "desc-container" },
+                                          [
+                                            _c("p", [
+                                              _vm._v(
+                                                "\n                                                    " +
+                                                  _vm._s(
+                                                    _vm.selectedLevel2.desc
+                                                  ) +
+                                                  "\n                                                "
+                                              )
+                                            ])
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "contained-skill-list mb-4"
+                                          },
+                                          _vm._l(_vm.skillList, function(
+                                            skill
+                                          ) {
+                                            return _c(
+                                              "div",
+                                              {
+                                                key: skill.id,
+                                                staticClass: "skill-item",
+                                                class: {
+                                                  "bg-danger":
+                                                    _vm.selectedSkillIdx ===
+                                                    skill.id,
+                                                  "bg-primary":
+                                                    _vm.selectedSkillIdx !==
+                                                    skill.id
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.selectedSkillIdx =
+                                                      skill.id
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                                    " +
+                                                    _vm._s(skill.name) +
+                                                    "\n                                                "
+                                                )
+                                              ]
+                                            )
+                                          }),
+                                          0
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "certify-btn-container d-flex justify-content-center"
+                                          },
+                                          [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass:
+                                                  "btn btn-outline-primary",
+                                                on: { click: _vm.certifySkill }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm.trans(
+                                                      "menu.certify_this_skill"
+                                                    )
+                                                  )
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    : _vm._e()
+                                ])
+                              : _vm._e()
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.searched && _vm.skillList.length !== 0
+                          ? _c("div", { staticClass: "searched-page" }, [
+                              _c(
+                                "div",
+                                { staticClass: "contained-skill-list mb-4" },
+                                _vm._l(_vm.skillList, function(skill) {
+                                  return _c(
+                                    "div",
+                                    {
+                                      key: skill.id,
+                                      staticClass: "skill-item",
+                                      class: {
+                                        "bg-danger":
+                                          _vm.selectedSkillIdx === skill.id,
+                                        "bg-primary":
+                                          _vm.selectedSkillIdx !== skill.id
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.selectedSkillIdx = skill.id
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(skill.name) +
+                                          "\n                                        "
+                                      )
+                                    ]
+                                  )
+                                }),
+                                0
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "certify-btn-container d-flex justify-content-center"
+                                },
+                                [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-outline-primary",
+                                      on: { click: _vm.certifySkill }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.trans("menu.certify_this_skill")
+                                        )
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ])
+                          : _vm.searched
+                          ? _c("div", { staticClass: "searched-page" }, [
+                              _c("p", [
+                                _vm._v(
+                                  _vm._s(_vm.trans("messages.list_is_empty"))
+                                )
+                              ])
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ])
+                : _vm.page === 1 && _vm.selectedSkillInfo !== undefined
+                ? _c("div", { staticClass: "certify-page" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "skill-info-container" }, [
+                      _c("div", { staticClass: "form-row" }, [
+                        _c("div", { staticClass: "form-group col-12" }, [
+                          _c("label", { attrs: { for: "category1" } }, [
+                            _vm._v(_vm._s(_vm.trans("title.category_level1")))
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              id: "category1",
+                              readonly: ""
+                            },
+                            domProps: {
+                              value: _vm.selectedSkillInfo.level1.name
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-12" }, [
+                          _c("label", { attrs: { for: "category2" } }, [
+                            _vm._v(_vm._s(_vm.trans("title.category_level2")))
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              id: "category2",
+                              readonly: ""
+                            },
+                            domProps: {
+                              value: _vm.selectedSkillInfo.level2.name
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-12" }, [
+                          _c("label", { attrs: { for: "skillTitle" } }, [
+                            _vm._v(_vm._s(_vm.trans("title.skill_title")))
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              id: "skillTitle",
+                              readonly: ""
+                            },
+                            domProps: { value: _vm.selectedSkillInfo.name }
+                          })
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-container my-2" }, [
+                      _c("p", [
+                        _vm._v(_vm._s(_vm.trans("title.your_position")))
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-row" }, [
+                        _c("div", { staticClass: "form-group col-6" }, [
+                          _c("label", { attrs: { for: "latitude" } }, [
+                            _vm._v("Latitude")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              id: "latitude",
+                              readonly: ""
+                            },
+                            domProps: { value: _vm.coords.latitude }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-6" }, [
+                          _c("label", { attrs: { for: "longitude" } }, [
+                            _vm._v("Latitude")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              id: "longitude",
+                              readonly: ""
+                            },
+                            domProps: { value: _vm.coords.longitude }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          _vm._s(_vm.trans("title.another_location_message"))
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-row" }, [
+                        _c("div", { staticClass: "form-group col-12" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.anotherLocation,
+                                  expression: "anotherLocation"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.anotherLocation = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            _vm._l(_vm.stateList, function(state) {
+                              return _c(
+                                "option",
+                                {
+                                  key: state.id,
+                                  domProps: { value: state.id }
+                                },
+                                [_vm._v(_vm._s(state.name))]
+                              )
+                            }),
+                            0
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-row" }, [
+                        _c("div", { staticClass: "form-group col-12" }, [
+                          _c("div", { staticClass: "form-group col-12" }, [
+                            _c("label", { attrs: { for: "applicationDate" } }, [
+                              _vm._v(
+                                _vm._s(_vm.trans("title.application_date"))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              staticClass: "form-control",
+                              attrs: {
+                                type: "date",
+                                id: "applicationDate",
+                                readonly: ""
+                              },
+                              domProps: { value: _vm.today }
+                            })
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-row" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "col-12 d-flex justify-content-center"
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-outline-primary mr-2",
+                                on: { click: _vm.startCertify }
+                              },
+                              [_vm._v(_vm._s(_vm.trans("menu.start")))]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-outline-danger",
+                                on: { click: _vm.backToList }
+                              },
+                              [_vm._v(_vm._s(_vm.trans("menu.go_first")))]
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                : _vm._e()
+            ],
+            1
+          )
+        ])
+      ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "video",
+      { attrs: { loop: "loop", controls: "", preload: "auto", width: "100%" } },
+      [
+        _c("source", {
+          attrs: {
+            src: "/videos/static/certification_video_sample.mp4",
+            type: "video/mp4"
+          }
+        }),
+        _vm._v(" "),
+        _c("img", { attrs: { src: "/images/not/404.jpg", alt: "404" } })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "logo-container d-flex justify-content-center align-items-center"
+      },
+      [_c("i", { staticClass: "far fa-id-card" })]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -3625,6 +4543,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/HeaderComponent.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/HeaderComponent.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _HeaderComponent_vue_vue_type_template_id_153bfd55_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HeaderComponent.vue?vue&type=template&id=153bfd55&scoped=true& */ "./resources/js/components/HeaderComponent.vue?vue&type=template&id=153bfd55&scoped=true&");
+/* harmony import */ var _HeaderComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HeaderComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/HeaderComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _HeaderComponent_vue_vue_type_style_index_0_id_153bfd55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css& */ "./resources/js/components/HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _HeaderComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _HeaderComponent_vue_vue_type_template_id_153bfd55_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _HeaderComponent_vue_vue_type_template_id_153bfd55_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "153bfd55",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/HeaderComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/HeaderComponent.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/HeaderComponent.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./HeaderComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/HeaderComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css&":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/components/HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css& ***!
+  \**************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_style_index_0_id_153bfd55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/HeaderComponent.vue?vue&type=style&index=0&id=153bfd55&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_style_index_0_id_153bfd55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_style_index_0_id_153bfd55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_style_index_0_id_153bfd55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_style_index_0_id_153bfd55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_style_index_0_id_153bfd55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/HeaderComponent.vue?vue&type=template&id=153bfd55&scoped=true&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/HeaderComponent.vue?vue&type=template&id=153bfd55&scoped=true& ***!
+  \************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_template_id_153bfd55_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./HeaderComponent.vue?vue&type=template&id=153bfd55&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/HeaderComponent.vue?vue&type=template&id=153bfd55&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_template_id_153bfd55_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_HeaderComponent_vue_vue_type_template_id_153bfd55_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/SkillApp.vue":
 /*!**********************************************!*\
   !*** ./resources/js/components/SkillApp.vue ***!
@@ -3731,7 +4736,8 @@ Vue.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]); //using vuex for state ma
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     levelList: [],
-    skillList: []
+    skillList: [],
+    stateList: []
   },
   mutations: {
     refreshLevels: function refreshLevels(state, list) {
@@ -3739,6 +4745,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     refreshSkillList: function refreshSkillList(state, list) {
       state.skillList = list;
+    },
+    refreshStateList: function refreshStateList(state, list) {
+      state.stateList = list;
     } // addSkill(state, item){
     //     state.skillList = [...state.skillList, item];
     // },
