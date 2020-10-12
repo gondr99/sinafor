@@ -64,5 +64,9 @@ return [
     'participant' => 'Participant',
     'certification' => 'Certification',
     'save' => 'Save',
-    'upload' => 'Upload'
+    'upload' => 'Upload',
+    'certifications_requests'=> 'Certifications requests',
+    'answer_inquiries' => 'Answer inquiries',
+    'accept_apply' => 'Accept apply',
+    'update_phase' => 'Update'
 ];

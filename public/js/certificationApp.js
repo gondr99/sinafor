@@ -232,6 +232,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CertificationApp",
@@ -245,6 +266,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       _this.certificationList = res.data;
     });
     this.statusName = window.statusName;
+    this.phaseList = window.phaseList;
   },
   methods: {
     searchCertification: function searchCertification() {},
@@ -253,34 +275,75 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.viewSkill = null;
       this.loadSkillDetail(id);
     },
-    loadSkillDetail: function loadSkillDetail(id) {
+    //비디오 업로드 버튼
+    addVideo: function addVideo() {
+      this.$refs.videoFile.click();
+    },
+    //실제 업로딩
+    uploadVideos: function uploadVideos() {
       var _this2 = this;
 
+      var file = this.$refs.videoFile.files[0];
+
+      if (file.size > 50000000) {
+        //more than 50Mbyte
+        Swal.fire(this.trans('messages.filesize_exceed'));
+        return;
+      }
+
+      var formData = new FormData();
+      formData.append('file', file);
+      formData.append('skillId', this.viewSkill.id);
+      axios.post('/skill/video', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+      }).then(function (res) {
+        _this2.loadSkillDetail(_this2.viewSkill.id);
+      });
+    },
+    deleteVideo: function deleteVideo(id) {
+      var _this3 = this;
+
+      axios["delete"]("/skill/video/".concat(id)).then(function (res) {
+        _this3.loadSkillDetail(_this3.viewSkill.id);
+      });
+    },
+    loadSkillDetail: function loadSkillDetail(id) {
+      var _this4 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var skill;
+        var skill, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                skill = _this2.certificationList.find(function (x) {
+                _this4.viewSkill = null;
+                skill = _this4.certificationList.find(function (x) {
                   return x.id === id;
-                }); //전문가와 매칭이 완료된 상태라면 세부데이터도 가져온다.
+                }); // 만약 추가적으로 Detail에 관한 히스토리를 봐야한다면 이부분을 주석해제하고 변경해야 한다.
+                // if(skill.phase > 0){
+                //     let res = await axios.get(`/user/skill_detail/${skill.id}`);
+                //     skill.detail = res.data.detail;
+                // }
 
-                if (!(skill.status > 0)) {
-                  _context.next = 5;
+                if (!(skill.phase === 4)) {
+                  _context.next = 7;
                   break;
                 }
 
-                _context.next = 4;
-                return axios.get("/user/skill_detail/".concat(skill.id));
-
-              case 4:
-                skill.detail = _context.sent;
+                _context.next = 5;
+                return axios.get("/skill/video/".concat(id));
 
               case 5:
-                _this2.viewSkill = skill;
+                res = _context.sent;
+                skill.videoList = res.data;
 
-              case 6:
+              case 7:
+                _this4.viewSkill = skill;
+
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -291,30 +354,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      phaseList: [{
-        id: 1,
-        name: 'Phase1',
-        icon: 'far fa-id-card'
-      }, {
-        id: 2,
-        name: 'Phase2',
-        icon: 'far fa-handshake'
-      }, {
-        id: 3,
-        name: 'Phase3',
-        icon: 'far fa-file-word'
-      }, {
-        id: 4,
-        name: 'Phase4',
-        icon: 'far fa-file-video'
-      }],
-      statusName: ['Applying', 'Phase1', 'Phase2', 'Phase3', 'Phase4', 'Wait for Expert'],
+      phaseList: [],
+      statusName: [],
       searchToggle: false,
       word: '',
       mode: 0,
       certificationList: [],
       viewSkill: {}
     };
+  },
+  computed: {
+    phases: function phases() {
+      return this.phaseList.slice(1); //맨 처음 것은 applying이라 제거
+    }
   }
 });
 
@@ -385,7 +437,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.certification-list[data-v-13cd1c1c] {\n    display: grid;\n    grid-template-columns: 1fr;\n    gap:20px;\n}\n.certification-box[data-v-13cd1c1c] {\n    border-radius: 0.75rem;\n    box-shadow: 2px 2px 2px 2px rgba(0,0,0, 0.2);\n    display: grid;\n    grid-template-columns: 1fr;\n}\n.skill-content[data-v-13cd1c1c] {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-gap:20px;\n}\n.info-bar[data-v-13cd1c1c] {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n}\n.button-row[data-v-13cd1c1c] {\n    display: flex;\n    justify-content: center;\n}\n.phase-indicator[data-v-13cd1c1c] {\n    display: grid;\n    grid-template-columns: repeat(4, 1fr);\n    grid-gap:20px;\n}\n.phase-icon[data-v-13cd1c1c] {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-auto-rows: 60px 30px;\n}\n.phase-icon > div[data-v-13cd1c1c] {\n    width:100%;\n    height:100%;\n    display: flex;\n    justify-content: center;\n}\n.phase-icon > .icon > i[data-v-13cd1c1c]{\n    font-size:40px;\n}\n.phase-icon.disable[data-v-13cd1c1c] {\n    color:#ddd;\n}\n.phase-icon.active[data-v-13cd1c1c] {\n    color:#3f9ae5;\n}\n.detail-info[data-v-13cd1c1c] {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-gap:20px;\n}\n", ""]);
+exports.push([module.i, "\n.skill-content[data-v-13cd1c1c] {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-gap:20px;\n}\n.info-bar[data-v-13cd1c1c] {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n}\n.button-row[data-v-13cd1c1c] {\n    display: flex;\n    justify-content: center;\n}\n.phase-indicator[data-v-13cd1c1c] {\n    display: grid;\n    grid-template-columns: repeat(4, 1fr);\n    grid-gap:20px;\n}\n.phase-icon[data-v-13cd1c1c] {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-auto-rows: 60px 30px;\n}\n.phase-icon > div[data-v-13cd1c1c] {\n    width:100%;\n    height:100%;\n    display: flex;\n    justify-content: center;\n}\n.phase-icon > .icon > i[data-v-13cd1c1c]{\n    font-size:40px;\n}\n.phase-icon.disable[data-v-13cd1c1c] {\n    color:#ddd;\n}\n.phase-icon.active[data-v-13cd1c1c] {\n    color:#3f9ae5;\n}\n.detail-info[data-v-13cd1c1c] {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-gap:20px;\n}\n.hidden[data-v-13cd1c1c] {\n    display: none;\n}\n.video-upload > .menu-bar > i[data-v-13cd1c1c] {\n    font-size:25px;\n    cursor: pointer;\n}\n.video-list[data-v-13cd1c1c] {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    grid-auto-rows: 150px;\n    grid-gap:20px;\n}\n.video-container[data-v-13cd1c1c] {\n    display: flex;\n    flex-direction: column;\n    height:100%;\n    width:100%;\n    border-radius: 5px;\n    overflow: hidden;\n}\n.video-container > .video-header[data-v-13cd1c1c] {\n    display: flex;\n    align-items: center;\n    justify-content: flex-end;\n    height:40px;\n    font-size:25px;\n}\n.video-container > video[data-v-13cd1c1c] {\n    flex:1;\n    width:100%;\n    height:calc(100% - 40px);\n}\n", ""]);
 
 // exports
 
@@ -1938,23 +1990,49 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              _c("div", { staticClass: "tags" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "tag bg-dark text-white" },
-                                  [
-                                    _vm._v(
-                                      _vm._s(_vm.trans("title.skill_status"))
+                              c.phase === 0
+                                ? _c("div", { staticClass: "tags" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "tag bg-dark text-white" },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.trans("title.skill_status")
+                                          )
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "tag bg-danger text-white"
+                                      },
+                                      [_vm._v(_vm._s(_vm.phaseList[0].name))]
                                     )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "tag bg-danger text-white" },
-                                  [_vm._v(_vm._s(_vm.statusName[c.status]))]
-                                )
-                              ])
+                                  ])
+                                : c.phase >= 1
+                                ? _c("div", { staticClass: "tags" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "tag bg-dark text-white" },
+                                      [
+                                        _vm._v(
+                                          _vm._s(_vm.phaseList[c.phase].name)
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "tag bg-danger text-white"
+                                      },
+                                      [_vm._v(_vm._s(_vm.statusName[c.status]))]
+                                    )
+                                  ])
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "title" }, [
@@ -1997,19 +2075,15 @@ var render = function() {
                             _c(
                               "div",
                               { staticClass: "phase-indicator" },
-                              _vm._l(_vm.phaseList, function(p) {
+                              _vm._l(_vm.phases, function(p) {
                                 return _c(
                                   "div",
                                   {
                                     key: p.id,
                                     staticClass: "phase-icon",
                                     class: {
-                                      active:
-                                        _vm.viewSkill.detail !== undefined &&
-                                        _vm.viewSkill.detail.phase === p.id,
-                                      disable:
-                                        _vm.viewSkill.detail !== undefined &&
-                                        _vm.viewSkill.detail.phase < p.id
+                                      active: _vm.viewSkill.phase === p.id,
+                                      disable: _vm.viewSkill.phase < p.id
                                     }
                                   },
                                   [
@@ -2027,29 +2101,57 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "status-indicator" }, [
-                              _c("div", { staticClass: "tags" }, [
-                                _c(
-                                  "span",
-                                  { staticClass: "tag bg-dark text-white" },
-                                  [
-                                    _vm._v(
-                                      _vm._s(_vm.trans("title.skill_status"))
+                              _vm.viewSkill.phase === 0
+                                ? _c("div", { staticClass: "tags" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "tag bg-dark text-white" },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.trans("title.skill_status")
+                                          )
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "tag bg-danger text-white"
+                                      },
+                                      [_vm._v(_vm._s(_vm.phaseList[0].name))]
                                     )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "tag bg-danger text-white" },
-                                  [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm.statusName[_vm.viewSkill.status]
-                                      )
+                                  ])
+                                : _vm.viewSkill.phase >= 1
+                                ? _c("div", { staticClass: "tags" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "tag bg-dark text-white" },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.trans("title.skill_status")
+                                          )
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "tag bg-danger text-white"
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.statusName[_vm.viewSkill.status]
+                                          )
+                                        )
+                                      ]
                                     )
-                                  ]
-                                )
-                              ])
+                                  ])
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "detail-info" }, [
@@ -2088,43 +2190,7 @@ var render = function() {
                                         )
                                       ]
                                     )
-                                  ]),
-                                  _vm._v(" "),
-                                  _vm.viewSkill.detail !== undefined
-                                    ? _c("div", { staticClass: "tags" }, [
-                                        _c(
-                                          "span",
-                                          {
-                                            staticClass:
-                                              "tag bg-dark text-white"
-                                          },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.trans("title.date_applied")
-                                              )
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "span",
-                                          {
-                                            staticClass:
-                                              "tag bg-danger text-white"
-                                          },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.statusName[
-                                                  _vm.viewSkill.detail.status
-                                                ]
-                                              )
-                                            )
-                                          ]
-                                        )
-                                      ])
-                                    : _vm._e()
+                                  ])
                                 ]
                               ),
                               _vm._v(" "),
@@ -2133,22 +2199,98 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("div", { staticClass: "detail" }, [
-                                _vm.viewSkill.detail !== undefined
+                                _vm.viewSkill.detail !== ""
                                   ? _c("p", [
-                                      _vm._v(
-                                        _vm._s(_vm.viewSkill.detail.detail)
-                                      )
+                                      _vm._v(_vm._s(_vm.viewSkill.detail))
                                     ])
                                   : _c("p", [
                                       _vm._v(
-                                        "\n                                            " +
+                                        "\n                                                " +
                                           _vm._s(
                                             _vm.trans("messages.wait_for_match")
                                           ) +
-                                          "\n                                        "
+                                          "\n                                            "
                                       )
                                     ])
-                              ])
+                              ]),
+                              _vm._v(" "),
+                              _vm.viewSkill.phase === 4
+                                ? _c("div", { staticClass: "video-upload" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "menu-bar text-right" },
+                                      [
+                                        _c("i", {
+                                          staticClass:
+                                            "far fa-plus-square text-danger",
+                                          on: { click: _vm.addVideo }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      ref: "videoFile",
+                                      staticClass: "hidden",
+                                      attrs: {
+                                        type: "file",
+                                        accept: "video/mp4,video/x-m4v,video/*"
+                                      },
+                                      on: { change: _vm.uploadVideos }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "video-list" },
+                                      _vm._l(_vm.viewSkill.videoList, function(
+                                        v
+                                      ) {
+                                        return _c(
+                                          "div",
+                                          {
+                                            key: v.id,
+                                            staticClass: "video-container"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "video-header bg-primary p-2"
+                                              },
+                                              [
+                                                _c("i", {
+                                                  staticClass:
+                                                    "far fa-window-close text-white",
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.deleteVideo(
+                                                        v.id
+                                                      )
+                                                    }
+                                                  }
+                                                })
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c("video", {
+                                              attrs: {
+                                                controls: "",
+                                                src:
+                                                  "/upload_video/" +
+                                                  v.user_id +
+                                                  "/" +
+                                                  v.skill_category_id +
+                                                  "/" +
+                                                  v.filename
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      }),
+                                      0
+                                    )
+                                  ])
+                                : _vm._e()
                             ]),
                             _vm._v(" "),
                             _c(

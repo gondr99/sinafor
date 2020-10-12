@@ -12,4 +12,5 @@ return [
     'skill_name' => 'Skill name',
     'choose_expert' => 'Choose expert',
     'search' => 'Search ...',
+    'find_certification' => 'Find certification'
 ];

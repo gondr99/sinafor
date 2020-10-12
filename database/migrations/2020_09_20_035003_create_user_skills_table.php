@@ -29,6 +29,8 @@ class CreateUserSkillsTable extends Migration
 
             $table->unsignedBigInteger('expert_id')->nullable();
             $table->unsignedBigInteger('state_id')->nullable();
+
+            $table->string('detail')->default('');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

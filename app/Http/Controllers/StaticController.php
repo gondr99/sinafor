@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\State;
+use App\UserSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -48,6 +49,22 @@ class StaticController extends Controller
 
     public function getFile(Request $req, $path, $filename)
     {
-        return Storage::download("/{$path}/" . $filename, );
+        return Storage::download("/{$path}/" . $filename );
+    }
+
+    public function getUploadVideo(Request $req, $userId, $skillId, $filename){
+        $user = auth()->user();
+
+        $userSkill = UserSkill::where([
+            ['user_id', '=', $userId],
+            ['skill_category_id', '=', $skillId]
+        ])->first();
+
+        if($userSkill->user_id === $user->id || $userSkill->expert_id === $user->id){
+            return Storage::download("/videos/" . $filename );
+        }
+
+        return response(__('messages.not_auth'), 403);
     }
 }
+

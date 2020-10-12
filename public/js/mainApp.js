@@ -125,6 +125,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "MainApp",
   mounted: function mounted() {
@@ -863,9 +870,25 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _vm.mode === 2
-        ? _c("div", { attrs: { id: "expertMenu" } }, [
-            _vm._v("\n            expert\n        ")
-          ])
+        ? _c(
+            "div",
+            { staticClass: "panel-grid my-2 p-3", attrs: { id: "expertMenu" } },
+            [
+              _c("div", { staticClass: "menu-panel bg-primary" }, [
+                _vm._m(4),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(_vm._s(_vm.trans("menu.certifications_requests")))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "menu-panel bg-info" }, [
+                _vm._m(5),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(_vm.trans("menu.answer_inquiries")))])
+              ])
+            ]
+          )
         : _vm._e()
     ])
   ])
@@ -901,6 +924,22 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("a", { attrs: { href: "/skill/register" } }, [
       _c("i", { staticClass: "fas fa-hands-helping" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "/expert/request" } }, [
+      _c("i", { staticClass: "fas fa-file-signature" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "/expert/answer" } }, [
+      _c("i", { staticClass: "fas fa-user-friends" })
     ])
   }
 ]

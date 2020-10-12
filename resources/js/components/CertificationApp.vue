@@ -30,8 +30,12 @@
                                                 <span class="tag bg-dark text-white">{{trans('title.date_applied')}}</span>
                                                 <span class="tag bg-primary text-white">{{c.created_at.substr(0, 10)}}</span>
                                             </div>
-                                            <div class="tags">
+                                            <div class="tags" v-if="c.phase === 0">
                                                 <span class="tag bg-dark text-white">{{trans('title.skill_status')}}</span>
+                                                <span class="tag bg-danger text-white">{{ phaseList[0].name }}</span>
+                                            </div>
+                                            <div class="tags" v-else-if="c.phase >= 1">
+                                                <span class="tag bg-dark text-white">{{phaseList[c.phase].name}}</span>
                                                 <span class="tag bg-danger text-white">{{ statusName[c.status] }}</span>
                                             </div>
                                         </div>
@@ -51,6 +55,7 @@
                             <div class="searched-list" v-else-if="mode === 1">
 
                             </div>
+
                             <div class="view-info" v-else-if="mode === 2">
                                 <div class="loading" v-if="viewSkill === null">
                                     <div class="spin-container"><i class="fas fa-spinner"></i></div>
@@ -58,7 +63,7 @@
 
                                 <div class="skill-content" v-if="viewSkill !== null">
                                     <div class="phase-indicator">
-                                        <div class="phase-icon" :class="{active:viewSkill.detail !== undefined && viewSkill.detail.phase === p.id, disable:viewSkill.detail !== undefined && viewSkill.detail.phase < p.id}" v-for="p in phaseList" :key="p.id">
+                                        <div class="phase-icon" :class="{active:viewSkill.phase === p.id, disable:viewSkill.phase < p.id}" v-for="p in phases" :key="p.id">
                                             <div class="icon">
                                                 <i :class="p.icon"></i>
                                             </div>
@@ -68,7 +73,11 @@
                                         </div>
                                     </div>
                                     <div class="status-indicator">
-                                        <div class="tags">
+                                        <div class="tags" v-if="viewSkill.phase === 0">
+                                            <span class="tag bg-dark text-white">{{trans('title.skill_status')}}</span>
+                                            <span class="tag bg-danger text-white">{{ phaseList[0].name }}</span>
+                                        </div>
+                                        <div class="tags" v-else-if="viewSkill.phase >= 1">
                                             <span class="tag bg-dark text-white">{{trans('title.skill_status')}}</span>
                                             <span class="tag bg-danger text-white">{{ statusName[viewSkill.status] }}</span>
                                         </div>
@@ -80,11 +89,6 @@
                                                 <span class="tag bg-dark text-white">{{trans('title.date_applied')}}</span>
                                                 <span class="tag bg-primary text-white">{{viewSkill.created_at.substr(0, 10)}}</span>
                                             </div>
-
-                                            <div class="tags" v-if="viewSkill.detail !== undefined">
-                                                <span class="tag bg-dark text-white">{{trans('title.date_applied')}}</span>
-                                                <span class="tag bg-danger text-white">{{statusName[viewSkill.detail.status]}}</span>
-                                            </div>
                                         </div>
 
                                         <div class="title">
@@ -92,10 +96,27 @@
                                         </div>
 
                                         <div class="detail">
-                                            <p v-if="viewSkill.detail !== undefined">{{viewSkill.detail.detail}}</p>
+                                            <p v-if="viewSkill.detail !== ''">{{viewSkill.detail}}</p>
                                             <p v-else>
                                                 {{trans('messages.wait_for_match')}}
                                             </p>
+                                        </div>
+
+<!--                                        video upload available only phase 4-->
+                                        <div class="video-upload" v-if="viewSkill.phase === 4">
+                                            <div class="menu-bar text-right">
+                                                <i class="far fa-plus-square text-danger" @click="addVideo" ></i>
+                                            </div>
+                                            <input type="file" class="hidden" ref="videoFile" accept="video/mp4,video/x-m4v,video/*" @change="uploadVideos">
+                                            <div class="video-list">
+                                                <div class="video-container" v-for="v in viewSkill.videoList" :key="v.id">
+                                                    <div class="video-header bg-primary p-2">
+                                                        <i class="far fa-window-close text-white" @click="deleteVideo(v.id)"></i>
+                                                    </div>
+                                                    <video controls :src="`/upload_video/${v.user_id}/${v.skill_category_id}/${v.filename}`"></video>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center">
@@ -127,6 +148,7 @@
                 this.certificationList = res.data;
             });
             this.statusName = window.statusName;
+            this.phaseList = window.phaseList;
         },
         methods:{
             searchCertification(){
@@ -137,49 +159,71 @@
                 this.viewSkill = null;
                 this.loadSkillDetail(id);
             },
+            //비디오 업로드 버튼
+            addVideo(){
+                this.$refs.videoFile.click();
+            },
+            //실제 업로딩
+            uploadVideos(){
+                const file = this.$refs.videoFile.files[0];
+                if(file.size > 50000000){  //more than 50Mbyte
+                    Swal.fire(this.trans('messages.filesize_exceed'));
+                    return;
+                }
 
+                let formData = new FormData();
+                formData.append('file', file);
+                formData.append('skillId', this.viewSkill.id);
+
+                axios.post('/skill/video', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                }).then(res => {
+                    this.loadSkillDetail(this.viewSkill.id);
+                });
+            },
+            deleteVideo(id){
+                axios.delete(`/skill/video/${id}`).then(res => {
+                    this.loadSkillDetail(this.viewSkill.id);
+                });
+            },
             async loadSkillDetail(id){
-
+                this.viewSkill = null;
                 let skill = this.certificationList.find(x => x.id === id);
-                //전문가와 매칭이 완료된 상태라면 세부데이터도 가져온다.
-                if(skill.status > 0){
-                    skill.detail = await axios.get(`/user/skill_detail/${skill.id}`);
+                // 만약 추가적으로 Detail에 관한 히스토리를 봐야한다면 이부분을 주석해제하고 변경해야 한다.
+                // if(skill.phase > 0){
+                //     let res = await axios.get(`/user/skill_detail/${skill.id}`);
+                //     skill.detail = res.data.detail;
+                // }
+                if(skill.phase === 4){
+                    let res = await axios.get(`/skill/video/${id}`);
+                    skill.videoList = res.data;
                 }
                 this.viewSkill = skill;
             }
         },
         data(){
             return {
-                phaseList:[
-                    {id:1, name:'Phase1', icon:'far fa-id-card'},
-                    {id:2, name:'Phase2', icon:'far fa-handshake'},
-                    {id:3, name:'Phase3', icon:'far fa-file-word'},
-                    {id:4, name:'Phase4', icon:'far fa-file-video'},
-                ],
-                statusName:['Applying', 'Phase1', 'Phase2', 'Phase3', 'Phase4', 'Wait for Expert'],
+                phaseList:[],
+                statusName:[],
                 searchToggle:false,
                 word:'',
                 mode:0,
                 certificationList:[],
                 viewSkill:{}
             }
+        },
+        computed:{
+            phases(){
+                return this.phaseList.slice(1); //맨 처음 것은 applying이라 제거
+            }
         }
     }
 </script>
 
 <style scoped>
-    .certification-list {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap:20px;
-    }
-    .certification-box {
-        border-radius: 0.75rem;
-        box-shadow: 2px 2px 2px 2px rgba(0,0,0, 0.2);
-        display: grid;
-        grid-template-columns: 1fr;
-    }
-
 
     .skill-content {
         display: grid;
@@ -231,5 +275,44 @@
         display: grid;
         grid-template-columns: 1fr;
         grid-gap:20px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .video-upload > .menu-bar > i {
+        font-size:25px;
+        cursor: pointer;
+    }
+
+    .video-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 150px;
+        grid-gap:20px;
+    }
+
+    .video-container {
+        display: flex;
+        flex-direction: column;
+        height:100%;
+        width:100%;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .video-container > .video-header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height:40px;
+        font-size:25px;
+    }
+
+    .video-container > video {
+        flex:1;
+        width:100%;
+        height:calc(100% - 40px);
     }
 </style>

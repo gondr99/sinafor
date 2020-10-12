@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class PhaseInfo extends Model
 {
-    protected $fillable = ['user_id', 'expert_id', 'skill_category_id', 'phase', 'status', 'details'];
+    protected $fillable = ['user_id', 'expert_id', 'skill_category_id', 'phase', 'status', 'detail'];
 
 }

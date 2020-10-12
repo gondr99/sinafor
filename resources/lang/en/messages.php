@@ -36,5 +36,6 @@ return [
     'enter_category_name' => 'Enter new category name and image file',
     'must_select_skill' => 'Select skill first',
     'wait_for_match' => 'Your skill certification request is applying now, Please wait for match expert by manager',
-    'save_success' => 'Save Success!'
+    'save_success' => 'Save Success!',
+    'filesize_exceed' => 'File size exceed, file size must be lower than 50Mbyte',
 ];

@@ -21,8 +21,15 @@
 
             </div>
 
-            <div id="expertMenu" v-if="mode === 2">
-                expert
+            <div id="expertMenu" v-if="mode === 2" class="panel-grid my-2 p-3">
+                <div class="menu-panel bg-primary">
+                    <a href="/expert/request"><i class="fas fa-file-signature"></i></a>
+                    <p>{{trans('menu.certifications_requests')}}</p>
+                </div>
+                <div class="menu-panel bg-info">
+                    <a href="/expert/answer"><i class="fas fa-user-friends"></i></a>
+                    <p>{{trans('menu.answer_inquiries')}}</p>
+                </div>
             </div>
         </div>
     </div>

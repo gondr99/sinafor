@@ -58,6 +58,15 @@ Route::middleware(['emailVerify'])->group(function(){
 
         Route::get('/user/my_certification', 'CertificationController@index');
         Route::get('/user/skill_detail/{skillId}', 'CertificationController@getSkillDetail')->where('skillId', '[0-9]+');
+
+        //upload video on phase4
+        Route::post('/skill/video', 'CertificationController@uploadVideo');
+        //get video list on phase4
+        Route::get('/skill/video/{skillId}', 'CertificationController@getVideos')->where('skillId', '[0-9]+');
+
+        //upload video router 2 - 권한이 필요하다고 판단됨.
+        Route::get('/upload_video/{userId}/{skillId}/{filename}', 'StaticController@getUploadVideo')->where(['userId'=>'[0-9]+', 'skillId' =>'[0-9]+']);;
+        Route::delete('/skill/video/{videoId}', 'CertificationController@deleteVideo')->where('videoId', '[0-9]+');
     });
 
 //manager router
@@ -95,14 +104,21 @@ Route::middleware(['emailVerify'])->group(function(){
 //expert router
     Route::middleware(['checkExpert'])->group(function(){
         Route::get('/expert', 'ExpertController@index');
-        Route::get('/expert/skill', 'ExpertController@getSkillList');
+        //관리하고 있는 사용자들의 리스트를 가져온다.
+        Route::get('/expert/certificate', 'ExpertController@getCertificate');
+        //사용자를 확인한다.
         Route::put('/expert/confirm', 'ExpertController@confirmUser');
-        Route::put('/expert/certificate', 'ExpertController@certificateUser');
+        //사용자의 Status와 Detail을 업데이트 한다.
+        Route::post('/expert/update_detail', 'ExpertController@updateDetail');
+        //관리하는 Skill에 Phase4에서 올린 영상을 가져온다.
+        Route::get('/expert/video/{userId}/{skillId}', 'ExpertController@getVideoList')->where(['userId'=>'[0-9]+', 'skillId' =>'[0-9]+']);
 
-        // no more used ....지우기엔 너무 아까워...
-        //Route::get('/expert/skill/exam/{skillId}', 'ExpertController@getExamList')->where('skillId', '[0-9]+');
-        //Route::get('/expert/teach/{skillId}/{userId}', 'ExpertController@showUserLearningPage')->where('skillId', '[0-9]+')->where('userId', '[0-9]+');
-        //Route::get('/expert/progress/{skillId}/{userId}', 'ExpertController@getProgress')->where('skillId', '[0-9]+')->where('userId', '[0-9]+');
+
+
+        Route::put('/expert/certificate', 'ExpertController@certificateUser');
+        Route::get('/expert/request', 'ExpertController@index');
+
+
     });
 });
 
@@ -151,6 +167,8 @@ Route::get('/images/{path}/{filename}', 'StaticController@getImage')->where('pat
 
 //video router - 권한이 필요하다면 이부분을 미들웨어 안쪽으로 넣어야 한다.
 Route::get('/videos/{path}/{filename}', 'StaticController@getVideo')->where('path', '[a-z]+');
+
+
 
 //pdffile router
 Route::get('/file/{path}/{filename}', 'StaticController@getFile')->where('path', '[a-z]+');;
@@ -213,7 +231,14 @@ Route::get('/js/roleName.js', function(){
     echo("window.roleList = " . json_encode($arr, JSON_UNESCAPED_UNICODE) . ";");
     $arr = [0=>env('PENDING'), 1=>env('NOTAPPROVED'), 2=>env('APPROVED')];
     echo("window.statusName = " . json_encode($arr, JSON_UNESCAPED_UNICODE) . ";");
-    $arr = [ ['id'=>0, 'name'=>env('APPLYING')],  ['id'=>1, 'name'=>'phase1'], ['id'=>2, 'name'=>'phase2'], ['id'=>3, 'name'=>'phase3'], ['id'=>4, 'name'=>'phase4'] ];
+
+    $arr = [
+        ['id'=>0, 'name'=>env('APPLYING'), 'icon'=>'far fa-id-card'],
+        ['id'=>1, 'name'=>'Phase1', 'icon' => 'far fa-handshake'],
+        ['id'=>2, 'name'=>'Phase2', 'icon' => 'far fa-file-word'],
+        ['id'=>3, 'name'=>'Phase3', 'icon' => 'far fa-file-word'],
+        ['id'=>4, 'name'=>'Phase4', 'icon' => 'far fa-file-video']
+    ];
     echo("window.phaseList = " . json_encode($arr, JSON_UNESCAPED_UNICODE) . ";");
 });
 

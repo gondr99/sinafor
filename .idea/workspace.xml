@@ -2,108 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f6f38ac-b93a-4b8b-ac8d-f60b8069bc47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/CertificationController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/PhaseInfo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/State.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_09_09_010449_create_states_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_10_07_114123_create_phase_infos_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-brands-400.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/adminApp.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/certificationApp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/expertApp.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/learningApp.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/mainApp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/managerApp.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/myPageApp.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/skillApp.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-brands-400.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-brands-400.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-brands-400.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-brands-400.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-brands-400.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-regular-400.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-regular-400.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-regular-400.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-regular-400.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-regular-400.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-solid-900.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-solid-900.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-solid-900.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-solid-900.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/webfonts/fa-solid-900.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/certificationApp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/CertificationApp.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/HeaderComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/MainApp.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Manager/CertificationComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Manager/ParticipantComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Manager/QualificationComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Manager/QualificationFormComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/mainApp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/layout/menuLayout.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/user/certification.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Video.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2020_10_12_082518_create_videos_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/htdocs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/htdocs.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ManagerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ManagerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SkillController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SkillController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CertificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CertificationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ExpertController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ExpertController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SkillSelectController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SkillSelectController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/StaticController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/StaticController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/LevelOne.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/LevelOne.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/LevelTwo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/LevelTwo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/PhaseInfo.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/PhaseInfo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/UserSkill.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/UserSkill.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_07_101909_create_level_ones_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_07_101909_create_level_ones_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_07_101935_create_level_twos_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_07_101935_create_level_twos_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_20_035003_create_user_skills_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_20_035003_create_user_skills_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_10_07_114123_create_phase_infos_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_07_114123_create_phase_infos_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/adminApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/adminApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js.LICENSE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/certificationApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/certificationApp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/expertApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/expertApp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/mainApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/mainApp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/managerApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/managerApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/skillApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/skillApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/SkillLevelComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/SkillLevelComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/UserInfoComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/UserInfoComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Manager/CurriculumManage.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Manager/ExamComponent.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Manager/ExpertManage.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Manager/SkillRegister.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Manager/SkillUser.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/CertificationApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/CertificationApp.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/ExpertApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ExpertApp.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/MainApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/MainApp.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/ManagerApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ManagerApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/SkillApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/SkillApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/skillApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/skillApp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/menu.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/messages.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/messages.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/placeholder.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/placeholder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/title.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/title.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/kr/menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/kr/menu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/kr/messages.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/kr/messages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/kr/placeholder.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/kr/placeholder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/kr/title.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/kr/title.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/sass/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layout/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layout/master.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/main.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/main.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/skill/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/skill/register.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user/manager.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/manager.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/user/expert.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/expert.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -234,6 +163,12 @@
       <path value="$PROJECT_DIR$/vendor/laravel/tinker" />
       <path value="$PROJECT_DIR$/vendor/fzaninotto/faker" />
       <path value="$PROJECT_DIR$/vendor/nunomaduro/collision" />
+      <path value="$PROJECT_DIR$/vendor/alchemy/binary-driver" />
+      <path value="$PROJECT_DIR$/vendor/php-ffmpeg/php-ffmpeg" />
+      <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/vendor/neutron/temporary-filesystem" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/evenement/evenement" />
     </include_path>
   </component>
   <component name="ProjectId" id="1h4p3bzmWkoE743t0hflTq3RkEi" />
@@ -308,7 +243,7 @@
       <workItem from="1600734245303" duration="41457000" />
       <workItem from="1601000264966" duration="161000" />
       <workItem from="1601854260372" duration="30170000" />
-      <workItem from="1602028333904" duration="55076000" />
+      <workItem from="1602028333904" duration="80884000" />
     </task>
     <servers />
   </component>
@@ -319,18 +254,18 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1047" y="502" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1600734261190">
+    <state x="1047" y="502" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1602499264588">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1047" y="502" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1600734261190" />
+    <state x="1047" y="502" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1602499264588" />
     <state x="1034" y="291" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1602151615145">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1034" y="291" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1602151615145" />
-    <state x="1010" y="455" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1600820802965">
+    <state x="1010" y="455" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1602500763884">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1010" y="455" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1600820802965" />
+    <state x="1010" y="455" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1602500763884" />
     <state width="2517" height="401" key="GridCell.Tab.0.bottom" timestamp="1599285357186">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>

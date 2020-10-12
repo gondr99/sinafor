@@ -162,6 +162,18 @@
     width:1200px;
     margin:0 auto;
 }
+
+.certification-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap:20px;
+}
+.certification-box {
+    border-radius: 0.75rem;
+    box-shadow: 2px 2px 2px 2px rgba(0,0,0, 0.2);
+    display: grid;
+    grid-template-columns: 1fr;
+}
 @charset "UTF-8";
 
 /*!

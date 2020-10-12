@@ -9,15 +9,6 @@
                     <li class="nav-item">
                         <a class="nav-link" :class="{active:menuIndex == 1}" @click="menuIndex = 1">{{  trans('menu.qualifications') }}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" :class="{active:menuIndex == 2}" @click="menuIndex = 2">{{  trans('menu.users') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" :class="{active:menuIndex == 3}" @click="menuIndex = 3">{{  trans('menu.expert_manage') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" :class="{active:menuIndex == 4}" @click="menuIndex = 4">{{  trans('menu.curriculum_manage')}}</a>
-                    </li>
                 </ul>
             </div>
             <div class="col-10">

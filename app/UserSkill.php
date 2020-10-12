@@ -11,4 +11,5 @@ class UserSkill extends Model
     public function expert(){
         return $this->belongsTo('App\User', 'id', 'expert_id');
     }
+
 }

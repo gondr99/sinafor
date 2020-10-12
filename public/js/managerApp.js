@@ -895,15 +895,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2906,54 +2897,6 @@ var render = function() {
                 }
               },
               [_vm._v(_vm._s(_vm.trans("menu.qualifications")))]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link",
-                class: { active: _vm.menuIndex == 2 },
-                on: {
-                  click: function($event) {
-                    _vm.menuIndex = 2
-                  }
-                }
-              },
-              [_vm._v(_vm._s(_vm.trans("menu.users")))]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link",
-                class: { active: _vm.menuIndex == 3 },
-                on: {
-                  click: function($event) {
-                    _vm.menuIndex = 3
-                  }
-                }
-              },
-              [_vm._v(_vm._s(_vm.trans("menu.expert_manage")))]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link",
-                class: { active: _vm.menuIndex == 4 },
-                on: {
-                  click: function($event) {
-                    _vm.menuIndex = 4
-                  }
-                }
-              },
-              [_vm._v(_vm._s(_vm.trans("menu.curriculum_manage")))]
             )
           ])
         ])

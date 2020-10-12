@@ -45,4 +45,8 @@ return [
     'assigned_teacher' => 'Assigned Teacher',
     'qualification_form' => 'Qualification Form',
     'skill_pdf' => 'Upload PDF',
+    'participant_name' => 'Participants name',
+    'certification_requests' => 'Certification requests',
+    'details' => 'Details',
+    'upload_video_list'=>'Upload video list'
 ];
