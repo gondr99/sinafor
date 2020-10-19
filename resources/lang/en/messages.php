@@ -15,7 +15,7 @@ return [
     'error' => 'Error!',
     'type_error' => 'Type not correct',
     'require_empty' => 'Require value is empty',
-    'not_found' => 'Not found resouce',
+    'not_found' => 'Not found resource',
     'success' => 'Success',
     'sure'=>'Are you sure?',
     'delete' => 'Delete!',

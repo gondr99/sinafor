@@ -15,7 +15,7 @@
                     <p>{{trans('menu.my_certifications')}}</p>
                 </div>
                 <div class="menu-panel bg-danger">
-                    <a href="/skill/register"><i class="fas fa-hands-helping"></i></a>
+                    <a href="/skill/assistance"><i class="fas fa-hands-helping"></i></a>
                     <p>{{trans('menu.get_assistance')}}</p>
                 </div>
 
@@ -28,6 +28,10 @@
                 </div>
                 <div class="menu-panel bg-info">
                     <a href="/expert/answer"><i class="fas fa-user-friends"></i></a>
+                    <div class="tags unread" v-if="unread !== 0">
+                        <span class="tag bg-dark text-white">{{trans('title.unread_message')}}</span>
+                        <span class="tag bg-danger text-white">{{unread}}</span>
+                    </div>
                     <p>{{trans('menu.answer_inquiries')}}</p>
                 </div>
             </div>
@@ -56,10 +60,15 @@
                 }
                 this.mode = 1;
             });
+            //읽지 안은 채팅 메시지가 있다면 가져온다.
+            axios.get('/chat/unread').then(res => {
+                this.unread = res.data.reduce( (s, v) => s + v.unread, 0);
+            });
         },
         data(){
             return {
-                mode:0, // 0 is loading, 1 is user 2 is expert
+                mode:0, // 0 is loading, 1 is user 2 is expert,
+                unread:0,
             }
         }
     }
@@ -78,6 +87,7 @@
         align-items: center;
         flex-direction: column;
         color:#fff;
+        position: relative;
     }
     .menu-panel a {
         font-size:60px;
@@ -86,5 +96,11 @@
     }
     .menu-panel > p {
         font-size:20px;
+    }
+
+    .unread {
+        position: absolute;
+        top:10px;
+        right:10px;
     }
 </style>

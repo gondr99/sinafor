@@ -30,8 +30,8 @@
 </template>
 
 <script>
-    import RegisteredInfoApp from "./MyPage/RegisteredInfoApp";
-    import ProfileComponent from "./MyPage/ProfileComponent";
+    import RegisteredInfoApp from "../MyPage/RegisteredInfoApp";
+    import ProfileComponent from "../MyPage/ProfileComponent";
     //import LearningComponent from "./MyPage/LearningComponent";  //not used....T.T
     export default {
         name: "MyPageApp",

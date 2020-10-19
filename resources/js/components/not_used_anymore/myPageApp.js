@@ -1,4 +1,4 @@
-import App from './components/MyPageApp';
+import App from './MyPageApp';
 import Vuex from 'vuex';
 
 Vue.use(Vuex); //using vuex for state management

@@ -293,6 +293,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ExpertApp",
@@ -324,6 +328,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    back: function back() {
+      if (this.mode === 0) {
+        location.href = '/main';
+      } else if (this.mode === 1) {
+        this.mode = 0;
+        this.viewCertification = null;
+      } else if (this.mode === 2) {
+        this.mode = 1;
+      }
+    },
     viewDetail: function viewDetail(userId, skillId) {
       this.mode = 1;
       this.viewCertification = null;
@@ -369,6 +383,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       if (this.word !== "") {
+        this.mode = 0;
         this.filteredCertificationList = this.originList.filter(function (x) {
           return x.name.includes(_this3.word) || x.skill.name.includes(_this3.word);
         });
@@ -467,6 +482,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "HeaderComponent",
   props: {
@@ -483,6 +499,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     toggleNav: function toggleNav() {
       this.nav = !this.nav;
+    },
+    back: function back() {
+      this.$emit('back');
     }
   }
 });
@@ -1968,7 +1987,8 @@ var render = function() {
             on: {
               toggle: function($event) {
                 _vm.searchToggle = !_vm.searchToggle
-              }
+              },
+              back: _vm.back
             }
           })
         ],
@@ -2089,7 +2109,8 @@ var render = function() {
                                         [_vm._v(_vm._s(_vm.phaseList[0].name))]
                                       )
                                     ])
-                                  : _c("div", { staticClass: "tags" }, [
+                                  : c.phase <= 4
+                                  ? _c("div", { staticClass: "tags" }, [
                                       _c(
                                         "span",
                                         {
@@ -2115,6 +2136,36 @@ var render = function() {
                                         ]
                                       )
                                     ])
+                                  : c.phase === 5
+                                  ? _c("div", { staticClass: "tags" }, [
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass: "tag bg-dark text-white"
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.trans("title.skill_status")
+                                            )
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass:
+                                            "tag bg-danger text-white"
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(_vm.trans("title.complete"))
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  : _vm._e()
                               ]),
                               _vm._v(" "),
                               _c("div", { staticClass: "title my-4" }, [
@@ -2130,31 +2181,36 @@ var render = function() {
                                 ])
                               ]),
                               _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "button-row text-center" },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-outline-primary",
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.viewDetail(
-                                            c.id,
-                                            c.skill.id
-                                          )
-                                        }
-                                      }
-                                    },
+                              c.phase < 5
+                                ? _c(
+                                    "div",
+                                    { staticClass: "button-row text-center" },
                                     [
-                                      _vm._v(
-                                        _vm._s(_vm.trans("menu.view_detail"))
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "btn btn-outline-primary",
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.viewDetail(
+                                                c.id,
+                                                c.skill.id
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.trans("menu.view_detail")
+                                            )
+                                          )
+                                        ]
                                       )
                                     ]
                                   )
-                                ]
-                              )
+                                : _vm._e()
                             ])
                           ]
                         )
@@ -2359,26 +2415,33 @@ var render = function() {
                                         : _vm._e()
                                     ]),
                                     _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      { staticClass: "button-row text-center" },
-                                      [
-                                        _c(
-                                          "button",
+                                    _vm.viewCertification.phase !== 5
+                                      ? _c(
+                                          "div",
                                           {
-                                            staticClass: "btn btn-primary",
-                                            on: { click: _vm.updatePage }
+                                            staticClass:
+                                              "button-row text-center"
                                           },
                                           [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.trans("menu.update_phase")
-                                              )
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass: "btn btn-primary",
+                                                on: { click: _vm.updatePage }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm.trans(
+                                                      "menu.update_phase"
+                                                    )
+                                                  )
+                                                )
+                                              ]
                                             )
                                           ]
                                         )
-                                      ]
-                                    )
+                                      : _vm._e()
                                   ])
                             ])
                           ])
@@ -2704,6 +2767,11 @@ var render = function() {
         _c("i", {
           staticClass: "fas fa-search mr-4",
           on: { click: _vm.toggle }
+        }),
+        _vm._v(" "),
+        _c("i", {
+          staticClass: "fas fa-arrow-left mr-4",
+          on: { click: _vm.back }
         }),
         _vm._v(" "),
         _c("i", {

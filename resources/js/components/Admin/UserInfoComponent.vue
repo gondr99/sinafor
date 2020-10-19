@@ -117,6 +117,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr 2fr 2fr 2fr;
         width: 100%;
+        padding:15px;
     }
 
     .user-card {

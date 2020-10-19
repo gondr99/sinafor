@@ -47,7 +47,7 @@
 </template>
 
 <script>
-    import UserInfoComponent from "./UserInfoComponent";
+    import UserInfoComponent from "../UserInfoComponent";
     export default {
         name: "PopupComponent",
         components:{

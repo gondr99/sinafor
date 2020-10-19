@@ -1,4 +1,4 @@
-import App from './components/LearningApp';
+import App from './LearningApp';
 import Vuex from 'vuex';
 
 Vue.use(Vuex); //using vuex for state management

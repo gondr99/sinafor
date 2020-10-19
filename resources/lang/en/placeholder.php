@@ -12,5 +12,10 @@ return [
     'skill_name' => 'Skill name',
     'choose_expert' => 'Choose expert',
     'search' => 'Search ...',
-    'find_certification' => 'Find certification'
+    'find_certification' => 'Find certification',
+
+    //여기서부터 en만 기록함
+    'name'=> 'Input user name',
+    'phone' => 'Input user phone number',
+
 ];

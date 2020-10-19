@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 p-0">
-                <header-component :title="trans('title.certification_requests')" @toggle="searchToggle = !searchToggle"></header-component>
+                <header-component :title="trans('title.certification_requests')" @toggle="searchToggle = !searchToggle" @back="back"></header-component>
             </div>
         </div>
 
@@ -35,16 +35,20 @@
                                                 <span class="tag bg-dark text-white">{{trans('title.skill_status')}}</span>
                                                 <span class="tag bg-danger text-white">{{ phaseList[0].name }}</span>
                                             </div>
-                                            <div class="tags" v-else>
+                                            <div class="tags" v-else-if="c.phase <= 4">
                                                 <span class="tag bg-dark text-white">{{phaseList[c.phase].name }}</span>
                                                 <span class="tag bg-danger text-white">{{ statusName[c.status] }}</span>
+                                            </div>
+                                            <div class="tags" v-else-if="c.phase === 5">
+                                                <span class="tag bg-dark text-white">{{trans('title.skill_status')}}</span>
+                                                <span class="tag bg-danger text-white">{{trans('title.complete')}}</span>
                                             </div>
                                         </div>
                                         <div class="title my-4">
                                             <h4>{{c.skill.name}}</h4>
                                             <p>{{trans('title.participant_name')}} : <span>{{c.name}}</span></p>
                                         </div>
-                                        <div class="button-row text-center">
+                                        <div class="button-row text-center" v-if="c.phase < 5">
                                             <button class="btn btn-outline-primary" @click="viewDetail(c.id, c.skill.id)">{{trans('menu.view_detail')}}</button>
                                         </div>
                                     </div>
@@ -104,7 +108,7 @@
                                                     {{viewCertification.detail}}
                                                 </p>
                                             </div>
-                                            <div class="button-row text-center">
+                                            <div class="button-row text-center" v-if="viewCertification.phase !== 5">
                                                 <button class="btn btn-primary" @click="updatePage">{{trans('menu.update_phase')}}</button>
                                             </div>
                                         </div>
@@ -206,6 +210,16 @@
             }
         },
         methods: {
+            back(){
+                if(this.mode === 0){
+                    location.href = '/main';
+                }else if(this.mode === 1){
+                    this.mode = 0;
+                    this.viewCertification = null;
+                }else if(this.mode === 2){
+                    this.mode = 1;
+                }
+            },
             viewDetail(userId, skillId) {
                 this.mode = 1;
                 this.viewCertification = null;
@@ -222,6 +236,7 @@
             },
             searchCertification() {
                 if (this.word !== "") {
+                    this.mode = 0;
                     this.filteredCertificationList = this.originList.filter(x => x.name.includes(this.word) || x.skill.name.includes(this.word));
                 } else {
                     this.filteredCertificationList = this.originList;

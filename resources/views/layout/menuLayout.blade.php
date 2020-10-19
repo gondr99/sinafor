@@ -21,5 +21,10 @@
         Swal.fire({title: 'Message from server', text: "{{ session()->pull('flash_message') }}"});
     </script>
 @endif
+
+<script>
+
+
+</script>
 </body>
 </html>

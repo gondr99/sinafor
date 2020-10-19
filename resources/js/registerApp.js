@@ -1,4 +1,4 @@
-import App from './components/RegisterApp';
+import App from './components/not_used_anymore/RegisterApp';
 
 window.onload = ()=>{
     new Vue({

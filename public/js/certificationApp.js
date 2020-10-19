@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -253,6 +253,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CertificationApp",
@@ -263,15 +264,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     axios.get('/skill/register/list').then(function (res) {
-      _this.certificationList = res.data;
+      _this.certificationList = _this.allList = res.data;
     });
     this.statusName = window.statusName;
     this.phaseList = window.phaseList;
   },
   methods: {
-    searchCertification: function searchCertification() {},
+    back: function back() {
+      if (this.mode === 1) {
+        this.mode = 0;
+      } else {
+        location.href = '/main';
+      }
+    },
+    searchCertification: function searchCertification() {
+      var _this2 = this;
+
+      if (this.word !== "") {
+        this.certificationList = this.allList.filter(function (x) {
+          return x.name.includes(_this2.word);
+        });
+      } else {
+        this.certificationList = this.allList;
+      }
+    },
     viewDetail: function viewDetail(id) {
-      this.mode = 2;
+      this.mode = 1;
       this.viewSkill = null;
       this.loadSkillDetail(id);
     },
@@ -281,7 +299,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     //실제 업로딩
     uploadVideos: function uploadVideos() {
-      var _this2 = this;
+      var _this3 = this;
 
       var file = this.$refs.videoFile.files[0];
 
@@ -300,18 +318,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
       }).then(function (res) {
-        _this2.loadSkillDetail(_this2.viewSkill.id);
-      });
-    },
-    deleteVideo: function deleteVideo(id) {
-      var _this3 = this;
-
-      axios["delete"]("/skill/video/".concat(id)).then(function (res) {
         _this3.loadSkillDetail(_this3.viewSkill.id);
       });
     },
-    loadSkillDetail: function loadSkillDetail(id) {
+    deleteVideo: function deleteVideo(id) {
       var _this4 = this;
+
+      axios["delete"]("/skill/video/".concat(id)).then(function (res) {
+        _this4.loadSkillDetail(_this4.viewSkill.id);
+      });
+    },
+    loadSkillDetail: function loadSkillDetail(id) {
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var skill, res;
@@ -319,8 +337,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this4.viewSkill = null;
-                skill = _this4.certificationList.find(function (x) {
+                _this5.viewSkill = null;
+                skill = _this5.allList.find(function (x) {
                   return x.id === id;
                 }); // 만약 추가적으로 Detail에 관한 히스토리를 봐야한다면 이부분을 주석해제하고 변경해야 한다.
                 // if(skill.phase > 0){
@@ -341,7 +359,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 skill.videoList = res.data;
 
               case 7:
-                _this4.viewSkill = skill;
+                _this5.viewSkill = skill;
 
               case 8:
               case "end":
@@ -360,6 +378,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       word: '',
       mode: 0,
       certificationList: [],
+      allList: [],
       viewSkill: {}
     };
   },
@@ -403,6 +422,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "HeaderComponent",
   props: {
@@ -419,6 +439,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     toggleNav: function toggleNav() {
       this.nav = !this.nav;
+    },
+    back: function back() {
+      this.$emit('back');
     }
   }
 });
@@ -1904,7 +1927,8 @@ var render = function() {
             on: {
               toggle: function($event) {
                 _vm.searchToggle = !_vm.searchToggle
-              }
+              },
+              back: _vm.back
             }
           })
         ],
@@ -2012,7 +2036,7 @@ var render = function() {
                                       [_vm._v(_vm._s(_vm.phaseList[0].name))]
                                     )
                                   ])
-                                : c.phase >= 1
+                                : c.phase <= 4
                                 ? _c("div", { staticClass: "tags" }, [
                                     _c(
                                       "span",
@@ -2032,6 +2056,32 @@ var render = function() {
                                       [_vm._v(_vm._s(_vm.statusName[c.status]))]
                                     )
                                   ])
+                                : c.phase === 5
+                                ? _c("div", { staticClass: "tags" }, [
+                                    _c(
+                                      "span",
+                                      { staticClass: "tag bg-dark text-white" },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.trans("title.skill_status")
+                                          )
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "tag bg-danger text-white"
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(_vm.trans("title.complete"))
+                                        )
+                                      ]
+                                    )
+                                  ])
                                 : _vm._e()
                             ]),
                             _vm._v(" "),
@@ -2044,18 +2094,32 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "button-row" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-outline-primary",
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.viewDetail(c.id)
-                                    }
-                                  }
-                                },
-                                [_vm._v(_vm._s(_vm.trans("menu.view_detail")))]
-                              )
+                              c.phase === 5
+                                ? _c(
+                                    "button",
+                                    { staticClass: "btn btn-danger" },
+                                    [
+                                      _vm._v(
+                                        _vm._s(_vm.trans("title.complete"))
+                                      )
+                                    ]
+                                  )
+                                : _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-outline-primary",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.viewDetail(c.id)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(_vm.trans("menu.view_detail"))
+                                      )
+                                    ]
+                                  )
                             ])
                           ])
                         ])
@@ -2063,8 +2127,6 @@ var render = function() {
                       0
                     )
                   : _vm.mode === 1
-                  ? _c("div", { staticClass: "searched-list" })
-                  : _vm.mode === 2
                   ? _c("div", { staticClass: "view-info" }, [
                       _vm.viewSkill === null
                         ? _c("div", { staticClass: "loading" }, [_vm._m(0)])
@@ -2366,6 +2428,11 @@ var render = function() {
         _c("i", {
           staticClass: "fas fa-search mr-4",
           on: { click: _vm.toggle }
+        }),
+        _vm._v(" "),
+        _c("i", {
+          staticClass: "fas fa-arrow-left mr-4",
+          on: { click: _vm.back }
         }),
         _vm._v(" "),
         _c("i", {
@@ -2724,7 +2791,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 9:
+/***/ 8:
 /*!************************************************!*\
   !*** multi ./resources/js/certificationApp.js ***!
   \************************************************/

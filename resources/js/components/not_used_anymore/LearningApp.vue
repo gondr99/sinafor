@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import SubjectComponent from "./Learning/SubjectComponent";
+    import SubjectComponent from "../Learning/SubjectComponent";
     export default {
         name: "LearningApp",
         components:{

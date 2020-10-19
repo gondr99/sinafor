@@ -36,7 +36,7 @@ class SkillSelectController extends Controller
     public function registerList(Request $req)
     {
         $user = auth()->user();
-        $list = $user->registered()->select('status', 'phase', 'detail', 'created_at', 'skill_categories.*')->get();
+        $list = $user->registered()->select('status', 'expert_id', 'phase', 'detail', 'created_at', 'skill_categories.*')->get();
         return response()->json($list);
     }
 

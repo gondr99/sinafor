@@ -7,6 +7,7 @@
 
         <div class="dot-menu">
             <i class="fas fa-search mr-4" @click="toggle"></i>
+            <i class="fas fa-arrow-left mr-4" @click="back"></i>
             <i class="fas fa-ellipsis-v" @click="toggleNav"></i>
         </div>
         <transition name="fade">
@@ -37,6 +38,9 @@
             },
             toggleNav(){
                 this.nav = !this.nav;
+            },
+            back(){
+                this.$emit('back');
             }
         }
     }

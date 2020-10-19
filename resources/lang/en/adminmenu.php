@@ -24,4 +24,12 @@ return [
     'add_expert' => 'Add Expert',
     'set_expert' => 'Set Expert',
     'set_approve' => 'Set Approve',
+    'add_user' => 'Add user',
+    'skill_management' => 'Skill Management',
+    'add_skill' => 'Add Skill to Level',
+    'role_management' => 'Role Management',
+    'owned_skill_list' => 'Owned skill list',
+    'skill_list'=> 'Skill list',
+    'remove_all' => 'Remove all',
+    'add_all' => 'Add all'
 ];

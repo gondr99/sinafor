@@ -48,5 +48,11 @@ return [
     'participant_name' => 'Participants name',
     'certification_requests' => 'Certification requests',
     'details' => 'Details',
-    'upload_video_list'=>'Upload video list'
+    'upload_video_list'=>'Upload video list',
+    'complete' => 'Complete',
+    'skill_list' => 'Skill list',
+    'get_assitance' => 'Get Assitance',
+    'expert' => 'Expert',
+    'unread_message' => 'Unread message',
+    'register_user' => 'Register user'
 ];

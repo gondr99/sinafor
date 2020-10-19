@@ -36,7 +36,9 @@ Route::get('/user/email_check', function (){
 //all user must verified email
 Route::middleware(['emailVerify'])->group(function(){
     Route::middleware(['checkLogin'])->group(function(){
-        Route::get('/user', 'UserController@getUserData');
+        Route::get('/user/{userId?}', 'UserController@getUserData');
+
+
         Route::get('/main', 'StaticController@mainPage');
         Route::get('/skill/register', 'SkillSelectController@index');
 
@@ -67,6 +69,16 @@ Route::middleware(['emailVerify'])->group(function(){
         //upload video router 2 - 권한이 필요하다고 판단됨.
         Route::get('/upload_video/{userId}/{skillId}/{filename}', 'StaticController@getUploadVideo')->where(['userId'=>'[0-9]+', 'skillId' =>'[0-9]+']);;
         Route::delete('/skill/video/{videoId}', 'CertificationController@deleteVideo')->where('videoId', '[0-9]+');
+
+        Route::get('/skill/assistance', 'ChatController@index');
+
+        //채팅관련 라우팅
+        //방가져오기
+        Route::get('/chat/room/{userId}', 'ChatController@getRoom');
+        //안읽은 메시지 갯수 가져오기
+        Route::get('/chat/unread', 'ChatController@getUnread');
+        //읽음 처리하기
+        Route::put('/chat/read', 'ChatController@putRead');
     });
 
 //manager router
@@ -112,8 +124,8 @@ Route::middleware(['emailVerify'])->group(function(){
         Route::post('/expert/update_detail', 'ExpertController@updateDetail');
         //관리하는 Skill에 Phase4에서 올린 영상을 가져온다.
         Route::get('/expert/video/{userId}/{skillId}', 'ExpertController@getVideoList')->where(['userId'=>'[0-9]+', 'skillId' =>'[0-9]+']);
-
-
+        //채팅페이지 입장
+        Route::get('/expert/answer', 'ChatController@index');
 
         Route::put('/expert/certificate', 'ExpertController@certificateUser');
         Route::get('/expert/request', 'ExpertController@index');
@@ -132,22 +144,26 @@ Route::middleware(['checkAdmin'])->group(function () {
 
     Route::post('/admin/skill', 'SkillController@addSkill');
 
-    //get all skillList with expert and managerdata
-    Route::get('/admin/skill', 'SkillController@skillList');
+
+    Route::get('/admin/skillList/{level2}', 'SkillController@level2SkillList')->where('level2', '[0-9]+');
+
+    Route::get('/admin/skillList', 'SkillController@allSkillInfo');
+    Route::get('/admin/expertList', 'AdminController@getExpertList');
+    Route::get('/admin/managerList', 'AdminController@getManagerList');
 
 
-    //get user who has permission to mange
+//    Route::get('/admin/skill/manager/{id}', 'SkillController@getSkillManager')->where('id', '[0-9]+');
+    //각 스킬에 매니저를 부여하거나 빼주는 매서드들
+    Route::put('/admin/skill/manager/{skillId}', 'SkillController@addManager')->where('skillId', '[0-9]+');
+    Route::delete('/admin/skill/manager/{skillId}', 'SkillController@deleteManager')->where('skillId', '[0-9]+');
+    Route::put('/admin/skill/manager/all', 'SkillController@addAllManager');
+    Route::delete('/admin/skill/manager/all', 'SkillController@deleteAllManager');
 
-    Route::get('/admin/skill/manager', 'SkillController@getManagerList');
-    Route::get('/admin/skill/manager/{id}', 'SkillController@getSkillManager')->where('id', '[0-9]+');
-    Route::put('/admin/skill/manager/{id}', 'SkillController@addManager')->where('id', '[0-9]+');
-    Route::delete('/admin/skill/manager/{id}', 'SkillController@deleteManager')->where('id', '[0-9]+');
-
-    //get All expert list from database
-    Route::get('/admin/skill/expert', 'SkillController@getExpertList');
-
-    Route::delete('/admin/skill/expert/{id}', 'SkillController@deleteExpert')->where('id', '[0-9]+');
-    Route::put('/admin/skill/expert/{id}', 'SkillController@addExpert')->where('id', '[0-9]+');
+    //각 스킬을 전문가에게 부여하거나 빼주는 매서드들
+    Route::delete('/admin/skill/expert/{skillId}', 'SkillController@deleteExpert')->where('skillId', '[0-9]+');
+    Route::put('/admin/skill/expert/{skillId}', 'SkillController@addExpert')->where('skillId', '[0-9]+');
+    Route::put('/admin/skill/expert/all', 'SkillController@addAllExpert');
+    Route::delete('/admin/skill/expert/all', 'SkillController@deleteAllExpert');
 
     Route::get('/admin/user/list/{page?}', 'AdminController@getUserList')->where('page', '[0-9]+');
     Route::put('/admin/user/role', 'AdminController@addRole');
@@ -160,6 +176,9 @@ Route::middleware(['checkAdmin'])->group(function () {
     Route::delete('/admin/levelOne/{oneId}', 'SkillController@delLevelOne')->where('oneId', '[0-9]+');
     Route::post('/admin/levelTwo/{oneId}', 'SkillController@addLevelTwo')->where('oneId', '[0-9]+');
     Route::delete('/admin/levelTwo/{twoId}', 'SkillController@delLevelTwo')->where('twoId', '[0-9]+');
+
+
+    Route::post('/admin/add_user', 'AdminController@addUser');
 });
 
 //image router
@@ -260,14 +279,14 @@ Route::get('/debug', function () {
         App\UserRole::create(['user_id' => $admin->id, 'user_category_id' => $adminCategory->id]);
         App\UserRole::create(['user_id' => $admin->id, 'user_category_id' => $verified->id]);
 
-        $user = App\User::create(['email' => 'user@user', 'password' => bcrypt('user1234'), 'name' => '일반유저', 'info' => 'normal user', 'phone' => '010-1111-1111', 'profile' => '1600764168_sana.png']);
+        $user = App\User::create(['email' => 'user@user', 'password' => bcrypt('user1234'), 'name' => '일반유저', 'info' => 'normal user', 'phone' => '010-1111-1111', 'profile' => '1600764168_sana.jpg']);
         $user->email_verified_at = time();
         $user->save();
 
-        $expert = App\User::create(['email' => 'expert@expert', 'password' => bcrypt('expert1234'), 'name' => '전문가', 'info' => 'expert user', 'phone' => '010-2222-2222', 'profile' => '1600764168_zzwi.png']);
+        $expert = App\User::create(['email' => 'expert@expert', 'password' => bcrypt('expert1234'), 'name' => '전문가', 'info' => 'expert user', 'phone' => '010-2222-2222', 'profile' => '1600764168_zzwi.jpg']);
         $expert->email_verified_at = time();
         $expert->save();
-        $manager = App\User::create(['email' => 'manager@manager', 'password' => bcrypt('manager1234'), 'name' => '매니저', 'info' => 'manager user', 'phone' => '010-3333-3333', 'profile' => '1600764168_momo.png']);
+        $manager = App\User::create(['email' => 'manager@manager', 'password' => bcrypt('manager1234'), 'name' => '매니저', 'info' => 'manager user', 'phone' => '010-3333-3333', 'profile' => '1600764168_momo.jpg']);
         $manager->email_verified_at = time();
         $manager->save();
 

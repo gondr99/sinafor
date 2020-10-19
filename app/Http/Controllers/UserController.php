@@ -31,8 +31,12 @@ class UserController extends Controller
 
         unset($input['_token']); //remove token
         unset($input['password_confirmation']);  //remove confirm
-        //not yet! still development...
+
         $input['password'] = bcrypt($input['password']);
+        $user = User::where('email', '=', $input['email'])->first();
+        if($user ){
+            return back()->withInput()->with('flash_message', __('register.duplicated'));
+        }
         \DB::beginTransaction();
         try {
             $user = User::create($input);
@@ -44,7 +48,6 @@ class UserController extends Controller
             return redirect('/')->with('flash_message', __('register.success'));
         }catch (\Exception $e){
             \DB::rollback();
-            dd($e);
             return back()->withInput()->with('flash_message', __('register.error'));
         }
     }
@@ -101,8 +104,15 @@ class UserController extends Controller
         return redirect('/')->with('flash_message', __('messages.success_logout'));
     }
 
-    public function getUserData(Request $req)
-    {   $user = auth()->user();
+    public function getUserData(Request $req, $userId = 0)
+    {
+        if($userId === 0)
+            $user = auth()->user();
+        else{
+            $user = User::find($userId);
+            if(!$user) return response()->json(__('messages.not_found'), 403);
+        }
+
         $user->roleList = $user->roles()->get();
         $user->skillList = $user->registered()->select('status', 'skill_categories.*')->get();
         return response()->json($user);

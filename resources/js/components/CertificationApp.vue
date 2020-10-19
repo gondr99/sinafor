@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 p-0">
-                <header-component :title="trans('title.my_certification')" @toggle="searchToggle = !searchToggle"></header-component>
+                <header-component :title="trans('title.my_certification')" @toggle="searchToggle = !searchToggle" @back="back"></header-component>
             </div>
         </div>
         <!-- row start-->
@@ -34,9 +34,13 @@
                                                 <span class="tag bg-dark text-white">{{trans('title.skill_status')}}</span>
                                                 <span class="tag bg-danger text-white">{{ phaseList[0].name }}</span>
                                             </div>
-                                            <div class="tags" v-else-if="c.phase >= 1">
-                                                <span class="tag bg-dark text-white">{{phaseList[c.phase].name}}</span>
+                                            <div class="tags" v-else-if="c.phase <= 4">
+                                                <span class="tag bg-dark text-white">{{phaseList[c.phase].name }}</span>
                                                 <span class="tag bg-danger text-white">{{ statusName[c.status] }}</span>
+                                            </div>
+                                            <div class="tags" v-else-if="c.phase === 5">
+                                                <span class="tag bg-dark text-white">{{trans('title.skill_status')}}</span>
+                                                <span class="tag bg-danger text-white">{{trans('title.complete')}}</span>
                                             </div>
                                         </div>
                                         <div class="title">
@@ -46,17 +50,14 @@
                                             <p>{{c.description}}</p>
                                         </div>
                                         <div class="button-row">
-                                            <button class="btn btn-outline-primary" @click="viewDetail(c.id)">{{trans('menu.view_detail')}}</button>
+                                            <button class="btn btn-danger" v-if="c.phase === 5">{{trans('title.complete')}}</button>
+                                            <button class="btn btn-outline-primary" v-else @click="viewDetail(c.id)">{{trans('menu.view_detail')}}</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="searched-list" v-else-if="mode === 1">
-
-                            </div>
-
-                            <div class="view-info" v-else-if="mode === 2">
+                            <div class="view-info" v-else-if="mode === 1">
                                 <div class="loading" v-if="viewSkill === null">
                                     <div class="spin-container"><i class="fas fa-spinner"></i></div>
                                 </div>
@@ -145,17 +146,28 @@
         },
         mounted() {
             axios.get('/skill/register/list').then( res => {
-                this.certificationList = res.data;
+                this.certificationList = this.allList = res.data;
             });
             this.statusName = window.statusName;
             this.phaseList = window.phaseList;
         },
         methods:{
+            back(){
+                if(this.mode === 1){
+                    this.mode = 0;
+                }else{
+                    location.href = '/main';
+                }
+            },
             searchCertification(){
-
+                if(this.word !== ""){
+                    this.certificationList = this.allList.filter(x => x.name.includes(this.word));
+                }else{
+                    this.certificationList = this.allList;
+                }
             },
             viewDetail(id){
-                this.mode = 2;
+                this.mode = 1;
                 this.viewSkill = null;
                 this.loadSkillDetail(id);
             },
@@ -191,7 +203,7 @@
             },
             async loadSkillDetail(id){
                 this.viewSkill = null;
-                let skill = this.certificationList.find(x => x.id === id);
+                let skill = this.allList.find(x => x.id === id);
                 // 만약 추가적으로 Detail에 관한 히스토리를 봐야한다면 이부분을 주석해제하고 변경해야 한다.
                 // if(skill.phase > 0){
                 //     let res = await axios.get(`/user/skill_detail/${skill.id}`);
@@ -212,6 +224,7 @@
                 word:'',
                 mode:0,
                 certificationList:[],
+                allList:[],
                 viewSkill:{}
             }
         },

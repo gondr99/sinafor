@@ -30,5 +30,7 @@ return [
     'photo_must_image' => 'Profile image type must be jpg, png',
     'photo_must_2mb' => 'Profile image size must be less then 2Mbyte',
     'expired_email_verify_link' => 'Email link is expired or not found',
-    'email_verify_complete' => 'Evail verify complete, please login.'
+    'email_verify_complete' => 'Evail verify complete, please login.',
+    'cancel'=>'Cancel',
+    'duplicated' => 'Duplicated email',
 ];

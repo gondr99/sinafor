@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -95,6 +95,10 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -165,12 +169,19 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       _this.mode = 1;
+    }); //읽지 안은 채팅 메시지가 있다면 가져온다.
+
+    axios.get('/chat/unread').then(function (res) {
+      _this.unread = res.data.reduce(function (s, v) {
+        return s + v.unread;
+      }, 0);
     });
   },
   data: function data() {
     return {
-      mode: 0 // 0 is loading, 1 is user 2 is expert
-
+      mode: 0,
+      // 0 is loading, 1 is user 2 is expert,
+      unread: 0
     };
   }
 });
@@ -189,7 +200,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.panel-grid[data-v-736a0b0d] {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-auto-rows: 200px;\n    grid-gap:20px;\n}\n.menu-panel[data-v-736a0b0d] {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column;\n    color:#fff;\n}\n.menu-panel a[data-v-736a0b0d] {\n    font-size:60px;\n    color:#fff;\n    margin-bottom: 10px;\n}\n.menu-panel > p[data-v-736a0b0d] {\n    font-size:20px;\n}\n", ""]);
+exports.push([module.i, "\n.panel-grid[data-v-736a0b0d] {\n    display: grid;\n    grid-template-columns: 1fr;\n    grid-auto-rows: 200px;\n    grid-gap:20px;\n}\n.menu-panel[data-v-736a0b0d] {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column;\n    color:#fff;\n    position: relative;\n}\n.menu-panel a[data-v-736a0b0d] {\n    font-size:60px;\n    color:#fff;\n    margin-bottom: 10px;\n}\n.menu-panel > p[data-v-736a0b0d] {\n    font-size:20px;\n}\n.unread[data-v-736a0b0d] {\n    position: absolute;\n    top:10px;\n    right:10px;\n}\n", ""]);
 
 // exports
 
@@ -885,6 +896,18 @@ var render = function() {
               _c("div", { staticClass: "menu-panel bg-info" }, [
                 _vm._m(5),
                 _vm._v(" "),
+                _vm.unread !== 0
+                  ? _c("div", { staticClass: "tags unread" }, [
+                      _c("span", { staticClass: "tag bg-dark text-white" }, [
+                        _vm._v(_vm._s(_vm.trans("title.unread_message")))
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tag bg-danger text-white" }, [
+                        _vm._v(_vm._s(_vm.unread))
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
                 _c("p", [_vm._v(_vm._s(_vm.trans("menu.answer_inquiries")))])
               ])
             ]
@@ -922,7 +945,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "/skill/register" } }, [
+    return _c("a", { attrs: { href: "/skill/assistance" } }, [
       _c("i", { staticClass: "fas fa-hands-helping" })
     ])
   },
@@ -2476,7 +2499,7 @@ window.onload = function () {
 
 /***/ }),
 
-/***/ 8:
+/***/ 7:
 /*!***************************************!*\
   !*** multi ./resources/js/mainApp.js ***!
   \***************************************/

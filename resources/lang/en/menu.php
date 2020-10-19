@@ -68,5 +68,8 @@ return [
     'certifications_requests'=> 'Certifications requests',
     'answer_inquiries' => 'Answer inquiries',
     'accept_apply' => 'Accept apply',
-    'update_phase' => 'Update'
+    'update_phase' => 'Update',
+    'cancel' => 'Cancel',
+    'start_chat' => 'Start chat',
+    'send'=>'Send'
 ];

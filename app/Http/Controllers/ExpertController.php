@@ -94,6 +94,9 @@ class ExpertController extends Controller
         try {
             $userSkill = $expert->userSkill()->where([ ['user_id', '=', $userId], ['skill_category_id', '=', $skillId] ])->first();
             $phase = $userSkill->phase;
+            if($phase > 4) {
+                throw new \Exception();
+            }
             if($status === 2) { //Approved
                 $phase += 1;
             }
@@ -106,7 +109,7 @@ class ExpertController extends Controller
                 'detail' => $detail]);
 
             $userSkill->phase = $phase;
-            if($status === 2){
+            if($status === 2 ){
                 //다음 페이즈로 넘어갔다면 현재 상태를 0으로 변경
                 $userSkill->status = 0;
             }else{

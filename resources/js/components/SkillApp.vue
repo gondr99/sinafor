@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 p-0">
-                <header-component :title="trans('title.skill_register_title')" @toggle="searchToggle = !searchToggle"></header-component>
+                <header-component :title="trans('title.skill_register_title')" @toggle="searchToggle = !searchToggle" @back="back"></header-component>
             </div>
         </div>
         <div class="row">
@@ -168,7 +168,7 @@
 
 <script>
     import {mapState} from "vuex";
-    import SkillComponent from "./Admin/SkillComponent";
+    import SkillComponent from "./Admin/not_used_anymore/SkillComponent";
     import HeaderComponent from "./HeaderComponent";
 
     export default {
@@ -235,12 +235,19 @@
 
             },
             back(){
-                if(this.level2 === undefined){
-                    this.level1 = undefined;
-                }else {
-                    this.selectedSkillIdx = -1;
-                    this.level2 = undefined;
+                if(this.page === 0){
+                    if(this.level1 === undefined && this.level2 === undefined){
+                        location.href = "/main";
+                    }else if(this.level2 === undefined){
+                        this.level1 = undefined;
+                    }else if(this.level1 !== undefined){
+                        this.selectedSkillIdx = -1;
+                        this.level2 = undefined;
+                    }
+                }else if(this.page === 1){
+                    this.page = 0;
                 }
+
             },
             backToList(){
                 this.level1 = undefined;
