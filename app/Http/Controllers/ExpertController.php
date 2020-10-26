@@ -67,6 +67,7 @@ class ExpertController extends Controller
             $userSkill = $expert->userSkill()->where([ ['user_id', '=', $userId], ['skill_category_id', '=', $skillId] ])->first();
 
             $userSkill->phase = $phase; //set to phase1;
+            $userSkill->status = 0; //set to pending
 
             $userSkill->save();
 
@@ -123,6 +124,7 @@ class ExpertController extends Controller
             return $this->getCertificate($req);
         } catch (\Exception $e){
             \DB::rollback();
+            dd($e);
             return response()->json(__('messages.not_found'), 404);
         }
     }

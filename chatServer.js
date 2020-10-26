@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const path = require('path');
 const socket = require('socket.io');
+const crypto = require('crypto');
 
 const app = new express();
 const server = http.createServer(app);
@@ -21,7 +22,7 @@ io.on('connect', socket => {
         if(user === undefined) return; //do nothing
         //여기서 메시지가 왔음을 Room에 있는 모든 유저들의 안드로이드로 보내주는 코드가 필요하다.
 
-        const sql = "INSERT INTO messages (room_id, user_id, message, read, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())";
+        const sql = "INSERT INTO messages (`room_id`, `user_id`, `message`, `read`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, NOW(), NOW())";
         if(io.to(user.room).adapter.rooms[user.room].length > 1){
             //이미 방에 사람이 들어왔다면 읽음표시 바로
             pool.query(sql, [user.room, user.id, data, 1]);
@@ -33,7 +34,20 @@ io.on('connect', socket => {
     });
 
     socket.on('login', data => {
-        user = data;
+        //여기서 데이터가 DB랑 맞는지를 체크해서 인증해야 한다.
+
+        let token = data.token;
+        const payload = deHashing(token);
+        if(payload === null) {
+            socket.emit('error-msg', 'Not allowed');
+            return;
+        }
+        if(payload.id !== data.user.id) {
+            socket.emit('error-msg', 'Not allowed');
+            return;
+        }
+        user = data.user;
+        user.isExpert = payload.isExpert;
         user.socket = socket.id;
         userList.push(user);
     });
@@ -42,8 +56,8 @@ io.on('connect', socket => {
         //해당 방에 들어가서
         user.room = data;
         socket.join(data);
-
-        console.log(io.to(user.room).adapter.rooms[user.room].length);
+        //adaptoer의 rooms에 보면 해당 방에 있는 유저들의 소켓정보가 배열로 저장되어 있다.
+        //console.log(io.to(user.room).adapter.rooms[user.room].length);
     });
 
     socket.on('disconnect', data => {
@@ -59,6 +73,22 @@ io.on('connect', socket => {
     });
 });
 
+function deHashing(token){
+
+    const b = Buffer.from(token, 'base64');
+    let parted = b.toString().split(".");
+    const hmac = crypto.createHmac('sha256', cookieSecret);
+
+    let data = parted[0] + parted[1];
+
+    const signature = hmac.update(data).digest('base64');
+
+    if( signature === parted[2]){
+        return JSON.parse(parted[1]);
+    }else{
+        return null;
+    }
+}
 
 server.listen(54000, ()=>{
     console.log("chat server listening on 54000 port");

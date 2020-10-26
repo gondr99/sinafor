@@ -121,7 +121,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center">
-                                        <button class="btn btn-lg btn-primary">{{trans('menu.get_assistance')}}</button>
+                                        <a href='/skill/assistance' class="btn btn-lg btn-primary">{{trans('menu.get_assistance')}}</a>
                                     </div>
                                 </div>
                             </div>

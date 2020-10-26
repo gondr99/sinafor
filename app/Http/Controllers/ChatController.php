@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\JWTToken;
 use App\Message;
 use App\Room;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
+    private $JWT;
+
+    public function __construct()
+    {
+        $this->JWT = new JWTToken();
+    }
+
     public function index(Request $req)
     {
         return view('skill/chat');
@@ -66,5 +74,15 @@ class ChatController extends Controller
         ])->update(['read'=> 1]);
 
         return response()->json('read complete');
+    }
+
+    public function getToken(){
+        $user = auth()->user();
+        $isExpert = $user->checkExpert();
+
+        //그외에 필요한 정보가 있다면 여기서 넣어주면 된다.
+        $token = $this->JWT->hashing(['id'=>$user->id, 'name'=>$user->name, 'isExpert'=>$isExpert]);
+
+        return response()->json($token);
     }
 }

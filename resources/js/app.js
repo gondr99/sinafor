@@ -17,5 +17,3 @@ Number.prototype.zeroFormat = function(count){
 
     return (dummy).substr(dummy.length - count);
 };
-
-window.socket = new io.connect('localhost:54000', {transports: ['websocket'], upgrade: false});

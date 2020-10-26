@@ -2360,8 +2360,11 @@ var render = function() {
                               { staticClass: "d-flex justify-content-center" },
                               [
                                 _c(
-                                  "button",
-                                  { staticClass: "btn btn-lg btn-primary" },
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-lg btn-primary",
+                                    attrs: { href: "/skill/assistance" }
+                                  },
                                   [
                                     _vm._v(
                                       _vm._s(_vm.trans("menu.get_assistance"))

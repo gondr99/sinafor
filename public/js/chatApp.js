@@ -263,21 +263,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ChatWindowComponent",
   props: {
     roomData: Object,
-    user: Object
+    user: Object,
+    other: Object,
+    socket: Object
   },
   mounted: function mounted() {
     var _this = this;
 
-    socket.off('message'); //기존에 등록된 메시지 큐 삭제
+    this.socket.off('message'); //기존에 등록된 메시지 큐 삭제
 
-    socket.on('message', function (data) {
+    this.socket.on('message', function (data) {
       _this.chatList.push(data);
+
+      _this.properScroll();
     });
-    this.chatList = this.roomData.messages; //읽음 처리
+    this.chatList = this.roomData.messages;
+    this.properScroll(); //읽음 처리
 
     axios.put("/chat/read/", {
       id: this.roomData.id
@@ -291,8 +307,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     send: function send() {
-      socket.emit('chat', this.message);
+      this.socket.emit('chat', this.message);
       this.message = '';
+    },
+    properScroll: function properScroll() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        _this2.$refs.list.scrollTop = _this2.$refs.list.scrollHeight - _this2.$refs.list.clientHeight;
+      }, 50);
     }
   }
 });
@@ -364,7 +387,16 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    //수강중인 유저리스트 가져오기
+    //소켓 연결
+    this.socket = new io.connect('localhost:54000', {
+      transports: ['websocket'],
+      upgrade: false
+    });
+    this.socket.on('error-msg', function (data) {
+      Swal.fire(data);
+      _this.mode = 0;
+    }); //수강중인 유저리스트 가져오기
+
     axios.get('/user').then(function (res) {
       _this.me = res.data;
       _this.isExpert = _this.me.roleList.find(function (x) {
@@ -381,10 +413,14 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     });
+    axios.get('/token').then(function (res) {
+      _this.token = res.data;
+    });
     this.updateUnread();
   },
   data: function data() {
     return {
+      socket: null,
       searchToggle: false,
       word: '',
       mode: 0,
@@ -392,7 +428,9 @@ __webpack_require__.r(__webpack_exports__);
       roomData: null,
       me: null,
       isExpert: false,
-      unreadList: []
+      unreadList: [],
+      token: '',
+      other: null
     };
   },
   methods: {
@@ -412,16 +450,22 @@ __webpack_require__.r(__webpack_exports__);
     },
     searchCertification: function searchCertification() {//not yet....
     },
-    openChat: function openChat(expert) {
+    openChat: function openChat(other) {
       var _this3 = this;
 
       this.mode = 1; //로딩
 
-      axios.get("/chat/room/".concat(expert.id)).then(function (res) {
-        socket.emit('login', _this3.me);
+      this.other = other;
+      axios.get("/chat/room/".concat(other.id)).then(function (res) {
+        _this3.socket.emit('login', {
+          user: _this3.me,
+          token: _this3.token
+        });
+
         _this3.roomData = res.data;
         _this3.mode = 2;
-        socket.emit('join', _this3.roomData.id);
+
+        _this3.socket.emit('join', _this3.roomData.id);
 
         _this3.properHeight();
       });
@@ -553,7 +597,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.inner-window[data-v-0555c389] {\n    height: 100%;\n    background-color: #fff;\n    display: grid;\n    grid-template-rows: 1fr 60px;\n}\n.chat[data-v-0555c389] {\n    border: 1px solid #ddd;\n    display: flex;\n    width:80%;\n    border-radius: 0.25rem;\n}\n.chat.me[data-v-0555c389] {\n    transform: translateX(20%);\n    background-color: #ffe928;\n}\n.chat-list[data-v-0555c389] {\n    padding:10px;\n}\n", ""]);
+exports.push([module.i, "\n.inner-window[data-v-0555c389] {\n    height: 100%;\n    background-color: #fff;\n    display: grid;\n    grid-template-rows: 60px 1fr 60px;\n}\n.chat[data-v-0555c389] {\n    border: 1px solid #ddd;\n    display: flex;\n    width:80%;\n    border-radius: 0.25rem;\n}\n.chat.me[data-v-0555c389] {\n    transform: translateX(20%);\n    background-color: #ffe928;\n}\n.chat-list[data-v-0555c389] {\n    padding:10px;\n    overflow-y: auto;\n}\n.profile-header[data-v-0555c389] {\n    display: grid;\n    grid-template-columns: 60px 1fr;\n    grid-template-rows: 60px;\n    width:100%;\n    height:60px;\n}\n.profile[data-v-0555c389] {\n    width:64px;\n    height:64px;\n}\n.profile > img[data-v-0555c389] {\n    width: 100%;\n    height: 100%;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n", ""]);
 
 // exports
 
@@ -1534,9 +1578,32 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "inner-window" }, [
+    _c("div", { staticClass: "profile-header" }, [
+      _c("div", { staticClass: "profile" }, [
+        _c("img", {
+          attrs: {
+            src: "/images/profiles/" + _vm.other.profile,
+            alt: "profile"
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "info p-2" }, [
+        _c("div", { staticClass: "tags mb-2" }, [
+          _c("span", { staticClass: "tag bg-dark text-white" }, [
+            _vm._v(_vm._s(_vm.trans("title.user_name")))
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "tag bg-primary text-white" }, [
+            _vm._v(_vm._s(_vm.other.name))
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
     _c(
       "div",
-      { staticClass: "chat-list" },
+      { ref: "list", staticClass: "chat-list" },
       _vm._l(_vm.chatList, function(c) {
         return _c(
           "div",
@@ -1736,7 +1803,12 @@ var render = function() {
               { staticClass: "chat-window" },
               [
                 _c("chat-window-component", {
-                  attrs: { "room-data": _vm.roomData, user: _vm.me }
+                  attrs: {
+                    "room-data": _vm.roomData,
+                    user: _vm.me,
+                    other: _vm.other,
+                    socket: _vm.socket
+                  }
                 })
               ],
               1

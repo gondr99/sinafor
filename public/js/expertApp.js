@@ -428,10 +428,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       }).then(function (res) {
         _this5.filteredCertificationList = _this5.originList = res.data;
-        _this5.viewCertification = _this5.originList.find(function (x) {
+
+        var v = _this5.originList.find(function (x) {
           return x.id === _this5.viewCertification.id && x.skill.id === _this5.viewCertification.skill.id;
         });
-        _this5.mode = 1;
+
+        if (v.phase >= 5) {
+          _this5.back();
+        } else {
+          _this5.viewCertification = v;
+        }
+
+        _this5.back();
+      })["catch"](function (err) {
+        console.log(err);
       });
     },
     //스킬아이디와 유저아이디를 합쳐서 고유키 만들기

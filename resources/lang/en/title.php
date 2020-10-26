@@ -54,5 +54,6 @@ return [
     'get_assitance' => 'Get Assitance',
     'expert' => 'Expert',
     'unread_message' => 'Unread message',
-    'register_user' => 'Register user'
+    'register_user' => 'Register user',
+    'user_name' => 'User name'
 ];

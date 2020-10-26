@@ -13,7 +13,10 @@
             </div>
             <div class="col-10">
                 <div class="box p-2">
-                    <certification-component v-if="menuIndex === 0"></certification-component>
+                    <div class="loading" v-if="menuIndex === -1">
+                        <div class="spin-container"><i class="fas fa-spinner"></i></div>
+                    </div>
+                    <certification-component v-else-if="menuIndex === 0"></certification-component>
                     <qualification-component v-else-if="menuIndex === 1"></qualification-component>
                 </div>
             </div>
@@ -30,6 +33,7 @@
         mounted() {
             axios.get('/manager/skill').then(res => {
                this.$store.commit('refreshSkillList', res.data);
+               this.menuIndex = 0;
             });
         },
         components:{
@@ -38,7 +42,7 @@
         },
         data(){
             return {
-                menuIndex:0
+                menuIndex:-1
             }
         }
     }

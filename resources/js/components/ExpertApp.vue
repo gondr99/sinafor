@@ -269,8 +269,15 @@
                     }
                 }).then(res => {
                     this.filteredCertificationList = this.originList = res.data;
-                    this.viewCertification = this.originList.find(x => x.id === this.viewCertification.id && x.skill.id === this.viewCertification.skill.id);
-                    this.mode = 1;
+                    let v = this.originList.find(x => x.id === this.viewCertification.id && x.skill.id === this.viewCertification.skill.id);
+                    if(v.phase >= 5 ){
+                        this.back();
+                    }else{
+                        this.viewCertification = v;
+                    }
+                    this.back();
+                }).catch(err => {
+                    console.log(err);
                 });
 
             },

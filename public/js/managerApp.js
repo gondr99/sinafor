@@ -194,6 +194,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CertificationComponent",
@@ -232,9 +233,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    openParticipantInfo: function openParticipantInfo(userId) {
+    openParticipantInfo: function openParticipantInfo(userId, skillId) {
       this.viewParticipant = this.allUserList.find(function (x) {
-        return x.id === userId;
+        return x.id === userId && x.skillId === skillId;
       });
       this.isParticipantOpen = true;
     },
@@ -242,7 +243,9 @@ __webpack_require__.r(__webpack_exports__);
       this.viewParticipant = null;
       this.isParticipantOpen = false;
     },
-    delUserCertificate: function delUserCertificate(userId) {},
+    delUserCertificate: function delUserCertificate(userId, skillId) {
+      alert("Not yet...sorry");
+    },
     next: function next() {
       if (this.end < this.totalPage) {
         this.page = this.end + 1;
@@ -895,6 +898,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -904,6 +910,8 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get('/manager/skill').then(function (res) {
       _this.$store.commit('refreshSkillList', res.data);
+
+      _this.menuIndex = 0;
     });
   },
   components: {
@@ -912,7 +920,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      menuIndex: 0
+      menuIndex: -1
     };
   }
 });
@@ -1900,7 +1908,9 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(user.date))]),
                   _vm._v(" "),
-                  user.phase > 0
+                  user.phase >= 5
+                    ? _c("td", [_vm._v("Complete")])
+                    : user.phase > 0
                     ? _c("td", [_vm._v(_vm._s(user.phase))])
                     : _c("td", [_vm._v(_vm._s(_vm.trans("title.applying")))]),
                   _vm._v(" "),
@@ -1915,7 +1925,10 @@ var render = function() {
                         staticClass: "btn btn-sm btn-primary",
                         on: {
                           click: function($event) {
-                            return _vm.openParticipantInfo(user.id)
+                            return _vm.openParticipantInfo(
+                              user.id,
+                              user.skillId
+                            )
                           }
                         }
                       },
@@ -1930,7 +1943,7 @@ var render = function() {
                         staticClass: "btn btn-sm btn-danger",
                         on: {
                           click: function($event) {
-                            return _vm.delUserCertificate(user.id)
+                            return _vm.delUserCertificate(user.id, user.skillId)
                           }
                         }
                       },
@@ -2259,11 +2272,13 @@ var render = function() {
                             ],
                             2
                           )
-                        : _c("input", {
+                        : _vm.skillInfo.expertId !== null
+                        ? _c("input", {
                             staticClass: "form-control",
                             attrs: { type: "text", readonly: "" },
                             domProps: { value: _vm.skillInfo.expertName }
                           })
+                        : _vm._e()
                     ])
                   ]),
                   _vm._v(" "),
@@ -2277,7 +2292,10 @@ var render = function() {
                         staticClass: "form-control",
                         attrs: { type: "text", readonly: "" },
                         domProps: {
-                          value: _vm.phaseList[_vm.skillInfo.phase].name
+                          value:
+                            _vm.skillInfo.phase === 5
+                              ? "complete"
+                              : _vm.phaseList[_vm.skillInfo.phase].name
                         }
                       })
                     ])
@@ -2907,7 +2925,9 @@ var render = function() {
           "div",
           { staticClass: "box p-2" },
           [
-            _vm.menuIndex === 0
+            _vm.menuIndex === -1
+              ? _c("div", { staticClass: "loading" }, [_vm._m(0)])
+              : _vm.menuIndex === 0
               ? _c("certification-component")
               : _vm.menuIndex === 1
               ? _c("qualification-component")
@@ -2919,7 +2939,16 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "spin-container" }, [
+      _c("i", { staticClass: "fas fa-spinner" })
+    ])
+  }
+]
 render._withStripped = true
 
 

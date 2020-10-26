@@ -53,14 +53,15 @@
                         <td>{{user.name}}</td>
                         <td>{{user.skillName}}</td>
                         <td>{{user.date}}</td>
-                        <td v-if="user.phase > 0">{{user.phase}}</td>
+                        <td v-if="user.phase >= 5">Complete</td>
+                        <td v-else-if="user.phase > 0">{{user.phase}}</td>
                         <td v-else>{{trans('title.applying')}}</td>
 
                         <td v-if="user.phase > 0">{{user.status}}</td>
                         <td v-else>---</td>
 
-                        <td><button class="btn btn-sm btn-primary" @click="openParticipantInfo(user.id)">{{trans('menu.go_to_record')}}</button></td>
-                        <td><button class="btn btn-sm btn-danger" @click="delUserCertificate(user.id)">{{trans('menu.delete')}}</button></td>
+                        <td><button class="btn btn-sm btn-primary" @click="openParticipantInfo(user.id, user.skillId)">{{trans('menu.go_to_record')}}</button></td>
+                        <td><button class="btn btn-sm btn-danger" @click="delUserCertificate(user.id, user.skillId)">{{trans('menu.delete')}}</button></td>
                     </tr>
                 </table>
             </div>
@@ -133,16 +134,16 @@
         },
 
         methods:{
-            openParticipantInfo(userId){
-                this.viewParticipant = this.allUserList.find(x => x.id === userId);
+            openParticipantInfo(userId, skillId){
+                this.viewParticipant = this.allUserList.find(x => x.id === userId && x.skillId === skillId);
                 this.isParticipantOpen = true;
             },
             closeParticipant(){
                 this.viewParticipant = null;
                 this.isParticipantOpen = false;
             },
-            delUserCertificate(userId){
-
+            delUserCertificate(userId, skillId){
+                alert("Not yet...sorry");
             },
             next(){
                 if(this.end < this.totalPage ){

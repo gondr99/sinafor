@@ -92,14 +92,14 @@
                                 <option value="-1">---</option>
                                 <option :value="expert.id" :key="expert.id" v-for="expert in expertList">{{expert.name}}</option>
                             </select>
-                            <input type="text" readonly class="form-control" v-else :value="skillInfo.expertName">
+                            <input type="text" readonly class="form-control" v-else-if="skillInfo.expertId !== null" :value="skillInfo.expertName">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">{{trans('title.phase')}}</label>
                         <div class="col-sm-9">
-                            <input type="text" readonly class="form-control" :value="phaseList[skillInfo.phase].name">
+                            <input type="text" readonly class="form-control" :value="skillInfo.phase === 5 ? 'complete' : phaseList[skillInfo.phase].name">
                         </div>
                     </div>
 

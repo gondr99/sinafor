@@ -19,7 +19,7 @@ class EmailVerified
 
         if(!auth()->check()){
             if($ajax){
-                return response()->json(['error'=> __('messages.not_auth')], 403);
+                return response()->json(['error'=> __('messages.not_auth'). "1"], 403);
             }else {
                 return redirect('/')->with('flash_message', __('messages.not_auth'));
             }

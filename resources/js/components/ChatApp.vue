@@ -26,7 +26,7 @@
                     <div class="spin-container"><i class="fas fa-spinner"></i></div>
                 </div>
                 <div class="chat-window" v-else-if="mode === 2">
-                    <chat-window-component :room-data="roomData" :user="me"></chat-window-component>
+                    <chat-window-component :room-data="roomData" :user="me" :other="other" :socket="socket"></chat-window-component>
                 </div>
             </div>
         </div>
@@ -49,6 +49,12 @@
             'chat-user-component':ChatUserComponent
         },
         mounted() {
+            //소켓 연결
+            this.socket = new io.connect('localhost:54000', {transports: ['websocket'], upgrade: false});
+            this.socket.on('error-msg', data => {
+                Swal.fire(data);
+                this.mode = 0;
+            });
             //수강중인 유저리스트 가져오기
             axios.get('/user').then(res => {
                 this.me = res.data;
@@ -64,17 +70,24 @@
                 }
             });
 
+            axios.get('/token').then(res => {
+                this.token = res.data;
+            });
+
             this.updateUnread();
         },
         data() {
             return {
+                socket:null,
                 searchToggle: false,
                 word: '',
                 mode: 0,  //0은 리스트 모드 1은 로딩 2는 채팅모드,
                 roomData: null,
                 me:null,
                 isExpert:false,
-                unreadList:[]
+                unreadList:[],
+                token:'',
+                other:null,
             }
         },
         methods: {
@@ -94,13 +107,14 @@
             searchCertification() {
                 //not yet....
             },
-            openChat(expert) {
+            openChat(other) {
                 this.mode = 1; //로딩
-                axios.get(`/chat/room/${expert.id}`).then(res => {
-                    socket.emit('login', this.me);
+                this.other = other;
+                axios.get(`/chat/room/${other.id}`).then(res => {
+                    this.socket.emit('login', {user:this.me, token:this.token});
                     this.roomData = res.data;
                     this.mode = 2;
-                    socket.emit('join', this.roomData.id);
+                    this.socket.emit('join', this.roomData.id);
                     this.properHeight();
                 });
             },

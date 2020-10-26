@@ -2,72 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f6f38ac-b93a-4b8b-ac8d-f60b8069bc47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/ChatController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Room.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chatServer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chatServerApp/DB.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chatServerApp/credential.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_10_19_051920_create_rooms_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/chatApp.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/AddSkillcomponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/AddUserComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/ExpertRoleComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/ManagerRoleComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Admin/RoleManagementComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Chat/ChatSkillComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Chat/ChatUserComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/Chat/ChatWindowComponent.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/components/ChatApp.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/skill/chat.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/JWTToken.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChatController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ExpertController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ExpertController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SkillController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SkillController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SkillSelectController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SkillSelectController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/adminApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/adminApp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/CheckManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/CheckManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/EmailVerified.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/EmailVerified.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatServer.js" beforeDir="false" afterPath="$PROJECT_DIR$/chatServer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chatServerApp/credential.js" beforeDir="false" afterPath="$PROJECT_DIR$/chatServerApp/credential.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js.LICENSE.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/certificationApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/certificationApp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/chatApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/chatApp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/expertApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/expertApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/learningApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/learningApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/mainApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/mainApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/myPageApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/myPageApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/registerApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/registerApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/skillApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/skillApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/managerApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/managerApp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/PopupComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/not_used_anymore/PopupComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/SkillCategoryComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/not_used_anymore/SkillCategoryComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/SkillComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/not_used_anymore/SkillComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/SkillLevelComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/SkillManagementComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/UserCategoryComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/not_used_anymore/UserCategoryComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/UserInfoComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/UserInfoComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Admin/UserManageComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Admin/UserManageComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/AdminApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/AdminApp.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/CertificationApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/CertificationApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/ExampleComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/not_used_anymore/ExampleComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Chat/ChatWindowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Chat/ChatWindowComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/ChatApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ChatApp.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/ExpertApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ExpertApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/HeaderComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/HeaderComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/LearningApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/not_used_anymore/LearningApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/MainApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/MainApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/MyPageApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/not_used_anymore/MyPageApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/RegisterApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/not_used_anymore/RegisterApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/SkillApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/SkillApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/learningApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/not_used_anymore/learningApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/myPageApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/not_used_anymore/myPageApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/registerApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/registerApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/adminmenu.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/adminmenu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/menu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/messages.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/messages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/placeholder.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/placeholder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/register.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/register.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Manager/CertificationComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Manager/CertificationComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Manager/ParticipantComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Manager/ParticipantComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/ManagerApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ManagerApp.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/title.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/title.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layout/menuLayout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layout/menuLayout.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,8 +45,8 @@
       <list>
         <option value="CSS File" />
         <option value="XSLT Stylesheet" />
-        <option value="JavaScript File" />
         <option value="Vue Single File Component" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -281,7 +241,9 @@
       <workItem from="1601000264966" duration="161000" />
       <workItem from="1601854260372" duration="30170000" />
       <workItem from="1602028333904" duration="110726000" />
-      <workItem from="1602739288049" duration="36501000" />
+      <workItem from="1602739288049" duration="47952000" />
+      <workItem from="1603192149708" duration="4223000" />
+      <workItem from="1603678003203" duration="1791000" />
     </task>
     <servers />
   </component>
@@ -320,6 +282,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1599285357186" />
+    <state x="993" y="535" key="NewPhpClassDialog" timestamp="1603171895361">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="993" y="535" key="NewPhpClassDialog/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1603171895361" />
     <state x="1114" y="623" key="NewPhpFileDialog" timestamp="1602841561325">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>

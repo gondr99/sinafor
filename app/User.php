@@ -36,17 +36,20 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+//EXPERT_NAME=Expert
+//MANAGER_NAME=Manager
+//ADMIN_NAME=Admin
+//VERIFIED_NAME=Verified
     public function checkAdmin(){
-        return $this->roles()->where('name', '=', env('ADMIN_NAME'))->first() !== null;
+        return $this->roles()->where('name', '=', 'Admin')->first() !== null;
     }
 
     public function checkManager(){
-        return $this->roles()->where('name', '=', env('MANAGER_NAME'))->first() !== null;
+        return $this->roles()->where('name', '=', 'Manager')->first() !== null;
     }
 
     public function checkExpert(){
-        return $this->roles()->where('name', '=', env('EXPERT_NAME'))->first() !== null;
+        return $this->roles()->where('name', '=', 'Expert')->first() !== null;
     }
 
     public function roles()
