@@ -6,6 +6,7 @@ use App\State;
 use App\UserSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Http\VideoStream;
 
 class StaticController extends Controller
 {
@@ -61,10 +62,17 @@ class StaticController extends Controller
         ])->first();
 
         if($userSkill->user_id === $user->id || $userSkill->expert_id === $user->id){
-            return Storage::download("/videos/" . $filename );
+
+            $file = storage_path('app/videos/'.$filename);
+            $stream = new VideoStream($file);
+
+            return response()->stream(function() use ($stream){
+                $stream->start();
+            });
         }
 
         return response(__('messages.not_auth'), 403);
     }
+
 }
 

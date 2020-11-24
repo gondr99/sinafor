@@ -21,10 +21,12 @@ io.on('connect', socket => {
     socket.on('chat', data => {
         if(user === undefined) return; //do nothing
         //여기서 메시지가 왔음을 Room에 있는 모든 유저들의 안드로이드로 보내주는 코드가 필요하다.
+        // => This is space for code that send alarm to same room user's android app
 
         const sql = "INSERT INTO messages (`room_id`, `user_id`, `message`, `read`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, NOW(), NOW())";
         if(io.to(user.room).adapter.rooms[user.room].length > 1){
             //이미 방에 사람이 들어왔다면 읽음표시 바로
+            // => read check when target user in the room;
             pool.query(sql, [user.room, user.id, data, 1]);
         }else{
             pool.query(sql, [user.room, user.id, data, 0]);
@@ -35,7 +37,7 @@ io.on('connect', socket => {
 
     socket.on('login', data => {
         //여기서 데이터가 DB랑 맞는지를 체크해서 인증해야 한다.
-
+        //Check data with db;
         let token = data.token;
         const payload = deHashing(token);
         if(payload === null) {

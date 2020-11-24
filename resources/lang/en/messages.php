@@ -1,6 +1,6 @@
 <?php
 /*
- * resource/lang/kr/messagep.php
+ * resource/lang/en/messagep.php
  */
 return [
     'welcome' => 'Welcome to sinafor',

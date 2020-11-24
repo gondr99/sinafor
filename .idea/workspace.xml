@@ -2,31 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f6f38ac-b93a-4b8b-ac8d-f60b8069bc47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/JWTToken.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/VideoStream.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChatController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ExpertController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ExpertController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/CheckManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/CheckManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/EmailVerified.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/EmailVerified.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/StaticController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/StaticController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatServer.js" beforeDir="false" afterPath="$PROJECT_DIR$/chatServer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatServerApp/credential.js" beforeDir="false" afterPath="$PROJECT_DIR$/chatServerApp/credential.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js.LICENSE.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/certificationApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/certificationApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/chatApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/chatApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/expertApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/expertApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/managerApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/managerApp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/CertificationApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/CertificationApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Chat/ChatWindowComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Chat/ChatWindowComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/ChatApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ChatApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/ExpertApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ExpertApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Manager/CertificationComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Manager/CertificationComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Manager/ParticipantComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Manager/ParticipantComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/ManagerApp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/ManagerApp.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/title.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/title.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/messages.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/messages.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -187,17 +167,17 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\resources\js" />
-      <recent name="C:\xampp\htdocs\storage\app\videos" />
-      <recent name="C:\xampp\htdocs\resources\lang\en" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\resources\js\components\not_used_anymore" />
       <recent name="C:\xampp\htdocs\resources\js\components\Admin\not_used_anymore" />
       <recent name="C:\xampp\htdocs\storage\app\skills" />
       <recent name="C:\xampp\htdocs\storage\app\profiles" />
       <recent name="C:\xampp\htdocs\public\image" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\resources\js" />
+      <recent name="C:\xampp\htdocs\storage\app\videos" />
+      <recent name="C:\xampp\htdocs\resources\lang\en" />
     </key>
   </component>
   <component name="RunManager">
@@ -243,7 +223,7 @@
       <workItem from="1602028333904" duration="110726000" />
       <workItem from="1602739288049" duration="47952000" />
       <workItem from="1603192149708" duration="4223000" />
-      <workItem from="1603678003203" duration="1791000" />
+      <workItem from="1603678003203" duration="17817000" />
     </task>
     <servers />
   </component>
@@ -282,10 +262,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1599285357186" />
-    <state x="993" y="535" key="NewPhpClassDialog" timestamp="1603171895361">
+    <state x="993" y="535" key="NewPhpClassDialog" timestamp="1606198931865">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="993" y="535" key="NewPhpClassDialog/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1603171895361" />
+    <state x="993" y="535" key="NewPhpClassDialog/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1606198931865" />
     <state x="1114" y="623" key="NewPhpFileDialog" timestamp="1602841561325">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -300,20 +280,20 @@
     </state>
     <state x="972" y="524" key="com.intellij.ide.util.TipDialog/0.0.2560.1400/-1600.0.1600.860@0.0.2560.1400" timestamp="1600558623024" />
     <state x="972" y="524" key="com.intellij.ide.util.TipDialog/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1599690957396" />
-    <state x="973" y="296" width="613" height="807" key="find.popup" timestamp="1602138287466">
+    <state x="973" y="296" width="613" height="807" key="find.popup" timestamp="1603784040783">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="973" y="296" width="613" height="807" key="find.popup/0.0.2560.1400/-1600.0.1600.860@0.0.2560.1400" timestamp="1600559891106" />
-    <state x="973" y="296" width="613" height="807" key="find.popup/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1602138287466" />
+    <state x="973" y="296" width="613" height="807" key="find.popup/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1603784040783" />
     <state x="685" y="313" key="run.anything.popup" timestamp="1602635491302">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="685" y="313" key="run.anything.popup/0.0.2560.1400/-1600.0.1600.860@0.0.2560.1400" timestamp="1600512932815" />
     <state x="685" y="313" key="run.anything.popup/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1602635491302" />
-    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1602644458605">
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1606198995094">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1602644458605" />
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400/-2560.0.2560.1400@0.0.2560.1400" timestamp="1606198995094" />
     <state x="1001" y="611" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1600773225559">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>

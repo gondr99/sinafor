@@ -111,15 +111,15 @@ Route::middleware(['emailVerify', 'checkManager'])->group(function(){
 //expert router
 Route::middleware(['emailVerify', 'checkExpert'])->group(function(){
     Route::get('/expert', 'ExpertController@index');
-    //관리하고 있는 사용자들의 리스트를 가져온다.
+    //get all managed user list
     Route::get('/expert/certificate', 'ExpertController@getCertificate');
-    //사용자를 확인한다.
+    //check logined user
     Route::put('/expert/confirm', 'ExpertController@confirmUser');
-    //사용자의 Status와 Detail을 업데이트 한다.
+    //update users's Status and Detail
     Route::post('/expert/update_detail', 'ExpertController@updateDetail');
-    //관리하는 Skill에 Phase4에서 올린 영상을 가져온다.
+    //get uploaded video from managed skill
     Route::get('/expert/video/{userId}/{skillId}', 'ExpertController@getVideoList')->where(['userId'=>'[0-9]+', 'skillId' =>'[0-9]+']);
-    //채팅페이지 입장
+    //enter the chat page
     Route::get('/expert/answer', 'ChatController@index');
 
     Route::put('/expert/certificate', 'ExpertController@certificateUser');
@@ -176,7 +176,7 @@ Route::middleware(['checkAdmin'])->group(function () {
 //image router
 Route::get('/images/{path}/{filename}', 'StaticController@getImage')->where('path', '[a-z]+');
 
-//video router - 권한이 필요하다면 이부분을 미들웨어 안쪽으로 넣어야 한다.
+//video router - if need permission to view video then this route must move to into the middleware
 Route::get('/videos/{path}/{filename}', 'StaticController@getVideo')->where('path', '[a-z]+');
 
 
@@ -187,7 +187,7 @@ Route::get('/file/{path}/{filename}', 'StaticController@getFile')->where('path',
 Route::get('/js/lang.js', function () {
     $strings = Cache::rememberForever('lang.js', function () {
         $lang = config('app.locale');
-        var_dump($lang);
+
         $files   = glob(resource_path('lang/' . $lang . '/*.php'));
         $strings = [];
 
@@ -197,7 +197,7 @@ Route::get('/js/lang.js', function () {
         }
 
         return $strings;
-    });  //개발이 끝나면 이부분을 주석해제할 것. 속도향상을 위한 캐시 처리
+    });
 
 
     //$lang = config('app.locale');
@@ -217,6 +217,7 @@ Route::get('/js/lang.js', function () {
 Route::get('/js/roleName.js', function(){
     header('Content-Type: text/javascript');
     $arr = ['admin' => 'Admin', 'manager' => 'Manager', 'expert' => 'Expert'];
+    //laravel env read bug is still remain ... 2020-11-12 so do not use below commented code
     //$arr = ['admin' => env('ADMIN_NAME'), 'manager' => env('MANAGER_NAME'), 'expert' => env('EXPERT_NAME')];   //env bug is still remain..
 //    EXPERT_NAME=Expert
 //MANAGER_NAME=Manager
@@ -249,10 +250,10 @@ Route::get('/js/roleName.js', function(){
     echo("window.phaseList = " . json_encode($arr, JSON_UNESCAPED_UNICODE) . ";");
 });
 
-// -> this is only debug usage
+// -> this is only debug usage,
 Route::get('/debug', function () {
 
-    //트랜젝션 시작
+    //start transaction
     \DB::beginTransaction();
     try {
         $admin = App\User::create(['email' => 'admin@admin', 'password' => bcrypt('admin1234'), 'name' => 'Admin user', 'info' => 'admin', 'phone' => '010-6304-2759', 'profile' => '1600764168_iu.png']);
@@ -278,32 +279,19 @@ Route::get('/debug', function () {
         $manager->email_verified_at = time();
         $manager->save();
 
-        $info = App\LevelOne::create(['name' => 'Information Tech', 'image'=>'info.jpg', 'desc' => 'lorem lipsum']);
-        $mecha = App\LevelOne::create(['name' => 'Mechatronics', 'image'=>'mecha.jpg', 'desc' => 'lorem lipsum']);
-        $computer = App\LevelTwo::create(['name'=>'Computer Science', 'image'=>'computer.jpg', 'desc' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium tempor ex, luctus ultricies nisl commodo a. Morbi pulvinar ex.', 'belongs'=> $info->id]);
-        $metal = App\LevelTwo::create(['name'=>'metal', 'image'=>'metal.jpg', 'desc' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium tempor ex, luctus ultricies nisl commodo a. Morbi pulvinar ex.', 'belongs'=> $mecha->id]);
-
-
-        App\SkillCategory::create(['name' => 'Web Techonology', 'filename' => '1599651457_web.jpg', 'belongs' => $computer->id,
-            'description' => 'make web tech Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur consequuntur delectus dolores eius eligendi enim, fuga in incidunt iusto nemo officiis rem repellendus? Alias deleniti dignissimos dolor eaque facere!']);
-        App\SkillCategory::create(['name' => 'Android Techonology', 'filename' => '1599651534_android.jpg', 'belongs' => $computer->id,
-            'description' => 'make and tech Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur consequuntur delectus dolores eius eligendi enim, fuga in incidunt iusto nemo officiis rem repellendus? Alias deleniti dignissimos dolor eaque facere!']);
-        App\SkillCategory::create(['name' => 'Pipeline Techonology', 'filename' => '1599651558_pipe.jpg', 'belongs' => $metal->id,
-            'description' => 'make pipe tech Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aspernatur consequuntur delectus dolores eius eligendi enim, fuga in incidunt iusto nemo officiis rem repellendus? Alias deleniti dignissimos dolor eaque facere!']);
-
         $stateList = ["Alajuela", "Cartago", "Guanacaste", "Heredia", "Limón", "Puntarenas", "San José"];
 
         for($i = 0; $i < count($stateList); $i++){
             App\State::create(['name' => $stateList[$i]]);
         }
 
-        //성공시 커밋
+        //commit when all requests are success
         \DB::commit();
         echo "success";
     } catch (\Exception $e)
     {
         dump($e->getMessage());
-        //실패시 롤백
+        //rollback when failed
         \DB::rollBack();
     }
 });
